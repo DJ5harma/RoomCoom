@@ -1,8 +1,19 @@
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID as string,
-	GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET as string,
-	GOOGLE_AUTH_URI = process.env.GOOGLE_AUTH_URI as string,
-	GOOGLE_TOKEN_URI = process.env.GOOGLE_TOKEN_URI as string,
-	GOOGLE_REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI as string;
+const WEB_ORIGIN = process.env.WEB_ORIGIN;
+
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID as string;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET as string;
+const GOOGLE_REDIRECT_URI =
+	(WEB_ORIGIN ?? "http://localhost:3000") + "/auth/google/callback";
+const GOOGLE_AUTH_URI = "https://accounts.google.com/o/oauth2/auth";
+const GOOGLE_TOKEN_URI = "https://oauth2.googleapis.com/token";
+
+[GOOGLE_CLIENT_ID, GOOGLE_REDIRECT_URI, WEB_ORIGIN].forEach((e) => {
+	if (!e) {
+		const msg = `Google envs not found`;
+		console.error(msg);
+		throw new Error(msg);
+	}
+});
 
 interface TokensFromGoogle {
 	access_token: string;
@@ -18,7 +29,7 @@ interface UserProfileFromGoogle {
 	picture: string;
 }
 
-export const GoogleAuth = {
+export const GoogleAuthService = {
 	getClientConfig() {
 		return {
 			GOOGLE_CLIENT_ID,
