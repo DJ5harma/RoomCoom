@@ -1,3 +1,8 @@
+import type {
+	TokensFromGoogle,
+	UserProfileFromGoogle,
+} from "./google.auth.dto";
+
 const WEB_ORIGIN = process.env.WEB_ORIGIN;
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID as string;
@@ -14,20 +19,6 @@ const GOOGLE_TOKEN_URI = "https://oauth2.googleapis.com/token";
 		throw new Error(msg);
 	}
 });
-
-interface TokensFromGoogle {
-	access_token: string;
-	refresh_token: string;
-	id_token: string;
-	expires_in: string;
-}
-
-interface UserProfileFromGoogle {
-	id: string;
-	email: string;
-	name: string;
-	picture: string;
-}
 
 export const GoogleAuthService = {
 	getClientConfig() {
