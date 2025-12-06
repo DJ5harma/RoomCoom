@@ -2,7 +2,6 @@ import type { NextFunction, Request, Response } from "express";
 import { ApiError } from "../../utils/ApiError";
 import { TokenService } from "../token/token.service";
 import type { TokenizedUser } from "../user/user.dto";
-import type { AuthRequest } from "../../utils/AuthRequest";
 
 class AuthMiddlewareImpl {
 	async authenticate(req: Request, res: Response, next: NextFunction) {
@@ -10,7 +9,7 @@ class AuthMiddlewareImpl {
 		if (accessToken) {
 			const decoded = TokenService.verifyToken(accessToken) as TokenizedUser;
 			if (decoded && decoded.userId) {
-				(req as AuthRequest).userId = decoded.userId;
+				req.userId = decoded.userId;
 				next();
 				return;
 			}
@@ -23,7 +22,7 @@ class AuthMiddlewareImpl {
 					{ userId: decoded.userId },
 					{ expiresIn: "10m" }
 				);
-				(req as AuthRequest).userId = decoded.userId;
+				req.userId = decoded.userId;
 				res.cookie("access-token", accessToken);
 				next();
 				return;
