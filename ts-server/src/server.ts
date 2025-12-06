@@ -32,8 +32,8 @@ export async function server() {
 	app.use("/api/auth/google", GoogleAuthRouter);
 
 	app.use(AuthMiddleware.authenticate);
-	
-	app.use("/api/auth/google", UserRouter);
+
+	app.use("/api/user", UserRouter);
 
 	app.listen(PORT, () => {
 		console.log(
