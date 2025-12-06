@@ -1,6 +1,6 @@
 import express from "express";
 import { GoogleAuthController } from "./google.auth.controller";
-import { UserController } from "../../user/user.controller";
+import { UserController } from "../../entities/user/user.controller";
 
 const router = express.Router();
 

@@ -1,11 +1,16 @@
 import type { Request, Response } from "express";
-import { ApiError } from "../../utils/ApiError";
-import { TokenService } from "../token/token.service";
+import { ApiError } from "../../../utils/ApiError";
+import { TokenService } from "../../token/token.service";
 import type { CreatableUser, ResponseUser } from "./user.dto";
 import { UserService } from "./user.service";
 import crypto from "crypto";
+import { log } from "console";
 
 class UserControllerImpl {
+	// {
+	// 	userId: User["id"];
+	// 	accessToken: string;
+	// };
 	async signin(req: Request, res: Response) {
 		const creatableUser = req.body as CreatableUser;
 		console.log({ creatableUser });
@@ -16,19 +21,25 @@ class UserControllerImpl {
 			const id = crypto.randomUUID() as string;
 			const refreshToken = TokenService.generateRefreshToken({ userId: id });
 
-			user = { ...creatableUser, id, createdAt: new Date(), refreshToken };
-			user = await UserService.createUser(creatableUser);
+			const user = await UserService.createUser({
+				...creatableUser,
+				id,
+				refreshToken,
+			});
+			log("Created user: ", user);
 			if (!user) throw ApiError.internal();
 
-			res.status(201).json(user);
+			const accessToken = TokenService.generateAccessToken({ userId: user.id });
+			res.status(201).json({ user, accessToken });
 			return;
 		}
 		const refreshToken = TokenService.generateRefreshToken({ userId: user.id });
-		
+
 		const accessToken = TokenService.generateAccessToken({ userId: user.id });
 
 		user.refreshToken = refreshToken;
 		user = await UserService.updateUser(user.id, user);
+		log("updated user: ", user);
 		if (!user) throw ApiError.internal();
 
 		console.log({ user });

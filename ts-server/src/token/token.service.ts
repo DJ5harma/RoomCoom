@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import type { TokenizedUser } from "../user/user.dto";
+import type { TokenizedUser } from "../entities/user/user.dto";
 
 const JWT_SECRET_ACCESS_TOKEN = process.env.JWT_SECRET_ACCESS_TOKEN as string;
 const JWT_SECRET_REFRESH_TOKEN = process.env.JWT_SECRET_REFRESH_TOKEN as string;

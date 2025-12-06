@@ -4,12 +4,15 @@ import cors from "cors";
 import { GoogleAuthRouter } from "./auth/GoogleAuth/google.auth.routes";
 import { ApiError } from "../utils/ApiError";
 import { AuthMiddleware } from "./middleware/auth.middleware";
-import { UserRouter } from "./user/user.routes";
+import { UserRouter } from "./entities/user/user.routes";
 import { ErrorMiddleware } from "./middleware/error.middleware";
+import { ensureTables } from "./entities/ensureTables";
 
 const PORT = parseInt(process.env.PORT ?? "4000");
 
 export async function server() {
+	await ensureTables();
+
 	const app = express();
 	app.use(cookieParser());
 	app.use(express.json());
@@ -20,9 +23,7 @@ export async function server() {
 		})
 	);
 
-	app.get("/error-format", (_, res) => {
-		// res.send("TEST")
-		// return;
+	app.get("/error-format", () => {
 		throw ApiError.internal("This is a sample error message");
 	});
 	app.get("/set-cookie", (_, res) => {

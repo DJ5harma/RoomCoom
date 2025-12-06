@@ -4,7 +4,7 @@ export interface User {
 	name: string;
 	picture: string;
 
-    createdAt: Date;
+    createdAt: string;
 	
 	refreshToken: string;
 }
