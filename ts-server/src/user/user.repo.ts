@@ -12,6 +12,9 @@ class UserRepoImpl {
 	async findByEmail(email: string): Promise<User | null> {
 		return { id: "", email: "", name: "", picture: "" } as User | null;
 	}
+	async findByIdAndUpdate(id: string, user: Partial<User>) {
+		return { id: "", email: "", name: "", picture: "" } as User | null;
+	}
 }
 
 export const UserRepo = new UserRepoImpl();

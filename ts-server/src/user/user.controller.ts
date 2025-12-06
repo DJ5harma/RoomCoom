@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import { ApiError } from "../../utils/ApiError";
 import { TokenService } from "../token/token.service";
-import type { SavableUser } from "./user.dto";
+import type { SavableUser, TokenizedUser } from "./user.dto";
 import { UserService } from "./user.service";
 import crypto from "crypto";
 
@@ -14,27 +14,27 @@ class UserControllerImpl {
 		if (!user) {
 			const id = crypto.randomUUID() as string;
 			const refreshToken = TokenService.generateToken(
-				{ userId: id },
+				{ userId: id } as TokenizedUser,
 				{ expiresIn: "7d" }
 			);
 			user = { ...savableUser, id, createdAt: new Date(), refreshToken };
 			user = await UserService.saveUser(savableUser);
 			if (!user) throw ApiError.internal();
-            
+
 			res.status(201).json(user);
 			return;
 		}
 		const refreshToken = TokenService.generateToken(
-            { userId: user.id },
+			{ userId: user.id } as TokenizedUser,
 			{ expiresIn: "7d" }
 		);
 		const accessToken = TokenService.generateToken(
-            { userId: user.id },
+			{ userId: user.id } as TokenizedUser,
 			{ expiresIn: "10m" }
 		);
 		user.refreshToken = refreshToken;
 		user = await UserService.saveUser(user);
-        if (!user) throw ApiError.internal();
+		if (!user) throw ApiError.internal();
 
 		res
 			.status(200)

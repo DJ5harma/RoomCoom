@@ -2,6 +2,9 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { GoogleAuthRouter } from "./auth/GoogleAuth/google.auth.routes";
+import { ApiError } from "../utils/ApiError";
+
+const PORT = parseInt(process.env.PORT ?? "4000");
 
 export async function server() {
 	const app = express();
@@ -13,6 +16,21 @@ export async function server() {
 			credentials: true,
 		})
 	);
+    
+
+	app.get("/error-format", () => {
+		throw ApiError.internal("This is a sample error message");
+	});
+	app.get("/", (_, res) =>
+		res.send("(:_______RoomCoom server is running________:)")    
+	);
 
 	app.use("/api/auth/google", GoogleAuthRouter);
+
+	app.listen(PORT, () => {
+		console.log(
+			" (: RoomCoom server is running @ " + "http://localhost" + PORT
+		);
+	});
+
 }
