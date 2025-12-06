@@ -1,6 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import { GoogleAuthRouter } from "./auth/GoogleAuth/google.auth.routes";
 
 export async function server() {
 	const app = express();
@@ -9,7 +10,9 @@ export async function server() {
 	app.use(
 		cors({
 			origin: (process.env.CLIENT_ORIGINS as string).split(","),
-            credentials: true
+			credentials: true,
 		})
 	);
+
+	app.use("/api/auth/google", GoogleAuthRouter);
 }

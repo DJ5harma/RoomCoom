@@ -1,7 +1,8 @@
 import type { User } from "./user";
+import type { SavableUser } from "./user.dto";
 
 class UserRepoImpl {
-	async save(user: User) {
+	async save(user: SavableUser) {
 		//
 		return user;
 	}
