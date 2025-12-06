@@ -25,6 +25,13 @@ export async function server() {
 		// return;
 		throw ApiError.internal("This is a sample error message");
 	});
+	app.get("/set-cookie", (_, res) => {
+		// res.send("TEST")
+		// return;
+		res.cookie("access-token", "1234567890");
+		res.cookie("refresh-token", "1234567890", { httpOnly: true, secure: true });
+		res.send("Cookie set");
+	});
 
 	app.get("/", (_, res) =>
 		res.send("(:_______RoomCoom server is running________:)")
