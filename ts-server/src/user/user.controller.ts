@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import { ApiError } from "../../utils/ApiError";
 import { TokenService } from "../token/token.service";
-import type { CreatableUser } from "./user.dto";
+import type { CreatableUser, ResponseUser } from "./user.dto";
 import { UserService } from "./user.service";
 import crypto from "crypto";
 
@@ -42,6 +42,21 @@ class UserControllerImpl {
 			.cookie("access-token", accessToken)
 			.cookie("refresh-token", refreshToken, { httpOnly: true, secure: true });
 		return;
+	}
+
+	async me(req: Request, res: Response) {
+		const user = await UserService.findUserById(req.userId);
+		if (!user) throw ApiError.notFound("User not found");
+
+		const { id, email, name, picture, createdAt } = user as ResponseUser;
+		const responseUser = {
+			id,
+			email,
+			name,
+			picture,
+			createdAt,
+		} as ResponseUser;
+		res.json({ user: responseUser });
 	}
 }
 

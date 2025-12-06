@@ -5,6 +5,7 @@ import { GoogleAuthRouter } from "./auth/GoogleAuth/google.auth.routes";
 import { ApiError } from "../utils/ApiError";
 import { AuthMiddleware } from "./middleware/auth.middleware";
 import { ErrorMiddleware } from "./middleware/error.middleware";
+import { UserRouter } from "./user/user.routes";
 
 const PORT = parseInt(process.env.PORT ?? "4000");
 
@@ -31,6 +32,8 @@ export async function server() {
 	app.use("/api/auth/google", GoogleAuthRouter);
 
 	app.use(AuthMiddleware.authenticate);
+	
+	app.use("/api/auth/google", UserRouter);
 
 	app.listen(PORT, () => {
 		console.log(
