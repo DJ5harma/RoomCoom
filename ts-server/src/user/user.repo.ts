@@ -1,8 +1,8 @@
 import type { User } from "./user";
-import type { SavableUser } from "./user.dto";
+import type { CreatableUser } from "./user.dto";
 
 class UserRepoImpl {
-	async save(savableUser: SavableUser) {
+	async create(user: CreatableUser) {
 		//
 		return { id: "", email: "", name: "", picture: "" } as User | null;
 	}

@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import { GoogleAuthService } from "./google.auth.service";
-import type { SavableUser } from "../../user/user.dto";
+import type { CreatableUser } from "../../user/user.dto";
 
 export const GoogleAuthController = {
 	async getConfig(req: Request, res: Response) {
@@ -12,7 +12,7 @@ export const GoogleAuthController = {
 		const profileInfo = await GoogleAuthService.getUserProfile(tokens);
 		const { email, name, picture } = profileInfo;
 
-		req.body = { email, name, picture } as SavableUser;
+		req.body = { email, name, picture } as CreatableUser;
 		next();
 	},
 };
