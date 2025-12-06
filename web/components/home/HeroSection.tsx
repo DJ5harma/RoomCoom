@@ -27,27 +27,24 @@ export function HeroSection({ user }: HeroSectionProps) {
 								<span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-400 opacity-75"></span>
 								<span className="relative inline-flex h-2 w-2 rounded-full bg-cyan-400"></span>
 							</span>
-							<span>Plugin Architecture</span>
-							<span className="text-xs text-cyan-400/70">v2.0</span>
+							<span>Everything is realtime</span>
 						</div>
 					</div>
 
 					{/* Main Heading */}
 					<h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-center mb-6 leading-tight">
-						<span className="gradient-text">Realtime</span>
+						<span className="gradient-text">Do anything</span>
 						<br />
-						<span className="text-white">by default,</span>
+						<span className="text-white">together,</span>
 						<br />
-						<span className="gradient-text">extensible</span>
-						<br />
-						<span className="text-white">by design</span>
+						<span className="gradient-text">in real-time</span>
 					</h1>
 
 					{/* Subheading */}
 					<p className="text-lg sm:text-xl text-center text-zinc-400 mb-4 max-w-3xl mx-auto leading-relaxed">
-						Build with plugins. Everything gets realtime superpowers.
+						Work, play games, share files, brainstorm, code, or just hang out. Add what you need—everything syncs instantly.
 						<span className="block mt-2 text-cyan-400 font-mono text-sm">
-							Add any plugin → Instant realtime sync
+							Work • Games • Files • Chat • Anything → All realtime
 						</span>
 					</p>
 
@@ -154,15 +151,19 @@ function PluginVisualization() {
 				
 				<div className="relative z-10">
 					<div className="flex items-center justify-between mb-8">
-						<h2 className="text-2xl font-bold text-white">Plugin Architecture</h2>
+						<h2 className="text-2xl font-bold text-white">Add anything, it all works together</h2>
 						<div className="flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20">
 							<div className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse"></div>
-							<span className="text-xs font-mono text-cyan-400">REALTIME</span>
+							<span className="text-xs font-mono text-cyan-400">LIVE</span>
 						</div>
 					</div>
 					
 					<div className="grid md:grid-cols-3 gap-4">
-						{['Chat Plugin', 'Whiteboard Plugin', 'Code Editor Plugin'].map((plugin, index) => (
+						{[
+							{ name: 'Play Games', desc: 'Multiplayer games, board games, or just hang out together' },
+							{ name: 'Share Files', desc: 'Drop files, browse together, everything syncs instantly' },
+							{ name: 'Work & Create', desc: 'Chat, whiteboard, code, or build anything together' }
+						].map((tool, index) => (
 							<div
 								key={index}
 								className="group relative rounded-xl border border-cyan-500/20 bg-zinc-900/30 backdrop-blur-sm p-6 hover:border-cyan-500/40 transition-all hover:shadow-lg hover:shadow-cyan-500/10"
@@ -171,10 +172,10 @@ function PluginVisualization() {
 									<div className="h-10 w-10 rounded-lg bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center">
 										<div className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse"></div>
 									</div>
-									<h3 className="font-semibold text-white">{plugin}</h3>
+									<h3 className="font-semibold text-white">{tool.name}</h3>
 								</div>
 								<p className="text-sm text-zinc-400 mb-4">
-									Add realtime capabilities instantly
+									{tool.desc}
 								</p>
 								<div className="flex items-center gap-2 text-xs font-mono text-cyan-400">
 									<span>✓ Synced</span>
@@ -187,8 +188,8 @@ function PluginVisualization() {
 					</div>
 					
 					<div className="mt-6 text-center">
-						<p className="text-sm text-zinc-500 font-mono">
-							+ Add custom plugins → Automatic realtime sync
+						<p className="text-sm text-zinc-500">
+							Mix and match. Work, play, create—do whatever you want, together.
 						</p>
 					</div>
 				</div>
@@ -215,9 +216,9 @@ function FeaturesGrid() {
 					/>
 				</svg>
 			),
-			title: "Plugin-Based",
+			title: "Lightning Fast",
 			description:
-				"Extensible architecture. Add any plugin and get instant realtime functionality.",
+				"Everything happens instantly. No lag, no waiting. See changes as they happen, together.",
 			color: "cyan",
 		},
 		{
@@ -232,13 +233,13 @@ function FeaturesGrid() {
 						strokeLinecap="round"
 						strokeLinejoin="round"
 						strokeWidth={1.5}
-						d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"
+						d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 					/>
 				</svg>
 			),
-			title: "Realtime Sync",
+			title: "For Everything",
 			description:
-				"Everything syncs instantly. Zero configuration, maximum performance.",
+				"Work on projects, play games, share files, or just hang out. It all works seamlessly together.",
 			color: "purple",
 		},
 		{
@@ -253,13 +254,13 @@ function FeaturesGrid() {
 						strokeLinecap="round"
 						strokeLinejoin="round"
 						strokeWidth={1.5}
-						d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+						d="M4 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3zM14 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1h-4a1 1 0 01-1-1v-3z"
 					/>
 				</svg>
 			),
-			title: "Extensible",
+			title: "Mix & Match",
 			description:
-				"Build custom plugins. The architecture adapts to your needs.",
+				"Add games, tools, files, or anything else. Build your perfect space, your way.",
 			color: "pink",
 		},
 	];

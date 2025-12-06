@@ -24,7 +24,7 @@ export function Navbar({ user }: NavbarProps) {
 						</span>
 						<div className="hidden sm:flex items-center gap-1.5 ml-4 px-2 py-1 rounded-md bg-cyan-500/10 border border-cyan-500/20">
 							<div className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse"></div>
-							<span className="text-xs font-medium text-cyan-400">LIVE</span>
+							<span className="text-xs font-medium text-cyan-400">ONLINE</span>
 						</div>
 					</div>
 					{user ? (
