@@ -3,8 +3,13 @@ import jwt, { type SignOptions } from "jsonwebtoken";
 const JWT_SECRET = process.env.JWT_SECRET as string;
 
 class TokenServiceImpl {
-	generateToken(payload: object, expiresIn: SignOptions["expiresIn"]) {
-		const token = jwt.sign(payload, JWT_SECRET, { expiresIn });
+	generateToken(payload: object, options: SignOptions) {
+		const token = jwt.sign(payload, JWT_SECRET, options);
+		return token;
+	}
+	verifyToken(token: string) {
+		const decoded = jwt.verify(token, JWT_SECRET);
+		return decoded;
 	}
 }
 

@@ -5,4 +5,6 @@ export interface User {
 	picture: string;
 
     createdAt: Date;
+	
+	refreshToken: string;
 }
