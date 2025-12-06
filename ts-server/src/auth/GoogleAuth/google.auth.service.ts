@@ -3,15 +3,13 @@ import type {
 	UserProfileFromGoogle,
 } from "./google.auth.dto";
 
-const WEB_ORIGIN = process.env.WEB_ORIGIN;
-
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID as string;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET as string;
-const GOOGLE_REDIRECT_URI = WEB_ORIGIN + "/auth/callback/google";
+const GOOGLE_REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI as string;
 const GOOGLE_AUTH_URI = "https://accounts.google.com/o/oauth2/auth";
 const GOOGLE_TOKEN_URI = "https://oauth2.googleapis.com/token";
 
-[GOOGLE_CLIENT_ID, GOOGLE_REDIRECT_URI, WEB_ORIGIN].forEach((e) => {
+[GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_URI].forEach((e) => {
 	if (!e) {
 		const msg = `Google envs not found`;
 		console.error(msg);
