@@ -20,20 +20,21 @@ class UserControllerImpl {
 			user = { ...savableUser, id, createdAt: new Date(), refreshToken };
 			user = await UserService.saveUser(savableUser);
 			if (!user) throw ApiError.internal();
-
+            
 			res.status(201).json(user);
 			return;
 		}
 		const refreshToken = TokenService.generateToken(
-			{ userId: user.id },
+            { userId: user.id },
 			{ expiresIn: "7d" }
 		);
 		const accessToken = TokenService.generateToken(
-			{ userId: user.id },
+            { userId: user.id },
 			{ expiresIn: "10m" }
 		);
 		user.refreshToken = refreshToken;
-		await UserService.saveUser(user);
+		user = await UserService.saveUser(user);
+        if (!user) throw ApiError.internal();
 
 		res
 			.status(200)
