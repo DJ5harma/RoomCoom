@@ -1,29 +1,30 @@
-import type { User } from "./user";
-import { pg } from "../../../config/db";
+import { usersTable } from "../../db/schema";
+import { pg } from "../../../index";
+import { eq } from "drizzle-orm";
+import type { User, UserInsert } from "./user";
 
 class UserRepoImpl {
-	async create(user: User) {
-		//
-		const { id, name, email, picture, createdAt, refreshToken } = user;
-		await pg`INSERT INTO users 
-				(id, name, email, picture, createdAt, refreshToken)
-				VALUES
-				(${id}, ${name}, ${email}, ${picture}, ${createdAt}, ${refreshToken})
-				`;
-		return user;
+	async create(user: UserInsert) {
+		return (await pg.insert(usersTable).values(user).returning())[0];
 	}
-	async findById(userId: string) {
-		return (await pg`SELECT * FROM users WHERE id=${userId}`)[0] as
-			| User
-			| undefined;
+	async findById(userId: User["id"]) {
+		return (
+			await pg.select().from(usersTable).where(eq(usersTable.id, userId))
+		)[0];
 	}
-	async findByEmail(email: string) {
-		return (await pg`SELECT * FROM users WHERE email=${email}`)[0] as
-			| User
-			| undefined;
+	async findByEmail(email: User["email"]) {
+		return (
+			await pg.select().from(usersTable).where(eq(usersTable.email, email))
+		)[0];
 	}
-	async findByIdAndUpdate(id: string, user: Partial<User>) {
-		return { id: "", email: "", name: "", picture: "" } as User | null;
+	async findByIdAndUpdate(id: User["id"], user: Partial<UserInsert>) {
+		return (
+			await pg
+				.update(usersTable)
+				.set({ ...user })
+				.where(eq(usersTable.id, id))
+				.returning()
+		)[0];
 	}
 }
 

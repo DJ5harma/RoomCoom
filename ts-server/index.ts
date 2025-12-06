@@ -1,11 +1,16 @@
+import { drizzle } from "drizzle-orm/node-postgres";
 import { server } from "./src/server";
-import { testPostgres } from "./test/testPostgres";
 
 console.log("Hello via Bun!");
-server().then(async () => {
+const POSTGRES_URI = process.env.POSTGRES_URI;
+if (!POSTGRES_URI) throw new Error("Postgres uri undefined");
+
+export const pg = drizzle(POSTGRES_URI);
+
+(async () => {
 	try {
-		await testPostgres();
+		await server();
 	} catch (error) {
 		console.log((error as Error).stack);
 	}
-});
+})();

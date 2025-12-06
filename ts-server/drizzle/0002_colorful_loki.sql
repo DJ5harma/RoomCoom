@@ -1,0 +1,1 @@
+ALTER TABLE "rooms_users" ALTER COLUMN "roomId" SET NOT NULL;

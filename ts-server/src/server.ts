@@ -6,13 +6,10 @@ import { ApiError } from "../utils/ApiError";
 import { AuthMiddleware } from "./middleware/auth.middleware";
 import { UserRouter } from "./entities/user/user.routes";
 import { ErrorMiddleware } from "./middleware/error.middleware";
-import { ensureTables } from "./entities/ensureTables";
 
 const PORT = parseInt(process.env.PORT ?? "4000");
 
 export async function server() {
-	await ensureTables();
-
 	const app = express();
 	app.use(cookieParser());
 	app.use(express.json());

@@ -1,7 +1,10 @@
-import type { User } from "./user";
+import type { User, UserInsert } from "./user";
 
-export type CreatableUser = Omit<User, "id" | "createdAt" | "refreshToken">;
+export type CreateUserDTO = Omit<
+	UserInsert,
+	"id" | "refreshToken" | "createdAt"
+>;
 
-export type TokenizedUser = { userId: string };
+export type TokenizedUserDTO = { userId: User["id"] };
 
-export type ResponseUser = Omit<User, "refreshToken">;
+export type ResponseUserDTO = Omit<User, "refreshToken">;

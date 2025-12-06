@@ -1,10 +1,5 @@
-export interface User {
-	id: string;
-	email: string;
-	name: string;
-	picture: string;
+import { usersTable } from "../../db/schema";
 
-    createdAt: string;
-	
-	refreshToken: string;
-}
+export type User = typeof usersTable.$inferSelect;
+
+export type UserInsert = typeof usersTable.$inferInsert;

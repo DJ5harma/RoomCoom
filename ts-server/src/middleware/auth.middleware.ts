@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import { ApiError } from "../../utils/ApiError";
-import { TokenService } from "../token/token.service";
+import { TokenService } from "../refreshToken/token.service";
 import type { TokenizedUser } from "../entities/user/user.dto";
 
 class AuthMiddlewareImpl {

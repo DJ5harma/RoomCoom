@@ -1,9 +1,12 @@
 import type { Request, Response } from "express";
 import { ApiError } from "../../../utils/ApiError";
-import { TokenService } from "../../token/token.service";
-import type { CreatableUser, ResponseUser } from "./user.dto";
+import { TokenService } from "../../refreshToken/token.service";
+import type {
+	CreateUserDTO,
+	ResponseUserDTO,
+	TokenizedUserDTO,
+} from "./user.dto";
 import { UserService } from "./user.service";
-import crypto from "crypto";
 import { log } from "console";
 
 class UserControllerImpl {
@@ -12,22 +15,22 @@ class UserControllerImpl {
 	// 	accessToken: string;
 	// };
 	async signin(req: Request, res: Response) {
-		const creatableUser = req.body as CreatableUser;
+		const creatableUser = req.body as CreateUserDTO;
 		console.log({ creatableUser });
 
-		let user = await UserService.findUserByEmail(creatableUser.email);
+		const existingUser = await UserService.findUserByEmail(creatableUser.email);
 
-		if (!user) {
-			const id = crypto.randomUUID() as string;
-			const refreshToken = TokenService.generateRefreshToken({ userId: id });
+		if (!existingUser) {
+			const user = await UserService.createUser(creatableUser);
+			if (!user) throw ApiError.internal("Failed to register user");
 
-			const user = await UserService.createUser({
-				...creatableUser,
-				id,
-				refreshToken,
+			const refreshToken = TokenService.generateRefreshToken({
+				userId: user.id,
 			});
+
+			
+
 			log("Created user: ", user);
-			if (!user) throw ApiError.internal();
 
 			const accessToken = TokenService.generateAccessToken({ userId: user.id });
 			res.status(201).json({ user, accessToken });
