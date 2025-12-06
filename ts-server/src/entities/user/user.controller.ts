@@ -1,73 +1,151 @@
-import type { Request, Response } from "express";
+import type { Request, Response, NextFunction } from "express";
 import { ApiError } from "../../../utils/ApiError";
-import { TokenService } from "../../refreshToken/token.service";
-import type {
-	CreateUserDTO,
-	ResponseUserDTO,
-	TokenizedUserDTO,
-} from "./user.dto";
+import { TokenService } from "../../token/token.service";
+import { RefreshTokenRepo } from "../../token/refreshToken.repo";
+import type { CreateUserDTO, ResponseUserDTO } from "./user.dto";
 import { UserService } from "./user.service";
-import { log } from "console";
 
 class UserControllerImpl {
-	// {
-	// 	userId: User["id"];
-	// 	accessToken: string;
-	// };
-	async signin(req: Request, res: Response) {
-		const creatableUser = req.body as CreateUserDTO;
-		console.log({ creatableUser });
+	async signin(req: Request, res: Response, next: NextFunction) {
+		try {
+			const creatableUser = req.body as CreateUserDTO;
 
-		const existingUser = await UserService.findUserByEmail(creatableUser.email);
+			if (!creatableUser.email || !creatableUser.name) {
+				throw ApiError.badRequest("Email and name are required");
+			}
 
-		if (!existingUser) {
-			const user = await UserService.createUser(creatableUser);
-			if (!user) throw ApiError.internal("Failed to register user");
+			const existingUser = await UserService.findUserByEmail(
+				creatableUser.email
+			);
 
+			if (!existingUser) {
+				// Create new user
+				const user = await UserService.createUser(creatableUser);
+				if (!user) {
+					throw ApiError.internal("Failed to register user");
+				}
+
+				const refreshToken = TokenService.generateRefreshToken({
+					userId: user.id,
+				});
+
+				// Save refresh token to database
+				await RefreshTokenRepo.create({
+					userId: user.id,
+					token: refreshToken,
+				});
+
+				const accessToken = TokenService.generateAccessToken({
+					userId: user.id,
+				});
+
+				const responseUser: ResponseUserDTO = {
+					id: user.id,
+					email: user.email,
+					name: user.name,
+					picture: user.picture,
+					createdAt: user.createdAt,
+				};
+
+				const isProduction = process.env.NODE_ENV === "production";
+				const cookieOptions = {
+					httpOnly: true,
+					secure: isProduction,
+					sameSite: (isProduction ? "strict" : "lax") as
+						| "strict"
+						| "lax"
+						| "none",
+					path: "/",
+				};
+
+				res
+					.status(201)
+					.cookie("access-token", accessToken, {
+						...cookieOptions,
+						maxAge: 10 * 60 * 1000, // 10 minutes
+					})
+					.cookie("refresh-token", refreshToken, {
+						...cookieOptions,
+						maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+					})
+					.json({ user: responseUser, accessToken });
+				return;
+			}
+
+			// Existing user - generate new tokens
 			const refreshToken = TokenService.generateRefreshToken({
-				userId: user.id,
+				userId: existingUser.id,
 			});
 
-			
+			// Delete old refresh tokens for this user and save new one
+			await RefreshTokenRepo.deleteByUserId(existingUser.id);
+			await RefreshTokenRepo.create({
+				userId: existingUser.id,
+				token: refreshToken,
+			});
 
-			log("Created user: ", user);
+			const accessToken = TokenService.generateAccessToken({
+				userId: existingUser.id,
+			});
 
-			const accessToken = TokenService.generateAccessToken({ userId: user.id });
-			res.status(201).json({ user, accessToken });
-			return;
+			const responseUser: ResponseUserDTO = {
+				id: existingUser.id,
+				email: existingUser.email,
+				name: existingUser.name,
+				picture: existingUser.picture,
+				createdAt: existingUser.createdAt,
+			};
+
+			const isProduction = process.env.NODE_ENV === "production";
+			const cookieOptions = {
+				httpOnly: true,
+				secure: isProduction,
+				sameSite: (isProduction ? "strict" : "lax") as
+					| "strict"
+					| "lax"
+					| "none",
+				path: "/",
+			};
+
+			res
+				.status(200)
+				.cookie("access-token", accessToken, {
+					...cookieOptions,
+					maxAge: 10 * 60 * 1000, // 10 minutes
+				})
+				.cookie("refresh-token", refreshToken, {
+					...cookieOptions,
+					maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+				})
+				.json({ user: responseUser, accessToken });
+		} catch (error) {
+			next(error);
 		}
-		const refreshToken = TokenService.generateRefreshToken({ userId: user.id });
-
-		const accessToken = TokenService.generateAccessToken({ userId: user.id });
-
-		user.refreshToken = refreshToken;
-		user = await UserService.updateUser(user.id, user);
-		log("updated user: ", user);
-		if (!user) throw ApiError.internal();
-
-		console.log({ user });
-
-		res
-			.status(200)
-			.cookie("access-token", accessToken)
-			.cookie("refresh-token", refreshToken, { httpOnly: true, secure: true })
-			.json({ user, accessToken });
-		return;
 	}
 
-	async me(req: Request, res: Response) {
-		const user = await UserService.findUserById(req.userId);
-		if (!user) throw ApiError.notFound("User not found");
+	async me(req: Request, res: Response, next: NextFunction) {
+		try {
+			if (!req.userId) {
+				throw ApiError.unauthorized("User not authenticated");
+			}
 
-		const { id, email, name, picture, createdAt } = user as ResponseUser;
-		const responseUser = {
-			id,
-			email,
-			name,
-			picture,
-			createdAt,
-		} as ResponseUser;
-		res.json({ user: responseUser });
+			const user = await UserService.findUserById(req.userId);
+			if (!user) {
+				throw ApiError.notFound("User not found");
+			}
+
+			const responseUser: ResponseUserDTO = {
+				id: user.id,
+				email: user.email,
+				name: user.name,
+				picture: user.picture,
+				createdAt: user.createdAt,
+			};
+
+			res.json({ user: responseUser });
+		} catch (error) {
+			next(error);
+		}
 	}
 }
 

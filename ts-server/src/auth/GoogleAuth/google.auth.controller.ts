@@ -1,22 +1,26 @@
 import type { NextFunction, Request, Response } from "express";
 import { GoogleAuthService } from "./google.auth.service";
-import type { CreatableUser } from "../../entities/user/user.dto";
+import type { CreateUserDTO } from "../../entities/user/user.dto";
 
 export const GoogleAuthController = {
 	async getConfig(req: Request, res: Response) {
 		return res.json(GoogleAuthService.getClientConfig());
 	},
 	async signin(req: Request, res: Response, next: NextFunction) {
-		// console.log("google auth signin req body", req.body);
-		const { code } = req.body as { code: string };
-		const tokens = await GoogleAuthService.getGoogleUserTokens(code);
-		// console.log({ tokens });
+		try {
+			const { code } = req.body as { code: string };
+			if (!code) {
+				throw new Error("Authorization code is required");
+			}
 
-		const profileInfo = await GoogleAuthService.getUserProfile(tokens);
-		// console.log({ profileInfo });
-		const { email, name, picture } = profileInfo;
+			const tokens = await GoogleAuthService.getGoogleUserTokens(code);
+			const profileInfo = await GoogleAuthService.getUserProfile(tokens);
+			const { email, name, picture } = profileInfo;
 
-		req.body = { email, name, picture } as CreatableUser;
-		next();
+			req.body = { email, name, picture } as CreateUserDTO;
+			next();
+		} catch (error) {
+			next(error);
+		}
 	},
 };
