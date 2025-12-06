@@ -37,7 +37,7 @@ class UserControllerImpl {
 
 		res
 			.status(200)
-			.json(user)
+			.json({ user, accessToken })
 			.cookie("access-token", accessToken)
 			.cookie("refresh-token", refreshToken, { httpOnly: true, secure: true });
 		return;
