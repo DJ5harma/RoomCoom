@@ -50,7 +50,7 @@ export async function server() {
 
 	app.listen(PORT, () => {
 		console.log(
-			" (: RoomCoom server is running @ " + "http://localhost" + PORT
+			" (: RoomCoom server is running @ " + "http://localhost:" + PORT
 		);
 	});
 }

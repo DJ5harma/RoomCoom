@@ -7,9 +7,13 @@ export const GoogleAuthController = {
 		return res.json(GoogleAuthService.getClientConfig());
 	},
 	async signin(req: Request, res: Response, next: NextFunction) {
+		// console.log("google auth signin req body", req.body);
 		const { code } = req.body as { code: string };
 		const tokens = await GoogleAuthService.getGoogleUserTokens(code);
+		// console.log({ tokens });
+
 		const profileInfo = await GoogleAuthService.getUserProfile(tokens);
+		// console.log({ profileInfo });
 		const { email, name, picture } = profileInfo;
 
 		req.body = { email, name, picture } as CreatableUser;

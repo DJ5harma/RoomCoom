@@ -7,8 +7,7 @@ const WEB_ORIGIN = process.env.WEB_ORIGIN;
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID as string;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET as string;
-const GOOGLE_REDIRECT_URI =
-	(WEB_ORIGIN ?? "http://localhost:3000") + "/auth/google/callback";
+const GOOGLE_REDIRECT_URI = WEB_ORIGIN + "/auth/callback/google";
 const GOOGLE_AUTH_URI = "https://accounts.google.com/o/oauth2/auth";
 const GOOGLE_TOKEN_URI = "https://oauth2.googleapis.com/token";
 
@@ -28,6 +27,8 @@ export const GoogleAuthService = {
 		};
 	},
 	async getGoogleUserTokens(codeFromUI: string) {
+		console.log({ GOOGLE_REDIRECT_URI });
+
 		const tokenResponse = await fetch(GOOGLE_TOKEN_URI, {
 			method: "POST",
 			headers: {

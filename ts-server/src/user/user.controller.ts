@@ -8,6 +8,7 @@ import crypto from "crypto";
 class UserControllerImpl {
 	async signin(req: Request, res: Response) {
 		const creatableUser = req.body as CreatableUser;
+		console.log({ creatableUser });
 
 		let user = await UserService.findUserByEmail(creatableUser.email);
 
@@ -36,11 +37,13 @@ class UserControllerImpl {
 		user = await UserService.updateUser(user.id, user);
 		if (!user) throw ApiError.internal();
 
+		console.log({ user });
+
 		res
 			.status(200)
-			.json({ user, accessToken })
 			.cookie("access-token", accessToken)
-			.cookie("refresh-token", refreshToken, { httpOnly: true, secure: true });
+			.cookie("refresh-token", refreshToken, { httpOnly: true, secure: true })
+			.json({ user, accessToken });
 		return;
 	}
 

@@ -8,6 +8,7 @@ class ErrorMiddlewareImpl {
 		res: Response,
 		next: NextFunction
 	) {
+		console.error(err);
 		// If response already sent, delegate to default Express error handler
 		if (res.headersSent) {
 			return next(err);
