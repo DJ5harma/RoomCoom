@@ -7,7 +7,9 @@ class AuthMiddlewareImpl {
 	async authenticate(req: Request, res: Response, next: NextFunction) {
 		const { accessToken, refreshToken } = req.cookies;
 		if (accessToken) {
-			const decoded = TokenService.verifyToken(accessToken) as TokenizedUser;
+			const decoded = TokenService.verifyAccessToken(
+				accessToken
+			) as TokenizedUser;
 			if (decoded && decoded.userId) {
 				req.userId = decoded.userId;
 				next();
@@ -16,12 +18,13 @@ class AuthMiddlewareImpl {
 		}
 
 		if (refreshToken) {
-			const decoded = TokenService.verifyToken(refreshToken) as TokenizedUser;
+			const decoded = TokenService.verifyRefreshToken(
+				refreshToken
+			) as TokenizedUser;
 			if (decoded && decoded.userId) {
-				const accessToken = TokenService.generateToken(
-					{ userId: decoded.userId },
-					{ expiresIn: "10m" }
-				);
+				const accessToken = TokenService.generateAccessToken({
+					userId: decoded.userId,
+				});
 				req.userId = decoded.userId;
 				res.cookie("access-token", accessToken);
 				next();

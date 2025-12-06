@@ -1,15 +1,28 @@
-import jwt, { type SignOptions } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import type { TokenizedUser } from "../user/user.dto";
 
-const JWT_SECRET = process.env.JWT_SECRET as string;
+const JWT_SECRET_ACCESS_TOKEN = process.env.JWT_SECRET_ACCESS_TOKEN as string;
+const JWT_SECRET_REFRESH_TOKEN = process.env.JWT_SECRET_REFRESH_TOKEN as string;
 
 class TokenServiceImpl {
-	generateToken(payload: TokenizedUser, options: SignOptions) {
-		const token = jwt.sign(payload, JWT_SECRET, options);
+	generateAccessToken(payload: TokenizedUser) {
+		const token = jwt.sign(payload, JWT_SECRET_ACCESS_TOKEN, {
+			expiresIn: "10m",
+		});
 		return token;
 	}
-	verifyToken(token: string) {
-		const decoded = jwt.verify(token, JWT_SECRET);
+	generateRefreshToken(payload: TokenizedUser) {
+		const token = jwt.sign(payload, JWT_SECRET_REFRESH_TOKEN, {
+			expiresIn: "7d",
+		});
+		return token;
+	}
+	verifyAccessToken(token: string) {
+		const decoded = jwt.verify(token, JWT_SECRET_ACCESS_TOKEN);
+		return decoded;
+	}
+	verifyRefreshToken(token: string) {
+		const decoded = jwt.verify(token, JWT_SECRET_REFRESH_TOKEN);
 		return decoded;
 	}
 }

@@ -14,10 +14,8 @@ class UserControllerImpl {
 
 		if (!user) {
 			const id = crypto.randomUUID() as string;
-			const refreshToken = TokenService.generateToken(
-				{ userId: id },
-				{ expiresIn: "7d" }
-			);
+			const refreshToken = TokenService.generateRefreshToken({ userId: id });
+
 			user = { ...creatableUser, id, createdAt: new Date(), refreshToken };
 			user = await UserService.createUser(creatableUser);
 			if (!user) throw ApiError.internal();
@@ -25,14 +23,10 @@ class UserControllerImpl {
 			res.status(201).json(user);
 			return;
 		}
-		const refreshToken = TokenService.generateToken(
-			{ userId: user.id },
-			{ expiresIn: "7d" }
-		);
-		const accessToken = TokenService.generateToken(
-			{ userId: user.id },
-			{ expiresIn: "10m" }
-		);
+		const refreshToken = TokenService.generateRefreshToken({ userId: user.id });
+		
+		const accessToken = TokenService.generateAccessToken({ userId: user.id });
+
 		user.refreshToken = refreshToken;
 		user = await UserService.updateUser(user.id, user);
 		if (!user) throw ApiError.internal();
