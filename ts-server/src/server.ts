@@ -32,9 +32,8 @@ export async function server() {
 
 	app.use("/api/auth/google", GoogleAuthRouter);
 
-	app.use(AuthMiddleware.authenticate);
-
-	app.use("/api/user", UserRouter);
+	// Apply auth middleware only to protected routes
+	app.use("/api/user", AuthMiddleware.authenticate, UserRouter);
 
 	// 404 handler for unknown routes (must be after all routes)
 	app.use(ErrorMiddleware.NOT_FOUND_HANDLER);
