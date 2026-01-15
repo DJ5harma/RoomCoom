@@ -1,8 +1,6 @@
 "use client";
-
 import axios from "axios";
 import { AppError } from "./AppError";
-import { toast } from "react-toastify";
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL! + "/api";
 console.log({ API_URL });
@@ -15,10 +13,11 @@ Api.interceptors.response.use(
 	},
 	({ response }) => {
 		if (response.status === 404) {
-			console.log(window.location);
 			window.location.replace(window.location.origin + "/auth");
+			throw new AppError(response.data.err);
+		} else {
+			throw new AppError(response.data.err, { show: true });
 		}
-		throw new AppError(response.data.err, { show: true });
 	}
 );
 
