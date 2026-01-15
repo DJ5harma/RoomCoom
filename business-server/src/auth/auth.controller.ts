@@ -32,7 +32,7 @@ export const AuthController = {
 	async middlewareAuth(req: Request, res: Response, next: NextFunction) {
 		const { access_token } = req.cookies;
 
-		console.log("from cookies:", { access_token });
+		// console.log("from cookies:", { access_token });
 		try {
 			const { userId } = jwt.verify(
 				access_token,
