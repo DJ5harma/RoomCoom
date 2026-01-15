@@ -3,4 +3,6 @@ export interface UserType {
 	name: string;
 	email: string;
 	pictureUrl?: string;
+	createdAt: Date;
+	updatedAt: Date;
 }
