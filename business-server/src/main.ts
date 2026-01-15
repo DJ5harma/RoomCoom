@@ -3,7 +3,7 @@ import http from "http";
 import { Server } from "socket.io";
 import { AppError } from "./error/AppError";
 import cors from "cors";
-import cookieParser from "cookie-parser"
+import cookieParser from "cookie-parser";
 // AUTH IMPORTS
 import passport from "passport";
 import "./auth/auth.initializer";
@@ -12,6 +12,7 @@ import { ENV_CONSTANTS } from "./constants/env.constants";
 import { AuthController } from "./auth/auth.controller";
 import { userRouter } from "./entities/user/user.routes";
 import mongoose from "mongoose";
+import morgan from "morgan";
 
 const app = express();
 const server = http.createServer(app);
@@ -20,6 +21,7 @@ const io = new Server(server);
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
+app.use(morgan("common"))
 app.get("/api/server", (req, res) => {
 	console.log("/api/server was hit");
 
@@ -45,8 +47,8 @@ mongoose.connect(ENV_CONSTANTS.MONGO_URI).then(() => {
 	server.listen(PORT, () => {
 		console.log(`express and socket.io server: ${ENV_CONSTANTS.MY_URL}`);
 	});
-})
-	
+});
+
 io.on("connection", (socket) => {
 	console.log("a user connected");
 });

@@ -39,7 +39,7 @@ export const AuthController = {
 			) as { userId: string };
 			AuthState.storeUserId(req, userId);
 		} catch (error) {
-			throw new AppError(404, "Unauthorized");
+			throw new AppError(404, "unauthorized");
 		}
 	},
 };
