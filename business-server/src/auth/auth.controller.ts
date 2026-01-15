@@ -1,4 +1,4 @@
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { UserService } from "../entities/user/user.service";
 import type { createUserDTO } from "../entities/user/user.dto";
@@ -29,7 +29,7 @@ export const AuthController = {
 		});
 		res.redirect(ENV_CONSTANTS.WEB_URL);
 	},
-	async middlewareAuth(req: Request, res: Response) {
+	async middlewareAuth(req: Request, res: Response, next: NextFunction) {
 		const { access_token } = req.cookies;
 
 		console.log("from cookies:", { access_token });
@@ -38,7 +38,9 @@ export const AuthController = {
 				access_token,
 				ENV_CONSTANTS.ACCESS_SECRET
 			) as { userId: string };
+			
 			AuthState.storeUserId(req, userId);
+			next();
 		} catch (error) {
 			throw new AppError(404, "unauthorized");
 		}
