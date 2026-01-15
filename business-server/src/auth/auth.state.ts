@@ -17,6 +17,6 @@ export const AuthState = {
 		AuthState.storeState(req, "userId", userId);
 	},
 	getUserId(req: Request) {
-		AuthState.getState(req, "userId");
+		return AuthState.getState(req, "userId") as string;
 	},
 };
