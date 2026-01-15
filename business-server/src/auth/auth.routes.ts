@@ -15,7 +15,7 @@ authRouter.get(
 		session: false,
 		failureRedirect: "/auth/failed",
 	}),
-	(req, res) => {
+	(req, res, next) => {
 		res.send("GOOGLE 0AUTH success ")
 	}
 );

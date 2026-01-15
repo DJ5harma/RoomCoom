@@ -9,6 +9,7 @@ import passport from "passport";
 import "./auth/auth-initializer";
 import { authRouter } from "./auth/auth.routes";
 import { ENV_CONSTANTS } from "./constants/env.constants";
+import { AuthController } from "./auth/auth.controller";
 
 const app = express();
 const server = http.createServer(app);
@@ -16,12 +17,15 @@ const io = new Server(server);
 
 app.use(cors());
 app.use(express.json());
-app.get("/", (req, res) => {
+app.get("/api/server", (req, res) => {
+	console.log("/api/server was hit");
+	
 	res.send("hello");
 });
 
-app.use(passport.initialize());
-app.use("/api/auth", authRouter);
+app.use(passport.initialize(), );
+app.use("/api/auth", authRouter, AuthController.handleUserProfile);
+
 app.get("/err", (req, res) => {
 	throw new Error("ERROR TEST ROUTE - OK");
 });
