@@ -1,0 +1,5 @@
+export enum MODEL_CONSTANTS {
+	USER = "USER",
+	REFRESH_TOKEN = "REFRESH_TOKEN",
+	ROOM = "ROOM",
+}
