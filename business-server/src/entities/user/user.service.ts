@@ -2,17 +2,9 @@ import type { createUserDTO } from "./user.dto";
 import { USER } from "./user.model";
 
 class UserServiceImpl {
-	async exists(email: string) {
-		return await USER.exists({ email });
-	}
-	async create(dto: createUserDTO) {
-		const user = await USER.create(dto);
-		return user;
-	}
-	async findByEmail(email: string) {
-		const user = await USER.findOne({ email });
-		return user;
-	}
+	create = (dto: createUserDTO) => USER.create(dto);
+	findByEmail = (email: string) => USER.findOne({ email });
+	findById = USER.findById;
 }
 
 export const UserService = new UserServiceImpl();

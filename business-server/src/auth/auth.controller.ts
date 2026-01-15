@@ -1,7 +1,6 @@
 import type { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { UserService } from "../entities/user/user.service";
-import type { UserType } from "../entities/user/user.type";
 import type { createUserDTO } from "../entities/user/user.dto";
 import { ENV_CONSTANTS } from "../constants/env.constants";
 import { AuthState } from "./auth.state";
@@ -30,7 +29,8 @@ export const AuthController = {
 		});
 	},
 	async middlewareAuth(req: Request, res: Response) {
-		const access_token = req.cookies.access_token;
+		const { access_token } = req.cookies;
+
 		console.log("from cookies:", { access_token });
 		try {
 			const { userId } = jwt.verify(

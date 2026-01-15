@@ -13,5 +13,5 @@ passport.use(
 			console.log({ accessToken, refreshToken, profile });
 			return cb(null, profile);
 		}
-	)
+	),
 );

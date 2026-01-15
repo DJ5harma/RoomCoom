@@ -3,21 +3,20 @@ import type { NextFunction, Request, Response } from "express";
 export class AppError extends Error {
 	statusCode: number;
 	constructor(statusCode: number, message: string) {
-        super(message);
+		super(message);
 		this.statusCode = statusCode;
 	}
-    
+
 	static ExpressErrorHandler(
-        err: AppError,
+		err: AppError,
 		_req: Request,
 		res: Response,
 		_next: NextFunction
 	) {
-        console.error("AppError:", err.message);
-		console.error(err.stack);
+		console.error("AppError:", err.message);
+		// console.error(err.stack);
 		res.status(err.statusCode || 500).json({
-			success: false,
-			message: err.message || "Internal Server Error",
+			err: err.message || "Internal Server Error",
 		});
 	}
 }
