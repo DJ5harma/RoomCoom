@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema(
 		email: { type: String, required: true },
 		pictureUrl: { type: String, required: false },
 	},
-	{ timestamps: true }
+	{ timestamps: true, toJSON: { virtuals: true } }
 );
 
 userSchema.virtual("id").get(function () {
