@@ -8,6 +8,8 @@ import { AppError } from "../error/AppError";
 
 export const AuthController = {
 	async handleUserProfile(req: Request, res: Response) {
+		console.log("authed user: ", req.user);
+
 		const { email, name, pictureUrl } = req.user as createUserDTO;
 
 		let user = await UserService.findByEmail(email);
@@ -21,12 +23,11 @@ export const AuthController = {
 		);
 		res.cookie("access_token", access_token, {
 			httpOnly: true,
-			secure: true,
+			secure: process.env.NODE_ENV === "production",
+			sameSite: "lax",
+			path: "/",
 		});
-		res.json({
-			success: true,
-			message: "Authenticated successfully",
-		});
+		res.redirect(ENV_CONSTANTS.WEB_URL);
 	},
 	async middlewareAuth(req: Request, res: Response) {
 		const { access_token } = req.cookies;

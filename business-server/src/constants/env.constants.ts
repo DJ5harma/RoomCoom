@@ -5,10 +5,12 @@ const {
 	GOOGLE_CLIENT_SECRET,
 	ACCESS_SECRET,
 	MONGO_URI,
+	WEB_URL,
 } = process.env;
 
 export const ENV_CONSTANTS = {
 	MY_URL: MY_URL!,
+	WEB_URL: WEB_URL!,
 	PORT: PORT!,
 	ACCESS_SECRET: ACCESS_SECRET!,
 	//

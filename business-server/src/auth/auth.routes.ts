@@ -14,10 +14,7 @@ authRouter.get(
 	passport.authenticate("google", {
 		session: false,
 		failureRedirect: "/auth/failed",
-	}),
-	(req, res, next) => {
-		res.send("GOOGLE 0AUTH success ")
-	}
+	})
 );
 authRouter.get("/failed", (req, res) => {
 	throw new AppError(401, "Authentication Failed");

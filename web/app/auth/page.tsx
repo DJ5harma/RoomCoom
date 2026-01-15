@@ -1,9 +1,10 @@
-import React from 'react'
+'use client';
+import { API_URL } from "@/utils/Api";
 
 export default function page() {
-  return (
-    <div className='flex justify-center items-center'>
-        <button>Continue With Google</button>
-    </div>
-  )
+	return (
+		<div className="flex justify-center items-center min-h-screen">
+			<a className="bg-white text-black p-2" href={API_URL+"/auth/google"}>Continue With Google</a>
+		</div>
+	);
 }

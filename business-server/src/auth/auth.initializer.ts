@@ -11,7 +11,8 @@ passport.use(
 		},
 		function (accessToken, refreshToken, profile, cb) {
 			console.log({ accessToken, refreshToken, profile });
-			return cb(null, profile);
+			const { name, email, picture } = profile._json;
+			return cb(null, { name, email, pictureUrl: picture });
 		}
-	),
+	)
 );

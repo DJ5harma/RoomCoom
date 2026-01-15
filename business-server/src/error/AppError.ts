@@ -13,8 +13,8 @@ export class AppError extends Error {
 		res: Response,
 		_next: NextFunction
 	) {
-		console.error("AppError:", err.message);
-		// console.error(err.stack);
+		// console.error("AppError:", err.message);
+		console.error(err.stack);
 		res.status(err.statusCode || 500).json({
 			err: err.message || "Internal Server Error",
 		});
