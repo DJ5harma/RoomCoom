@@ -4,6 +4,8 @@ import { UserService } from "../entities/user/user.service";
 import type { UserType } from "../entities/user/user.type";
 import type { createUserDTO } from "../entities/user/user.dto";
 import { ENV_CONSTANTS } from "../constants/env.constants";
+import { AuthState } from "./auth.state";
+import { AppError } from "../error/AppError";
 
 export const AuthController = {
 	async handleUserProfile(req: Request, res: Response) {
@@ -26,5 +28,18 @@ export const AuthController = {
 			success: true,
 			message: "Authenticated successfully",
 		});
+	},
+	async middlewareAuth(req: Request, res: Response) {
+		const access_token = req.cookies.access_token;
+		console.log("from cookies:", { access_token });
+		try {
+			const { userId } = jwt.verify(
+				access_token,
+				ENV_CONSTANTS.ACCESS_SECRET
+			) as { userId: string };
+			AuthState.storeUserId(req, userId);
+		} catch (error) {
+			throw new AppError(404, "Unauthorized");
+		}
 	},
 };
