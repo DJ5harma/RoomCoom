@@ -1,18 +1,12 @@
 "use client";
-import { Api } from "@/utils/Api";
-import { useEffect } from "react";
+import { useUser } from "./context/user.context";
 
 export default function Home() {
-	useEffect(() => {
-		Api.get("/user/me").then(({ data }) => {
-			console.log(data);
-		});
-	}, []);
+	const { user } = useUser();
+
 	return (
 		<div className="flex min-h-screen items-center justify-center">
-			<main className="">
-				hello
-			</main>
+			<main className="">{JSON.stringify(user)}</main>
 		</div>
 	);
 }
