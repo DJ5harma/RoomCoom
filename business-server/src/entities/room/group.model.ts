@@ -3,6 +3,7 @@ import { MODEL_CONSTANTS } from "../../constants/modal.constants";
 
 const groupSchema = new mongoose.Schema({
 	name: { type: String, required: true },
+	roomId: { type: mongoose.Schema.Types.ObjectId, ref: MODEL_CONSTANTS.ROOM },
 	users: [{ type: mongoose.Schema.Types.ObjectId, ref: MODEL_CONSTANTS.USER }],
 });
 
