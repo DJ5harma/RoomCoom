@@ -5,6 +5,7 @@ const groupSchema = new mongoose.Schema({
 	name: { type: String, required: true },
 	roomId: { type: mongoose.Schema.Types.ObjectId, ref: MODEL_CONSTANTS.ROOM },
 	users: [{ type: mongoose.Schema.Types.ObjectId, ref: MODEL_CONSTANTS.USER }],
+	createdAt: { type: Date, default: Date.now },
 });
 
 groupSchema.virtual("id").get(function () {
