@@ -4,7 +4,7 @@ import { MODEL_CONSTANTS } from "../../../constants/modal.constants";
 const groupSchema = new mongoose.Schema(
 	{
 		name: { type: String, required: true },
-		room: { type: mongoose.Schema.Types.ObjectId, ref: MODEL_CONSTANTS.ROOM },
+		room: { type: mongoose.Schema.Types.ObjectId, ref: MODEL_CONSTANTS.ROOM, required: true },
 	},
 	{ timestamps: true, toJSON: { virtuals: true } }
 );

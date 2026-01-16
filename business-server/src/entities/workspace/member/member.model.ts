@@ -4,11 +4,12 @@ import autopopulate from "mongoose-autopopulate";
 
 const memberSchema = new Schema(
 	{
-		group: { type: Schema.Types.ObjectId, ref: MODEL_CONSTANTS.GROUP },
+		group: { type: Schema.Types.ObjectId, ref: MODEL_CONSTANTS.GROUP, required: true },
 		user: {
 			type: Schema.Types.ObjectId,
 			ref: MODEL_CONSTANTS.USER,
 			autopopulate: true,
+			required: true
 		},
 	},
 	{ timestamps: true }
