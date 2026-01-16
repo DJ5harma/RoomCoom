@@ -21,7 +21,7 @@ const io = new Server(server);
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
-app.use(morgan("common"))
+app.use(morgan("common"));
 app.get("/api/server", (req, res) => {
 	console.log("/api/server was hit");
 
@@ -50,5 +50,14 @@ mongoose.connect(ENV_CONSTANTS.MONGO_URI).then(() => {
 });
 
 io.on("connection", (socket) => {
-	console.log("a user connected");
+	console.log("Connected", socket.id);
+
+	const cookies = socket.handshake.headers.cookie;
+	console.log("socket-cookies:", cookies);
+
+	socket.on("disconnect", () => {
+		console.log("Disconnected", socket.id);
+	});
 });
+
+export { io };
