@@ -17,15 +17,18 @@ import { AuthService } from "./auth/auth.service";
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
 
-app.use(cors());
+app.use(
+	cors({
+		credentials: true,
+		origin: [ENV_CONSTANTS.WEB_URL],
+	})
+);
 app.use(cookieParser());
 app.use(express.json());
 app.use(morgan("common"));
 app.get("/api/server", (req, res) => {
 	console.log("/api/server was hit");
-
 	res.send("hello");
 });
 
@@ -43,6 +46,10 @@ app.use(AppError.ExpressErrorHandler);
 
 const PORT = process.env.PORT!;
 
+const io = new Server(server, {
+	cors: { origin: [ENV_CONSTANTS.WEB_URL], credentials: true },
+	transports: ["websocket", "polling"],
+});
 mongoose.connect(ENV_CONSTANTS.MONGO_URI).then(() => {
 	console.log("MongoDB connected");
 	server.listen(PORT, () => {
@@ -53,12 +60,18 @@ mongoose.connect(ENV_CONSTANTS.MONGO_URI).then(() => {
 io.on("connection", (socket) => {
 	console.log("Connected", socket.id);
 
-	const cookies = socket.handshake.headers.cookie;
-	console.log("socket-cookies:", cookies);
+	const cookies = (socket.handshake.headers.cookie || "")?.split(";");
+	let access_token = "";
+	for (const cookie of cookies) {
+		if (cookie.startsWith("access_token")) {
+			access_token = cookie.split("=")[1] ?? "";
+		}
+	}
 	try {
-		// const userId = AuthService.verifyUser(cookies.access_token);
-		// socket.data.userId = userId;
-		// socket.join(userId);
+		const { userId } = AuthService.verifyUser(access_token);
+		socket.data.userId = userId;
+
+		socket.join(userId);
 	} catch (error) {
 		socket.disconnect();
 		console.log("Disconnected socket for unauthenticated user", socket.id);

@@ -2,10 +2,10 @@
 import axios from "axios";
 import { AppError } from "./AppError";
 
-export const API_URL = process.env.NEXT_PUBLIC_API_URL! + "/api";
+export const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 console.log({ API_URL });
 
-const Api = axios.create({ baseURL: API_URL, withCredentials: true });
+const Api = axios.create({ baseURL: API_URL + "/api", withCredentials: true });
 
 Api.interceptors.response.use(
 	(_res) => {
