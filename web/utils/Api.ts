@@ -13,7 +13,6 @@ Api.interceptors.response.use(
 	},
 	({ response }) => {
 		if (response.status === 404) {
-			window.location.replace(window.location.origin + "/auth");
 			throw new AppError(response.data.err);
 		} else {
 			throw new AppError(response.data.err, { show: true });

@@ -5,6 +5,7 @@ import type { createUserDTO } from "../entities/user/user.dto";
 import { ENV_CONSTANTS } from "../constants/env.constants";
 import { AuthState } from "./auth.state";
 import { AppError } from "../error/AppError";
+import { AuthService } from "./auth.service";
 
 export const AuthController = {
 	async handleUserProfile(req: Request, res: Response) {
@@ -34,11 +35,8 @@ export const AuthController = {
 
 		// console.log("from cookies:", { access_token });
 		try {
-			const { userId } = jwt.verify(
-				access_token,
-				ENV_CONSTANTS.ACCESS_SECRET
-			) as { userId: string };
-			
+			const { userId } = AuthService.verifyUser(access_token);
+
 			AuthState.storeUserId(req, userId);
 			next();
 		} catch (error) {

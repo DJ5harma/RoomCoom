@@ -13,6 +13,7 @@ import { AuthController } from "./auth/auth.controller";
 import { userRouter } from "./entities/user/user.routes";
 import mongoose from "mongoose";
 import morgan from "morgan";
+import { AuthService } from "./auth/auth.service";
 
 const app = express();
 const server = http.createServer(app);
@@ -54,6 +55,14 @@ io.on("connection", (socket) => {
 
 	const cookies = socket.handshake.headers.cookie;
 	console.log("socket-cookies:", cookies);
+	try {
+		// const userId = AuthService.verifyUser(cookies.access_token);
+		// socket.data.userId = userId;
+		// socket.join(userId);
+	} catch (error) {
+		socket.disconnect();
+		console.log("Disconnected socket for unauthenticated user", socket.id);
+	}
 
 	socket.on("disconnect", () => {
 		console.log("Disconnected", socket.id);
