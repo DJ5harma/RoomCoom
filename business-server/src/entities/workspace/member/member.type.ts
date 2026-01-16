@@ -1,8 +1,9 @@
 import type { uuid } from "../../../types";
 
-export type RoomType = {
+export type MemberType = {
 	id: uuid;
-	name: string;
+	user: uuid;
+	group: uuid;
 	createdAt: Date;
 	updatedAt: Date;
 };

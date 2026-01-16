@@ -1,4 +1,6 @@
 import type { uuid } from "../../../types";
+import { GROUP } from "../group/group.model";
+import type { GroupType } from "../group/group.type";
 import type { createRoomDTO, updateRoomDTO } from "./room.dto";
 import { ROOM } from "./room.model";
 import type { RoomType } from "./room.type";
@@ -13,6 +15,10 @@ class RoomServiceImpl {
 			new: true,
 		})) as RoomType;
 		return updatedRoom;
+	}
+	async getGroupsInRoom(roomId: uuid) {
+		const grps = (await GROUP.find({ room: roomId })) as GroupType[];
+		return grps;
 	}
 }
 

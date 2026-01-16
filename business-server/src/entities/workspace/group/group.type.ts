@@ -5,4 +5,6 @@ export type GroupType = {
 	id: uuid;
 	name: string;
 	room: RoomType;
+    createdAt: Date;
+    updatedAt: Date;
 };
