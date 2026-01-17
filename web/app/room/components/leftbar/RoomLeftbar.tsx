@@ -1,3 +1,4 @@
+import { Modal } from "@/app/components/Modal";
 import { useRoom } from "../../context/room.context";
 import { GroupBadge } from "./GroupBadge";
 
@@ -16,6 +17,28 @@ export const RoomLeftbar = () => {
 				{groups.map((group) => {
 					return <GroupBadge key={group.id} group={group} />;
 				})}
+				<Modal
+					ON_show={
+						<>
+							<p>ONNNNfsfsdfsdfdsfsdfdsfsdf</p>
+							<p>ONNNNfsfsdfsdfdsfsdfdsfsdf</p>
+							<p>ONNNNfsfsdfsdfdsfsdfdsfsdf</p>
+							<p>ONNNNfsfsdfsdfdsfsdfdsfsdf</p>
+							<p>ONNNNfsfsdfsdfdsfsdfdsfsdf</p>
+							<p>ONNNNfsfsdfsdfdsfsdfdsfsdf</p>
+							<p>ONNNNfsfsdfsdfdsfsdfdsfsdf</p>
+							<p>ONNNNfsfsdfsdfdsfsdfdsfsdf</p>
+							<p>ONNNNfsfsdfsdfdsfsdfdsfsdf</p>
+							<p>ONNNNfsfsdfsdfdsfsdfdsfsdf</p>
+							<p>ONNNNfsfsdfsdfdsfsdfdsfsdf</p>
+							<p>ONNNNfsfsdfsdfdsfsdfdsfsdf</p>
+							<p>ONNNNfsfsdfsdfdsfsdfdsfsdf</p>
+							<p>ONNNNfsfsdfsdfdsfsdfdsfsdf</p>
+							<p>ONNNNfsfsdfsdfdsfsdfdsfsdf</p>
+						</>
+					}
+					OFF_show={<>I AM OFF</>}
+				/>
 			</div>
 		</aside>
 	);
