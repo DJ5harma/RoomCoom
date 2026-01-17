@@ -4,7 +4,9 @@ import { NotFound } from "@/app/components/NotFound";
 import { Api } from "@/utils/Api";
 import {
 	createContext,
+	Dispatch,
 	ReactNode,
+	SetStateAction,
 	useContext,
 	useEffect,
 	useState,
@@ -17,6 +19,9 @@ const context = createContext<{
 	groups: Group[];
 	members: Member[];
 	distinctUsers: Member["user"][];
+
+	setGroups: Dispatch<SetStateAction<Group[]>>;
+	setMembers: Dispatch<SetStateAction<Member[]>>;
 } | null>(null);
 
 export type Room = { id: string; name: string; createdAt: string };
@@ -63,7 +68,9 @@ export const RoomProvider = ({ children }: { children: ReactNode }) => {
 	if (!room) return <NotFound />;
 
 	return (
-		<context.Provider value={{ room, groups, members, distinctUsers }}>
+		<context.Provider
+			value={{ room, groups, members, distinctUsers, setGroups, setMembers }}
+		>
 			<div className="flex border border-red-400 min-h-screen">
 				<RoomLeftbar />
 				{children}

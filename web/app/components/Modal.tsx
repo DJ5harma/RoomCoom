@@ -17,7 +17,7 @@ export function Modal({
 					onClick={() => setIsActive(false)}
 				>
 					<div
-						className="relative border border-black p-6"
+						className="relative border border-black"
 						onClick={(e) => e.stopPropagation()}
 					>
 						<button
@@ -30,7 +30,7 @@ export function Modal({
 					</div>
 				</div>
 			)}
-			<button onClick={() => setIsActive(true)}>{OFF_show}</button>
+			<div onClick={() => setIsActive(true)}>{OFF_show}</div>
 		</div>
 	);
 }

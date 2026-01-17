@@ -41,6 +41,10 @@ class RoomServiceImpl {
 			.populate("user");
 		return members;
 	}
+	async userExistsInRoom(roomId: uuid, userId: uuid) {
+		const exists = await MEMBER.exists({ room: roomId, user: userId });
+		return exists ? true : false;
+	}
 }
 
 export const RoomService = new RoomServiceImpl();
