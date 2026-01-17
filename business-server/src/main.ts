@@ -15,6 +15,7 @@ import mongoose from "mongoose";
 import morgan from "morgan";
 import { AuthService } from "./auth/auth.service";
 import { managerRouter } from "./manager/manager.routes";
+import { RealtimeService } from "./realtime/realtime.service";
 
 const app = express();
 const server = http.createServer(app);
@@ -48,14 +49,6 @@ app.use(AppError.ExpressErrorHandler);
 
 const PORT = process.env.PORT!;
 
-
-const io = new Server({
-	cors: { origin: [ENV_CONSTANTS.WEB_URL], credentials: true },
-	transports: ["websocket", "polling"],
-});
-io.listen(3001);
-console.log(`socket.io server: ${3001}`);
-
 mongoose.connect(ENV_CONSTANTS.MONGO_URI).then(() => {
 	console.log("MongoDB connected");
 	server.listen(PORT, () => {
@@ -63,6 +56,12 @@ mongoose.connect(ENV_CONSTANTS.MONGO_URI).then(() => {
 	});
 });
 
+const io = new Server({
+	cors: { origin: [ENV_CONSTANTS.WEB_URL], credentials: true },
+	transports: ["websocket", "polling"],
+});
+io.listen(3001);
+console.log(`socket.io server: ${3001}`);
 io.on("connection", (socket) => {
 	console.log("Connected", socket.id);
 
@@ -76,6 +75,11 @@ io.on("connection", (socket) => {
 	try {
 		const { userId } = AuthService.verifyUser(access_token);
 		socket.data.userId = userId;
+		RealtimeService.joinUserToRoomsAndGroups(userId, socket);
+
+		socket.on("sync", () => {
+			RealtimeService.joinUserToRoomsAndGroups(userId, socket);
+		});
 
 		socket.join(userId);
 	} catch (error) {

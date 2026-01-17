@@ -3,7 +3,8 @@ import { AuthState } from "../auth/auth.state";
 import { RoomService } from "../internal/workspace/room/room.service";
 import { GroupService } from "../internal/workspace/group/group.service";
 import { MemberService } from "../internal/workspace/member/member.service";
-import type { uuid } from "../types";
+import { PluginEnum, type uuid } from "../types";
+import { RealtimeService } from "../realtime/realtime.service";
 
 class ManagerControllerImpl {
 	async getMyRooms(req: Request, res: Response) {
@@ -64,6 +65,13 @@ class ManagerControllerImpl {
 			group: groupId,
 			room: roomId,
 			user: userId,
+		});
+
+		RealtimeService.sendToGroup(groupId, PluginEnum.ROOM, {
+			memberJoined: member,
+		});
+		RealtimeService.sendToUser(userId, PluginEnum.ROOM, {
+			joinedGroup: groupId,
 		});
 
 		res.json({ member });
