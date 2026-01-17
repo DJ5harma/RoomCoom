@@ -1,4 +1,3 @@
-import React from "react";
 import { Group, useRoom } from "../../context/room.context";
 import Link from "next/link";
 import { useParams } from "next/navigation";

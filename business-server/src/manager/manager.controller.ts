@@ -68,7 +68,7 @@ class ManagerControllerImpl {
 		});
 
 		RealtimeService.sendToGroup(groupId, PluginEnum.ROOM, {
-			memberJoined: member,
+			memberJoined: { member, groupId },
 		});
 		RealtimeService.sendToUser(userId, PluginEnum.ROOM, {
 			joinedGroup: groupId,
