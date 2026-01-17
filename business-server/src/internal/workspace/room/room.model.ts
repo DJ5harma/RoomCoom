@@ -4,9 +4,9 @@ import { MODEL_CONSTANTS } from "../../../constants/modal.constants";
 const roomSchema = new mongoose.Schema(
 	{
 		name: { type: String, required: true },
-		plugins: { type: [String], default: [] },
+		// plugins: { type: [String], default: [] },
 	},
-	{ timestamps: true, toJSON: { virtuals: true } }
+	{ timestamps: true, toJSON: { virtuals: true } },
 );
 
 roomSchema.virtual("id").get(function () {

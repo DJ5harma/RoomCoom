@@ -10,10 +10,11 @@ import "./auth/auth.initializer";
 import { authRouter } from "./auth/auth.routes";
 import { ENV_CONSTANTS } from "./constants/env.constants";
 import { AuthController } from "./auth/auth.controller";
-import { userRouter } from "./entities/user/user.routes";
+import { userRouter } from "./internal/user/user.routes";
 import mongoose from "mongoose";
 import morgan from "morgan";
 import { AuthService } from "./auth/auth.service";
+import { managerRouter } from "./manager/manager.routes";
 
 const app = express();
 const server = http.createServer(app);
@@ -22,12 +23,12 @@ app.use(
 	cors({
 		credentials: true,
 		origin: [ENV_CONSTANTS.WEB_URL],
-	})
+	}),
 );
 app.use(cookieParser());
 app.use(express.json());
 app.use(morgan("common"));
-app.get("/api/server", (req, res) => {
+app.get("/api/server", (_req, res) => {
 	console.log("/api/server was hit");
 	res.send("hello");
 });
@@ -37,6 +38,7 @@ app.use("/api/auth", authRouter, AuthController.handleUserProfile);
 
 app.use(AuthController.middlewareAuth);
 app.use("/api/user", userRouter);
+app.use("/api/manager", managerRouter);
 
 app.get("/err", () => {
 	throw new Error("ERROR TEST ROUTE - OK");

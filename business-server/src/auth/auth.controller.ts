@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { UserService } from "../entities/user/user.service";
-import type { createUserDTO } from "../entities/user/user.dto";
+import { UserService } from "../internal/user/user.service";
+import type { createUserDTO } from "../internal/user/user.dto";
 import { ENV_CONSTANTS } from "../constants/env.constants";
 import { AuthState } from "./auth.state";
 import { AppError } from "../error/AppError";
@@ -20,7 +20,7 @@ export const AuthController = {
 		}
 		const access_token = jwt.sign(
 			{ userId: user.id },
-			ENV_CONSTANTS.ACCESS_SECRET
+			ENV_CONSTANTS.ACCESS_SECRET,
 		);
 		res.cookie("access_token", access_token, {
 			httpOnly: true,
