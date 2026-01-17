@@ -29,6 +29,10 @@ class RoomServiceImpl {
 			.populate("room");
 		return rooms.map(({ room }) => room);
 	}
+	async getRoomById(roomId: uuid) {
+		const room = await ROOM.findById(roomId);
+		return room;
+	}
 }
 
 export const RoomService = new RoomServiceImpl();

@@ -3,6 +3,7 @@ import { AuthState } from "../auth/auth.state";
 import { RoomService } from "../internal/workspace/room/room.service";
 import { GroupService } from "../internal/workspace/group/group.service";
 import { MemberService } from "../internal/workspace/member/member.service";
+import type { uuid } from "../types";
 
 class ManagerControllerImpl {
 	async getMyRooms(req: Request, res: Response) {
@@ -25,6 +26,12 @@ class ManagerControllerImpl {
 			user: userId,
 		});
 
+		res.json({ room });
+	}
+
+	async getRoom(req: Request, res: Response) {
+		const { roomId } = req.params as { roomId: uuid };
+		const room = await RoomService.getRoomById(roomId);
 		res.json({ room });
 	}
 }
