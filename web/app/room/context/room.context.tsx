@@ -18,7 +18,10 @@ const context = createContext<{
 
 type Room = { id: string; name: string; createdAt: string };
 type Group = { id: string; name: string; createdAt: string };
-type Member = { id: string; name: string; email: string; profilePic?: string };
+type Member = {
+	groupId: string;
+	user: { id: string; name: string; email: string; profilePic?: string };
+};
 
 export const RoomProvider = ({
 	roomId,

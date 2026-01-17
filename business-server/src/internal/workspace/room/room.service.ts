@@ -39,7 +39,7 @@ class RoomServiceImpl {
 		const members = await MEMBER.find({ room: roomId })
 			.select("+user")
 			.populate("user");
-		return members.map(({ user }) => user);
+		return members;
 	}
 }
 
