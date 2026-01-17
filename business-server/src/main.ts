@@ -10,21 +10,26 @@ import "./auth/auth.initializer";
 import { authRouter } from "./auth/auth.routes";
 import { ENV_CONSTANTS } from "./constants/env.constants";
 import { AuthController } from "./auth/auth.controller";
-import { userRouter } from "./entities/user/user.routes";
+import { userRouter } from "./internal/user/user.routes";
 import mongoose from "mongoose";
 import morgan from "morgan";
+import { AuthService } from "./auth/auth.service";
+import { managerRouter } from "./manager/manager.routes";
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
 
-app.use(cors());
+app.use(
+	cors({
+		credentials: true,
+		origin: [ENV_CONSTANTS.WEB_URL],
+	}),
+);
 app.use(cookieParser());
 app.use(express.json());
-app.use(morgan("common"))
-app.get("/api/server", (req, res) => {
+app.use(morgan("common"));
+app.get("/api/server", (_req, res) => {
 	console.log("/api/server was hit");
-
 	res.send("hello");
 });
 
@@ -33,6 +38,7 @@ app.use("/api/auth", authRouter, AuthController.handleUserProfile);
 
 app.use(AuthController.middlewareAuth);
 app.use("/api/user", userRouter);
+app.use("/api/manager", managerRouter);
 
 app.get("/err", () => {
 	throw new Error("ERROR TEST ROUTE - OK");
@@ -42,13 +48,44 @@ app.use(AppError.ExpressErrorHandler);
 
 const PORT = process.env.PORT!;
 
+
+const io = new Server({
+	cors: { origin: [ENV_CONSTANTS.WEB_URL], credentials: true },
+	transports: ["websocket", "polling"],
+});
+io.listen(3001);
+console.log(`socket.io server: ${3001}`);
+
 mongoose.connect(ENV_CONSTANTS.MONGO_URI).then(() => {
 	console.log("MongoDB connected");
 	server.listen(PORT, () => {
-		console.log(`express and socket.io server: ${ENV_CONSTANTS.MY_URL}`);
+		console.log(`socket.io server: ${ENV_CONSTANTS.MY_URL}`);
 	});
 });
 
 io.on("connection", (socket) => {
-	console.log("a user connected");
+	console.log("Connected", socket.id);
+
+	const cookies = (socket.handshake.headers.cookie || "")?.split(";");
+	let access_token = "";
+	for (const cookie of cookies) {
+		if (cookie.startsWith("access_token")) {
+			access_token = cookie.split("=")[1] ?? "";
+		}
+	}
+	try {
+		const { userId } = AuthService.verifyUser(access_token);
+		socket.data.userId = userId;
+
+		socket.join(userId);
+	} catch (error) {
+		socket.disconnect();
+		console.log("Disconnected socket for unauthenticated user", socket.id);
+	}
+
+	socket.on("disconnect", () => {
+		console.log("Disconnected", socket.id);
+	});
 });
+
+export { io };

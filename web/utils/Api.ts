@@ -2,10 +2,11 @@
 import axios from "axios";
 import { AppError } from "./AppError";
 
-export const API_URL = process.env.NEXT_PUBLIC_API_URL! + "/api";
+export const WS_URL = process.env.NEXT_PUBLIC_WS_URL!;
+export const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 console.log({ API_URL });
 
-const Api = axios.create({ baseURL: API_URL, withCredentials: true });
+const Api = axios.create({ baseURL: API_URL + "/api", withCredentials: true });
 
 Api.interceptors.response.use(
 	(_res) => {
@@ -13,7 +14,6 @@ Api.interceptors.response.use(
 	},
 	({ response }) => {
 		if (response.status === 404) {
-			window.location.replace(window.location.origin + "/auth");
 			throw new AppError(response.data.err);
 		} else {
 			throw new AppError(response.data.err, { show: true });
