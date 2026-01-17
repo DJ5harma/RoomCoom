@@ -32,7 +32,9 @@ class ManagerControllerImpl {
 	async getRoom(req: Request, res: Response) {
 		const { roomId } = req.params as { roomId: uuid };
 		const room = await RoomService.getRoomById(roomId);
-		res.json({ room });
+		const groups = await RoomService.getGroupsInRoom(roomId);
+		const members = await RoomService.getMembersInRoom(roomId);
+		res.json({ room, groups, members });
 	}
 }
 

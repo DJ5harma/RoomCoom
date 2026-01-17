@@ -18,7 +18,9 @@ class RoomServiceImpl {
 		return updatedRoom;
 	}
 	async getGroupsInRoom(roomId: uuid) {
-		const grps = (await GROUP.find({ room: roomId })) as GroupType[];
+		const grps = (await GROUP.find({ room: roomId }).select(
+			"-room",
+		)) as GroupType[];
 		return grps;
 	}
 	async getRoomsForUser(userId: uuid) {
@@ -32,6 +34,12 @@ class RoomServiceImpl {
 	async getRoomById(roomId: uuid) {
 		const room = await ROOM.findById(roomId);
 		return room;
+	}
+	async getMembersInRoom(roomId: uuid) {
+		const members = await MEMBER.find({ room: roomId })
+			.select("+user")
+			.populate("user");
+		return members.map(({ user }) => user);
 	}
 }
 
