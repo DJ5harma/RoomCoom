@@ -7,7 +7,7 @@ export default function Page() {
 	
 	return (
 		<div>
-			{JSON.stringify(obj)}
+			{/* {JSON.stringify(obj)} */}
 		</div>
 	);
 }

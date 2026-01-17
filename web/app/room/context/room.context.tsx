@@ -9,27 +9,25 @@ import {
 	useEffect,
 	useState,
 } from "react";
+import { RoomLeftbar } from "../components/leftbar/RoomLeftbar";
+import { useParams } from "next/navigation";
 
 const context = createContext<{
 	room: Room;
 	groups: Group[];
 	members: Member[];
+	distinctUsers: Member["user"][];
 } | null>(null);
 
-type Room = { id: string; name: string; createdAt: string };
-type Group = { id: string; name: string; createdAt: string };
-type Member = {
+export type Room = { id: string; name: string; createdAt: string };
+export type Group = { id: string; name: string; createdAt: string };
+export type Member = {
 	groupId: string;
 	user: { id: string; name: string; email: string; profilePic?: string };
 };
 
-export const RoomProvider = ({
-	roomId,
-	children,
-}: {
-	roomId: string;
-	children: ReactNode;
-}) => {
+export const RoomProvider = ({ children }: { children: ReactNode }) => {
+	const { roomId } = useParams() as { roomId: string };
 	const [room, setRoom] = useState<Room | null>(null);
 	const [groups, setGroups] = useState<Group[]>([]);
 	const [members, setMembers] = useState<Member[]>([]);
@@ -49,13 +47,27 @@ export const RoomProvider = ({
 			});
 	}, []);
 
+	const distinctUsers = (() => {
+		const notedUserIds = new Set();
+		const resArray: Member["user"][] = [];
+		members.forEach(({ user }) => {
+			if (notedUserIds.has(user.id)) return;
+			notedUserIds.add(user.id);
+			resArray.push(user);
+		});
+		return resArray;
+	})();
+
 	if (loadingRoom) return <Loading />;
 
 	if (!room) return <NotFound />;
 
 	return (
-		<context.Provider value={{ room, groups, members }}>
-			{children}
+		<context.Provider value={{ room, groups, members, distinctUsers }}>
+			<div className="flex border border-red-400 min-h-screen">
+				<RoomLeftbar />
+				{children}
+			</div>
 		</context.Provider>
 	);
 };
