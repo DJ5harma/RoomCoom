@@ -1,28 +1,11 @@
-import type { NextFunction, Request, Response } from "express";
+import type { Request, Response } from "express";
 import { AuthState } from "../auth/auth.state";
 import { RoomService } from "../internal/workspace/room/room.service";
 import { GroupService } from "../internal/workspace/group/group.service";
 import { MemberService } from "../internal/workspace/member/member.service";
 import type { uuid } from "../types";
-import { AppError } from "../error/AppError";
 
 class ManagerControllerImpl {
-	async authorizeUserRoomAccess(
-		req: Request,
-		_res: Response,
-		next: NextFunction,
-	) {
-		const { roomId } = req.params as { roomId: uuid };
-		const userId = AuthState.getUserId(req);
-
-		const userExistsInRoom = await RoomService.userExistsInRoom(roomId, userId);
-
-		if (!userExistsInRoom) {
-			throw new AppError(403, "Room access is forbidden");
-		}
-		next();
-	}
-
 	async getMyRooms(req: Request, res: Response) {
 		const userId = AuthState.getUserId(req);
 		const rooms = await RoomService.getRoomsForUser(userId);
@@ -70,6 +53,20 @@ class ManagerControllerImpl {
 			user: userId,
 		});
 		res.json({ group, member });
+	}
+
+	async addMemberToGroup(req: Request, res: Response) {
+		const { roomId, groupId } = req.params as { roomId: uuid; groupId: uuid };
+
+		const { userId } = req.body as { userId: uuid };
+
+		const member = await MemberService.createMember({
+			group: groupId,
+			room: roomId,
+			user: userId,
+		});
+
+		res.json({ member });
 	}
 }
 

@@ -17,6 +17,10 @@ class GroupServiceImpl {
 		const members = (await MEMBER.find({ group: groupId })) as MemberType[];
 		return members;
 	}
+	async userExistsInGroup(groupId: uuid, userId: uuid) {
+		const exists = await MEMBER.exists({ group: groupId, user: userId });
+		return exists ? true : false;
+	}
 }
 
 export const GroupService = new GroupServiceImpl();
