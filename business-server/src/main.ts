@@ -48,14 +48,18 @@ app.use(AppError.ExpressErrorHandler);
 
 const PORT = process.env.PORT!;
 
-const io = new Server(server, {
+
+const io = new Server({
 	cors: { origin: [ENV_CONSTANTS.WEB_URL], credentials: true },
 	transports: ["websocket", "polling"],
 });
+io.listen(3001);
+console.log(`socket.io server: ${3001}`);
+
 mongoose.connect(ENV_CONSTANTS.MONGO_URI).then(() => {
 	console.log("MongoDB connected");
 	server.listen(PORT, () => {
-		console.log(`express and socket.io server: ${ENV_CONSTANTS.MY_URL}`);
+		console.log(`socket.io server: ${ENV_CONSTANTS.MY_URL}`);
 	});
 });
 

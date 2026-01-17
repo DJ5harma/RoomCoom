@@ -1,6 +1,8 @@
 import type { Request, Response } from "express";
 import { AuthState } from "../auth/auth.state";
 import { RoomService } from "../internal/workspace/room/room.service";
+import { GroupService } from "../internal/workspace/group/group.service";
+import { MemberService } from "../internal/workspace/member/member.service";
 
 class ManagerControllerImpl {
 	async getMyRooms(req: Request, res: Response) {
@@ -11,6 +13,18 @@ class ManagerControllerImpl {
 	async createRoom(req: Request, res: Response) {
 		const { roomName } = req.body;
 		const room = await RoomService.createRoom({ name: roomName });
+		const group = await GroupService.createGroup({
+			name: "DEFAULT",
+			room: room.id,
+		});
+
+		const userId = AuthState.getUserId(req);
+		await MemberService.createMember({
+			room: room.id,
+			group: group.id,
+			user: userId,
+		});
+
 		res.json({ room });
 	}
 }
