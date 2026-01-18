@@ -16,6 +16,7 @@ import morgan from "morgan";
 import { AuthService } from "./auth/auth.service";
 import { managerRouter } from "./manager/manager.routes";
 import { RealtimeService } from "./realtime/realtime.service";
+import { RealtimeHandler } from "./realtime/realtime.handler";
 
 const app = express();
 const server = http.createServer(app);
@@ -75,13 +76,7 @@ io.on("connection", (socket) => {
 	try {
 		const { userId } = AuthService.verifyUser(access_token);
 		socket.data.userId = userId;
-		RealtimeService.joinUserToRoomsAndGroups(userId, socket);
-
-		socket.on("sync", () => {
-			RealtimeService.joinUserToRoomsAndGroups(userId, socket);
-		});
-
-		socket.join(userId);
+		RealtimeHandler(socket);
 	} catch (error) {
 		socket.disconnect();
 		console.log("Disconnected socket for unauthenticated user", socket.id);

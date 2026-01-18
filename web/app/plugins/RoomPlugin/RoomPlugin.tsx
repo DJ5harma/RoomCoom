@@ -7,8 +7,11 @@ export const RoomPlugin = () => {
     
 
     useEffect(() => {
-        socket.on(PluginEnum.ROOM, ({memberJoined}) => {
-            
+        socket.on(PluginEnum.ROOM, ({memberJoined, joinedGroup}) => {
+            if(memberJoined){
+              
+              return;
+            }
         })
     }, [])
   return (

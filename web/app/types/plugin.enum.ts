@@ -1,3 +1,6 @@
 export enum PluginEnum {
-    ROOM = "ROOM"
+    ROOM = "ROOM",
+    
+    MANAGER = "MANAGER",
+    
 }
