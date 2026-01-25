@@ -14,5 +14,6 @@ class ContainerServiceImpl {
 		const container = await CONTAINER.create({ name, room: roomId, type });
 		return container;
 	}
+	findById = (id: uuid) => CONTAINER.findById(id);
 }
 export const ContainerService = new ContainerServiceImpl();
