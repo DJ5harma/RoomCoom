@@ -4,19 +4,15 @@ import { Server } from "socket.io";
 import { AppError } from "./error/AppError";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-// AUTH IMPORTS
 import passport from "passport";
 import "./auth/auth.initializer";
 import { authRouter } from "./auth/auth.routes";
 import { ENV_CONSTANTS } from "./constants/env.constants";
 import { AuthController } from "./auth/auth.controller";
-import { userRouter } from "./internal/user/user.routes";
 import mongoose from "mongoose";
 import morgan from "morgan";
 import { AuthService } from "./auth/auth.service";
-import { managerRouter } from "./manager/manager.routes";
-import { RealtimeService } from "./realtime/realtime.service";
-import { RealtimeHandler } from "./realtime/realtime.handler";
+import { userRouter } from "./entities/user/user.routes";
 
 const app = express();
 const server = http.createServer(app);
@@ -39,14 +35,16 @@ app.use(passport.initialize());
 app.use("/api/auth", authRouter, AuthController.handleUserProfile);
 
 app.use(AuthController.middlewareAuth);
-app.use("/api/user", userRouter);
-app.use("/api/manager", managerRouter);
+
+app.use("/api/user",userRouter);
 
 app.get("/err", () => {
 	throw new Error("ERROR TEST ROUTE - OK");
 });
 
 app.use(AppError.ExpressErrorHandler);
+
+const io = new Server(server);
 
 const PORT = process.env.PORT!;
 
@@ -57,12 +55,6 @@ mongoose.connect(ENV_CONSTANTS.MONGO_URI).then(() => {
 	});
 });
 
-const io = new Server({
-	cors: { origin: [ENV_CONSTANTS.WEB_URL], credentials: true },
-	transports: ["websocket", "polling"],
-});
-io.listen(3001);
-console.log(`socket.io server: ${3001}`);
 io.on("connection", (socket) => {
 	console.log("Connected", socket.id);
 
@@ -76,7 +68,6 @@ io.on("connection", (socket) => {
 	try {
 		const { userId } = AuthService.verifyUser(access_token);
 		socket.data.userId = userId;
-		RealtimeHandler(socket);
 	} catch (error) {
 		socket.disconnect();
 		console.log("Disconnected socket for unauthenticated user", socket.id);

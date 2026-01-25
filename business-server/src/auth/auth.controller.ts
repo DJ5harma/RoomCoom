@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { UserService } from "../internal/user/user.service";
-import type { createUserDTO } from "../internal/user/user.dto";
+import { UserService } from "../entities/user/user.service";
+import type { createUserDTO } from "../entities/user/user.dto";
 import { ENV_CONSTANTS } from "../constants/env.constants";
 import { AuthState } from "./auth.state";
 import { AppError } from "../error/AppError";
@@ -30,7 +30,7 @@ export const AuthController = {
 		});
 		res.redirect(ENV_CONSTANTS.WEB_URL);
 	},
-	async middlewareAuth(req: Request, res: Response, next: NextFunction) {
+	async middlewareAuth(req: Request, _res: Response, next: NextFunction) {
 		const { access_token } = req.cookies;
 
 		// console.log("from cookies:", { access_token });
