@@ -5,7 +5,7 @@ export const Auth = () => {
 		<div className="flex justify-center items-center min-h-screen">
 			<a
 				className="bg-white text-black p-2"
-				href={API_URL + "/api/auth/google"}
+				href={`${API_URL}/api/auth/google`}
 			>
 				Continue With Google
 			</a>

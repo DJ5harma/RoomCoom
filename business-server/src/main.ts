@@ -4,17 +4,19 @@ import { Server } from "socket.io";
 import { AppError } from "./error/AppError";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-// AUTH IMPORTS
 import passport from "passport";
 import "./auth/auth.initializer";
 import { authRouter } from "./auth/auth.routes";
 import { ENV_CONSTANTS } from "./constants/env.constants";
 import { AuthController } from "./auth/auth.controller";
-import { userRouter } from "./internal/user/user.routes";
 import mongoose from "mongoose";
 import morgan from "morgan";
 import { AuthService } from "./auth/auth.service";
-import { managerRouter } from "./manager/manager.routes";
+import { userRouter } from "./entities/user/user.routes";
+import { roomRouter } from "./entities/room/room.routes";
+import { containerRouter } from "./entities/container/container.routes";
+import { AuthState } from "./auth/auth.state";
+import { RoomIO } from "./entities/room/room.io";
 
 const app = express();
 const server = http.createServer(app);
@@ -37,8 +39,9 @@ app.use(passport.initialize());
 app.use("/api/auth", authRouter, AuthController.handleUserProfile);
 
 app.use(AuthController.middlewareAuth);
+
 app.use("/api/user", userRouter);
-app.use("/api/manager", managerRouter);
+app.use("/api/room", roomRouter);
 
 app.get("/err", () => {
 	throw new Error("ERROR TEST ROUTE - OK");
@@ -46,15 +49,9 @@ app.get("/err", () => {
 
 app.use(AppError.ExpressErrorHandler);
 
+const io = new Server(server);
+
 const PORT = process.env.PORT!;
-
-
-const io = new Server({
-	cors: { origin: [ENV_CONSTANTS.WEB_URL], credentials: true },
-	transports: ["websocket", "polling"],
-});
-io.listen(3001);
-console.log(`socket.io server: ${3001}`);
 
 mongoose.connect(ENV_CONSTANTS.MONGO_URI).then(() => {
 	console.log("MongoDB connected");
@@ -75,9 +72,9 @@ io.on("connection", (socket) => {
 	}
 	try {
 		const { userId } = AuthService.verifyUser(access_token);
-		socket.data.userId = userId;
+		AuthState.storeUserIdSocket(socket, userId);
 
-		socket.join(userId);
+		RoomIO(socket);
 	} catch (error) {
 		socket.disconnect();
 		console.log("Disconnected socket for unauthenticated user", socket.id);

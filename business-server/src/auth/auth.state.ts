@@ -1,4 +1,6 @@
 import type { Request } from "express";
+import type { Socket } from "socket.io";
+import type { uuid } from "../types";
 
 interface ModdedRequest extends Request {
 	state: { [key: string]: string | object };
@@ -17,6 +19,12 @@ class AuthStateImpl {
 	}
 	getUserId(req: Request) {
 		return AuthState.getState(req, "userId") as string;
+	}
+	storeUserIdSocket(socket: Socket, userId: uuid) {
+		socket.data.userId = userId;
+	}
+	getUserIdSocket(socket: Socket) {
+		return socket.data.userId as uuid;
 	}
 }
 export const AuthState = new AuthStateImpl();

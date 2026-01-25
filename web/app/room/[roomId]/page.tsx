@@ -1,13 +1,21 @@
 "use client";
-import { useRoom } from "../context/room.context";
+
+import { useRoomData } from "../context/roomdata.context";
 
 export default function Page() {
-	const obj = useRoom();
-	console.log({obj});
-	
+	const { room, containers } = useRoomData();
 	return (
 		<div>
-			{/* {JSON.stringify(obj)} */}
+			<p>{room.name}</p>
+			{containers.map(({ id, name, type }) => {
+				return (
+					<div key={id}>
+            <p>Container</p>
+						<p>{name}</p>
+						<p>{type}</p>
+					</div>
+				);
+			})}
 		</div>
 	);
 }

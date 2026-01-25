@@ -1,6 +1,15 @@
+"use client";
+
 import { ReactNode } from "react";
-import { RoomProvider } from "../context/room.context";
+import { RoomDataProvider } from "../context/roomdata.context";
+import { useParams } from "next/navigation";
+import { uuid } from "@/app/types";
 
 export default function Layout({ children }: { children: ReactNode }) {
-	return <RoomProvider>{children}</RoomProvider>;
+	const { roomId } = useParams() as { roomId: uuid };
+	return (
+		<>
+			<RoomDataProvider roomId={roomId}>{children}</RoomDataProvider>
+		</>
+	);
 }
