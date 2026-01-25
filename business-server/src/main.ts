@@ -42,7 +42,6 @@ app.use(AuthController.middlewareAuth);
 
 app.use("/api/user", userRouter);
 app.use("/api/room", roomRouter);
-app.use("/api/container", containerRouter);
 
 app.get("/err", () => {
 	throw new Error("ERROR TEST ROUTE - OK");

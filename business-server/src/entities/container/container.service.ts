@@ -15,5 +15,9 @@ class ContainerServiceImpl {
 		return container;
 	}
 	findById = (id: uuid) => CONTAINER.findById(id);
+	async getContainersInsideRoom(roomId: uuid){
+		const containers = await CONTAINER.find({room: roomId});
+		return containers; 
+	}
 }
 export const ContainerService = new ContainerServiceImpl();

@@ -22,8 +22,8 @@ class RoomServiceImpl {
 		const room = await ROOM.findById(roomId);
 		return room;
 	}
-	async userExistsInRoom(userId: uuid, roomId: uuid) {
-		const exists = await ROOM.exists({ users: { $in: [userId] } });
+	async userExistsInRoom({ userId, roomId }: { userId: uuid; roomId: uuid }) {
+		const exists = await ROOM.exists({ _id: roomId, users: { $in: [userId] } });
 		return exists;
 	}
 }
