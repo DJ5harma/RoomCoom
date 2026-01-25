@@ -1,7 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { UserService } from "../entities/user/user.service";
-import type { createUserDTO } from "../entities/user/user.dto";
 import { ENV_CONSTANTS } from "../constants/env.constants";
 import { AuthState } from "./auth.state";
 import { AppError } from "../error/AppError";
@@ -11,7 +10,11 @@ export const AuthController = {
 	async handleUserProfile(req: Request, res: Response) {
 		console.log("authed user: ", req.user);
 
-		const { email, name, pictureUrl } = req.user as createUserDTO;
+		const { email, name, pictureUrl } = req.user as {
+			email: string;
+			name: string;
+			pictureUrl: string;
+		};
 
 		let user = await UserService.findByEmail(email);
 
