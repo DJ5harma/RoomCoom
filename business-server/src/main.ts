@@ -13,6 +13,8 @@ import mongoose from "mongoose";
 import morgan from "morgan";
 import { AuthService } from "./auth/auth.service";
 import { userRouter } from "./entities/user/user.routes";
+import { roomRouter } from "./entities/room/room.routes";
+import { containerRouter } from "./entities/container/container.routes";
 
 const app = express();
 const server = http.createServer(app);
@@ -36,7 +38,9 @@ app.use("/api/auth", authRouter, AuthController.handleUserProfile);
 
 app.use(AuthController.middlewareAuth);
 
-app.use("/api/user",userRouter);
+app.use("/api/user", userRouter);
+app.use("/api/room", roomRouter);
+app.use("/api/container", containerRouter);
 
 app.get("/err", () => {
 	throw new Error("ERROR TEST ROUTE - OK");
