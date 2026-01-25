@@ -18,6 +18,14 @@ class RoomServiceImpl {
 		io.to(roomId).emit("room/new-joiner", { joiner });
 		return room;
 	}
+	async findRoomById(roomId: uuid) {
+		const room = await ROOM.findById(roomId);
+		return room;
+	}
+	async userExistsInRoom(userId: uuid, roomId: uuid) {
+		const exists = await ROOM.exists({ users: { $in: [userId] } });
+		return exists;
+	}
 }
 
 export const RoomService = new RoomServiceImpl();
