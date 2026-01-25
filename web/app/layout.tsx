@@ -4,6 +4,7 @@ import "./globals.css";
 import { ToastContainer } from "react-toastify";
 import { UserProvider } from "./context/user.context";
 import { SocketConnector } from "./context/socket.context";
+import { RoomsProvider } from "./context/rooms.context";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -32,7 +33,9 @@ export default function RootLayout({
 			>
 				<ToastContainer />
 				<SocketConnector>
-					<UserProvider>{children}</UserProvider>
+					<UserProvider>
+						<RoomsProvider>{children}</RoomsProvider>
+					</UserProvider>
 				</SocketConnector>
 			</body>
 		</html>

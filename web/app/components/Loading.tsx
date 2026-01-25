@@ -1,5 +1,5 @@
-export const Loading = () => {
+export const Loading = ({message} : {message?: string}) => {
   return (
-    <div>Loading</div>
+    <div>{message ?? "Loading..."}</div>
   )
 }

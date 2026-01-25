@@ -6,14 +6,8 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { uuid } from "../types";
-import { UserType } from "../types/user.type";
+import { RoomType } from "../types/room.type";
 
-export type RoomType = {
-	id: uuid;
-	name: string;
-	users?: (UserType | uuid)[];
-};
 
 const context = createContext<{ rooms: RoomType[] } | null>(null);
 

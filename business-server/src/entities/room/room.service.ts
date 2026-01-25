@@ -27,7 +27,7 @@ class RoomServiceImpl {
 		return exists;
 	}
 	async getUserRooms({userId}: {userId: uuid}){
-		const rooms = await ROOM.find({ users: { $in: [userId] } });
+		const rooms = await ROOM.find({ users: { $in: [userId] } }).select('-users');
 		return rooms;
 	}
 }
