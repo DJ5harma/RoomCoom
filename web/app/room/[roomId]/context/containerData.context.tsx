@@ -12,6 +12,7 @@ import { ContainerI, UserI, uuid } from "@/app/types";
 import { Loading } from "@/app/components/Loading";
 import { NotFound } from "@/app/components/NotFound";
 import { socket } from "@/app/context/socket.context";
+import { useRoomData } from "./roomData.context";
 
 const context = createContext<{
 	container: ContainerI;
@@ -19,14 +20,15 @@ const context = createContext<{
 } | null>(null);
 
 export const ContainerDataProvider = ({
-	roomId,
 	containerId,
 	children,
 }: {
-	roomId: uuid;
 	containerId: uuid;
 	children: ReactNode;
 }) => {
+	const {
+		room: { id: roomId },
+	} = useRoomData();
 	const [container, setContainer] = useState<ContainerI | null>(null);
 	const [containerMembers, setContainerMembers] = useState<UserI["id"][]>([]);
 	const [loadingContainer, setLoadingContainer] = useState(true);
@@ -41,7 +43,7 @@ export const ContainerDataProvider = ({
 				setLoadingContainer(false);
 			});
 		Api.get(`/room/${roomId}/container/${containerId}/members`)
-			.then(({ data: { members } }) => {				
+			.then(({ data: { members } }) => {
 				setContainerMembers(members);
 			})
 			.finally(() => {
@@ -65,6 +67,8 @@ export const ContainerDataProvider = ({
 export function useContainerData() {
 	const x = useContext(context);
 	if (!x)
-		throw new Error("useContainerData not being used inside a ContainerDataProvider");
+		throw new Error(
+			"useContainerData not being used inside a ContainerDataProvider",
+		);
 	return x;
 }

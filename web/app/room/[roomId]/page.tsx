@@ -12,14 +12,13 @@ import { ChatyyProvider } from "@/app/plugins/chatyy/chatyy.context";
 
 export default function Page() {
 	const { room, containers, roomMembers } = useRoomData();
-	const roomId = room.id;
 	const searchParams = useSearchParams();
 
 	const containerId = searchParams.get("containerId");
 	if (containerId) {
 		return (
-			<ContainerDataProvider containerId={containerId} roomId={roomId}>
-				<ChatyyProvider roomId={roomId} containerId={containerId}>
+			<ContainerDataProvider containerId={containerId}>
+				<ChatyyProvider>
 					<Container />
 				</ChatyyProvider>
 			</ContainerDataProvider>

@@ -10,31 +10,31 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { uuid } from "@/app/types";
 import { MessageI } from "./types";
 import { Loading } from "@/app/components/Loading";
 import { socket } from "@/app/context/socket.context";
+import { useContainerData } from "@/app/room/[roomId]/context/containerData.context";
+import { useRoomData } from "@/app/room/[roomId]/context/roomData.context";
 
 const context = createContext<{
 	messages: MessageI[];
 	setMessages: Dispatch<SetStateAction<MessageI[]>>;
 } | null>(null);
 
-export const ChatyyProvider = ({
-	roomId,
-	containerId,
-	children,
-}: {
-	roomId: uuid;
-	containerId: uuid;
-	children: ReactNode;
-}) => {
+export const ChatyyProvider = ({ children }: { children: ReactNode }) => {
+	const {
+		room: { id: roomId },
+	} = useRoomData();
+	const {
+		container: { id: containerId },
+	} = useContainerData();
+
 	const [messages, setMessages] = useState<MessageI[]>([]);
 	const [loadingMessages, setLoadingMessages] = useState(true);
 
 	useEffect(() => {
 		Api.get(`/room/${roomId}/container/${containerId}/chatyy/get`)
-			.then(({ data: { messages } }) => {				
+			.then(({ data: { messages } }) => {
 				setMessages(messages);
 			})
 			.finally(() => {
