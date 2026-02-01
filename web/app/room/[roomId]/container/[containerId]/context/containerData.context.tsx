@@ -15,7 +15,7 @@ import { socket } from "@/app/context/socket.context";
 
 const context = createContext<{
 	container: ContainerI;
-	containerMembers: UserI[];
+	containerMembers: UserI["id"][];
 } | null>(null);
 
 export const ContainerDataProvider = ({
@@ -28,7 +28,7 @@ export const ContainerDataProvider = ({
 	children: ReactNode;
 }) => {
 	const [container, setContainer] = useState<ContainerI | null>(null);
-	const [containerMembers, setContainerMembers] = useState<UserI[]>([]);
+	const [containerMembers, setContainerMembers] = useState<UserI["id"][]>([]);
 	const [loadingContainer, setLoadingContainer] = useState(true);
 	const [loadingContainerMembers, setLoadingContainerMembers] = useState(true);
 
@@ -41,7 +41,7 @@ export const ContainerDataProvider = ({
 				setLoadingContainer(false);
 			});
 		Api.get(`/room/${roomId}/container/${containerId}/members`)
-			.then(({ data: { members } }) => {
+			.then(({ data: { members } }) => {				
 				setContainerMembers(members);
 			})
 			.finally(() => {
