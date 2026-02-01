@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { RoomController } from "./room.controller";
 import { containerRouter } from "../container/container.routes";
-import { testRouter } from "../plugins/test/test.routes";
 
 export const roomRouter = Router();
 
@@ -15,6 +14,3 @@ roomRouter.get("/:roomId/members", RoomController.getMembers);
 roomRouter.get("/:roomId/containers", RoomController.getContainers);
 
 roomRouter.use("/:roomId/container", containerRouter);
-
-
-roomRouter.use("/:roomId/test", testRouter);
