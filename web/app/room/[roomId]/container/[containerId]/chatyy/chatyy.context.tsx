@@ -14,6 +14,7 @@ import { uuid } from "@/app/types";
 import { MessageI } from "./types";
 import { Loading } from "@/app/components/Loading";
 import { socket } from "@/app/context/socket.context";
+import { useParams } from "next/navigation";
 
 const context = createContext<{
 	messages: MessageI[];

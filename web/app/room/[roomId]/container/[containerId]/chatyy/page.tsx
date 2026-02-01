@@ -1,3 +1,4 @@
+'use client';
 import { useParams } from "next/navigation";
 import { useChatyy } from "./chatyy.context";
 import { FormEvent } from "react";
