@@ -1,8 +1,9 @@
 import type { uuid } from "../../types";
 import { CONTAINER } from "./container.model";
+import { CONTAINER_MEMBER } from "./containerMember.model";
 
 class ContainerServiceImpl {
-    getContainerById = CONTAINER.findById;
+	getContainerById = CONTAINER.findById;
 	createContainer = async ({
 		name,
 		roomId,
@@ -15,6 +16,14 @@ class ContainerServiceImpl {
 	};
 	getContainersInRoom = async (roomId: uuid) =>
 		CONTAINER.find({ room: roomId });
+
+	userExistsInContainer = async ({
+		userId,
+		containerId,
+	}: {
+		userId: uuid;
+		containerId: uuid;
+	}) => CONTAINER_MEMBER.exists({ user: userId, container: containerId });
 }
 
 export const ContainerService = new ContainerServiceImpl();
