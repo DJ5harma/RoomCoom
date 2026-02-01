@@ -3,26 +3,26 @@ import type { MessageI } from "../types";
 import { MODEL_CONSTANTS } from "../../../../constants/modal.constants";
 import { CHATTY_MODEL_CONSTANTS } from "../chatyy.model_constants";
 
-const directMessageSchema = new mongoose.Schema<MessageI>(
+const MessageSchema = new mongoose.Schema<MessageI>(
 	{
 		content: { type: String, required: true },
 		from: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: MODEL_CONSTANTS.USER,
 		},
-		to: {
+		container: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: MODEL_CONSTANTS.USER,
+			ref: MODEL_CONSTANTS.CONTAINER,
 		},
 	},
 	{ timestamps: true, toJSON: { virtuals: true } },
 );
 
-directMessageSchema.virtual("id").get(function () {
+MessageSchema.virtual("id").get(function () {
 	return this._id.toString();
 });
 
-export const DIRECT_MESSAGE = mongoose.model(
+export const MESSAGE = mongoose.model(
 	CHATTY_MODEL_CONSTANTS.MESSAGE,
-	directMessageSchema,
+	MessageSchema,
 );
