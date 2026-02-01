@@ -4,7 +4,6 @@ import type { uuid } from "../../types";
 import { ContainerService } from "../container/container.service";
 import { AppError } from "../../error/AppError";
 import { RoomService } from "./room.service";
-import { ROOM } from "./room.model";
 
 class RoomControllerImpl {
 	async createRoom(req: Request, res: Response) {

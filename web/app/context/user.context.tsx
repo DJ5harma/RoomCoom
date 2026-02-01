@@ -7,16 +7,16 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { UserType } from "../types/user.type";
 import { Api } from "@/utils/Api";
 import { Auth } from "../components/Auth";
 import { toast } from "react-toastify";
 import { Loading } from "../components/Loading";
+import { UserI } from "../types";
 
-const context = createContext<{ user: UserType } | null>(null);
+const context = createContext<{ user: UserI } | null>(null);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-	const [user, setUser] = useState<UserType | null>(null);
+	const [user, setUser] = useState<UserI | null>(null);
 	const [loading, setLoading] = useState(true);
 	useEffect(() => {
 		const loading = toast.loading("Checking authentication...");
