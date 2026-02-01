@@ -1,6 +1,6 @@
 import { UserBadge } from "@/app/components/user/UserBadge";
 import { MessageI } from "../types";
-import { useRoomData } from "@/app/room/[roomId]/context/roomData.context";
+import { useRoomData } from "@/app/context/roomData.context";
 import { UserI } from "@/app/types";
 
 export const Message = ({ message }: { message: MessageI }) => {

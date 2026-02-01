@@ -13,8 +13,8 @@ import {
 import { MessageI } from "./types";
 import { Loading } from "@/app/components/Loading";
 import { socket } from "@/app/context/socket.context";
-import { useContainerData } from "@/app/room/[roomId]/context/containerData.context";
-import { useRoomData } from "@/app/room/[roomId]/context/roomData.context";
+import { useContainerData } from "@/app/container/containerData.context";
+import { useRoomData } from "@/app/context/roomData.context";
 
 const context = createContext<{
 	messages: MessageI[];

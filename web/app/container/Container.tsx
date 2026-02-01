@@ -1,6 +1,6 @@
 import { UserBadge } from "@/app/components/user/UserBadge";
-import { useContainerData } from "../../context/containerData.context";
-import { useRoomData } from "../../context/roomData.context";
+import { useContainerData } from "./containerData.context";
+import { useRoomData } from "../context/roomData.context";
 import { Chatyy } from "@/app/plugins/chatyy/Chatyy";
 import { useSearchParams } from "next/navigation";
 

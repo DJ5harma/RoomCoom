@@ -10,7 +10,7 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { ContainerI, RoomI, UserI, uuid } from "../../../types";
+import { ContainerI, RoomI, UserI, uuid } from "../types";
 import { Loading } from "@/app/components/Loading";
 import { NotFound } from "@/app/components/NotFound";
 import { socket } from "@/app/context/socket.context";

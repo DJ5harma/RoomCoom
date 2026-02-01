@@ -1,6 +1,6 @@
 "use client";
 import { ReactNode } from "react";
-import { RoomDataProvider } from "./context/roomData.context";
+import { RoomDataProvider } from "../../context/roomData.context";
 import { useParams } from "next/navigation";
 import { uuid } from "@/app/types";
 

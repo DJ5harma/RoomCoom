@@ -1,13 +1,13 @@
 "use client";
 
 import { TestPlugin } from "@/app/plugins/TestPlugin";
-import { useRoomData } from "./context/roomData.context";
+import { useRoomData } from "../../context/roomData.context";
 import { ContainerForm } from "@/app/components/forms/ContainerForm";
 import Link from "next/link";
 import { UserBadge } from "@/app/components/user/UserBadge";
 import { useSearchParams } from "next/navigation";
-import { ContainerDataProvider } from "./context/containerData.context";
-import { Container } from "./components/container/Container";
+import { ContainerDataProvider } from "../../container/containerData.context";
+import { Container } from "../../container/Container";
 import { ChatyyProvider } from "@/app/plugins/chatyy/chatyy.context";
 
 export default function Page() {

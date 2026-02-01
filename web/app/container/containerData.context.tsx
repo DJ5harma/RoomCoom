@@ -12,7 +12,7 @@ import { ContainerI, UserI, uuid } from "@/app/types";
 import { Loading } from "@/app/components/Loading";
 import { NotFound } from "@/app/components/NotFound";
 import { socket } from "@/app/context/socket.context";
-import { useRoomData } from "./roomData.context";
+import { useRoomData } from "../context/roomData.context";
 
 const context = createContext<{
 	container: ContainerI;
