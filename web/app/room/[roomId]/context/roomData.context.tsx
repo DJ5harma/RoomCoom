@@ -60,6 +60,9 @@ export const RoomDataProvider = ({
 				setLoadingRoomMembers(false);
 			});
 		socket.emit("room:connect", { roomId });
+		return () => {
+			socket.emit("room:disconnect", { roomId });
+		};
 	}, []);
 
 	if (loadingRoom || loadingContainers || loadingRoomMembers)
