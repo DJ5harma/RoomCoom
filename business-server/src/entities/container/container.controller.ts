@@ -1,16 +1,19 @@
 import type { Request, Response } from "express";
-import { ContainerService } from "./container.service";
 import type { uuid } from "../../types";
+import { ContainerService } from "./container.service";
 
 class ContainerControllerImpl {
 	async create(req: Request, res: Response) {
-		const { roomId, type, name } = req.body;
-		const container = await ContainerService.create({ name, roomId, type });
+		const { roomId, name } = req.body;
+		const container = await ContainerService.createContainer({
+			name,
+			roomId,
+		});
 		res.json({ container });
 	}
 	async get(req: Request, res: Response) {
 		const { containerId } = req.params as { containerId: uuid };
-		const container = await ContainerService.findById(containerId);
+		const container = await ContainerService.getContainerById(containerId);
 		res.json(container);
 	}
 }

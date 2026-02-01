@@ -1,23 +1,20 @@
-import type { ContainerTypeEnum, Data, uuid } from "../../types";
+import type { uuid } from "../../types";
 import { CONTAINER } from "./container.model";
 
 class ContainerServiceImpl {
-	async create({
+    getContainerById = CONTAINER.findById;
+	createContainer = async ({
 		name,
 		roomId,
-		type,
 	}: {
 		name: string;
 		roomId: uuid;
-		type: ContainerTypeEnum;
-	}) {
-		const container = await CONTAINER.create({ name, room: roomId, type });
+	}) => {
+		const container = await CONTAINER.create({ name, room: roomId });
 		return container;
-	}
-	findById = (id: uuid) => CONTAINER.findById(id);
-	async getContainersInsideRoom(roomId: uuid){
-		const containers = await CONTAINER.find({room: roomId});
-		return containers; 
-	}
+	};
+	getContainersInRoom = async (roomId: uuid) =>
+		CONTAINER.find({ room: roomId });
 }
+
 export const ContainerService = new ContainerServiceImpl();

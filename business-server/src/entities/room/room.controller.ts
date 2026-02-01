@@ -1,9 +1,9 @@
 import type { NextFunction, Request, Response } from "express";
 import { AuthState } from "../../auth/auth.state";
-import { RoomService } from "./room.service";
 import type { uuid } from "../../types";
 import { ContainerService } from "../container/container.service";
 import { AppError } from "../../error/AppError";
+import { RoomService } from "./room.service";
 
 class RoomControllerImpl {
 	async authorizeUser(req: Request, _res: Response, next: NextFunction) {
@@ -14,7 +14,7 @@ class RoomControllerImpl {
 			return;
 		}
 		const existsInRoom = RoomService.userExistsInRoom({ userId, roomId });
-		if(!existsInRoom) {
+		if (!existsInRoom) {
 			throw new AppError(403, "Access to room is forbidden");
 		}
 		next();
@@ -23,18 +23,20 @@ class RoomControllerImpl {
 	async createRoom(req: Request, res: Response) {
 		const userId = AuthState.getUserId(req);
 		const { name } = req.body;
-		const room = await RoomService.createRoom({ name, makerId: userId });
+		const room = await RoomService.createRoom({ name, creatorId: userId });
+		await RoomService.addUserToRoom({ roomId: room.id, userId });
 		res.json({ room });
 	}
 	async joinRoom(req: Request, res: Response) {
 		const userId = AuthState.getUserId(req);
 		const { roomId } = req.params as { roomId: uuid };
-		const room = await RoomService.joinRoom({ joinerId: userId, roomId });
-		res.json({ room });
+		await RoomService.addUserToRoom({ roomId, userId });
+		const room = await RoomService.getRoomById(roomId);
+		return res.json({ room });
 	}
 	async getContainers(req: Request, res: Response) {
 		const { roomId } = req.params as { roomId: uuid };
-		const containers = await ContainerService.getContainersInsideRoom(roomId);
+		const containers = await ContainerService.getContainersInRoom(roomId);
 		res.json({ containers });
 	}
 }

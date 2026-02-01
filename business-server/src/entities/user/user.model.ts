@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 import { MODEL_CONSTANTS } from "../../constants/modal.constants";
+import type { UserI } from "../../types";
 
-const userSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema<UserI>(
 	{
 		name: { type: String, required: true },
 		email: { type: String, required: true },
