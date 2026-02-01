@@ -6,7 +6,7 @@ export const containerRouter = Router({ mergeParams: true });
 
 containerRouter.post("/create", ContainerController.create);
 
-containerRouter.use(ContainerController.authorizeUser);
+containerRouter.use("/:containerId",ContainerController.authorizeUser);
 
 containerRouter.get("/:containerId", ContainerController.get);
 

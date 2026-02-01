@@ -8,34 +8,37 @@ class ContainerControllerImpl {
 	async authorizeUser(req: Request, _res: Response, next: NextFunction) {
 		const userId = AuthState.getUserId(req);
 		const containerId =
-			req.body.containerId || req.params.containerId || req.query.containerId;
+			req.body?.containerId || req.params.containerId || req.query.containerId;
 
-		const existsInRoom = ContainerService.userExistsInContainer({
+		console.log("c params", req.params);
+
+		const existsInContainer = await ContainerService.userExistsInContainer({
 			userId,
 			containerId,
 		});
-		if (!existsInRoom) {
-			throw new AppError(403, "Access to room is forbidden");
+		if (!existsInContainer) {
+			throw new AppError(403, "Access to container is forbidden");
 		}
 		next();
 	}
 	async create(req: Request, res: Response) {
 		const { roomId } = req.params as { roomId: uuid };
 		const { name } = req.body;
-		console.log("BODY", req.body);
-
-		console.log(req.params, req.query);
-
+		const userId = AuthState.getUserId(req);
 		const container = await ContainerService.createContainer({
 			name,
 			roomId,
+		});
+		await ContainerService.addUserToContainer({
+			containerId: container.id,
+			userId,
 		});
 		res.json({ container });
 	}
 	async get(req: Request, res: Response) {
 		const { containerId } = req.params as { containerId: uuid };
 		const container = await ContainerService.getContainerById(containerId);
-		res.json(container);
+		res.json({ container });
 	}
 }
 

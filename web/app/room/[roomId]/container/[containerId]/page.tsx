@@ -1,8 +1,7 @@
 "use client";
+import { useContainerData } from "../context/containerData.context";
 
-import { useParams } from "next/navigation";
-
-export default function Page () {
-	const { containerId } = useParams();
-	return <div>CONTAINER: {containerId}</div>;
-};
+export default function Page() {
+	const { container } = useContainerData();
+	return <div>CONTAINER: {JSON.stringify(container)}</div>;
+}
