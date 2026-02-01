@@ -9,10 +9,7 @@ class ContainerControllerImpl {
 		const userId = AuthState.getUserId(req);
 		const containerId =
 			req.body.containerId || req.params.containerId || req.query.containerId;
-		if (!containerId) {
-			next();
-			return;
-		}
+			
 		const existsInRoom = ContainerService.userExistsInContainer({
 			userId,
 			containerId,

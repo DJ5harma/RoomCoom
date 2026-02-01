@@ -6,13 +6,13 @@ export function ContainerIO(socket: Socket) {
 	const userId = AuthState.getUserIdSocket(socket);
 
 	socket.on("container:connect", async ({ containerId }) => {
-		const container = await ContainerService.getContainerById(containerId);
-		if (!container) {
-			return;
-		}
-		if (!socket.rooms.has(container.room.toString())) {
-			return;
-		}
+		const existsInContainer = await ContainerService.userExistsInContainer({
+			userId,
+			containerId,
+		});
+		
+		if (!existsInContainer) return;
+
 		socket.join(containerId);
 	});
 	socket.on("container:disconnect", async ({ containerId }) => {

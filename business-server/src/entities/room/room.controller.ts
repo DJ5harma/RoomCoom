@@ -9,10 +9,7 @@ class RoomControllerImpl {
 	async authorizeUser(req: Request, _res: Response, next: NextFunction) {
 		const userId = AuthState.getUserId(req);
 		const roomId = req.body.roomId || req.params.roomId || req.query.roomId;
-		if (!roomId) {
-			next();
-			return;
-		}
+		
 		const existsInRoom = RoomService.userExistsInRoom({ userId, roomId });
 		if (!existsInRoom) {
 			throw new AppError(403, "Access to room is forbidden");

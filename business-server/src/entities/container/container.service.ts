@@ -14,9 +14,16 @@ class ContainerServiceImpl {
 		const container = await CONTAINER.create({ name, room: roomId });
 		return container;
 	};
-	getContainersInRoom = async (roomId: uuid) =>
-		CONTAINER.find({ room: roomId });
-
+	addUserToContainer = async ({
+		containerId,
+		userId,
+	}: {
+		containerId: uuid;
+		userId: uuid;
+	}) => {
+		await CONTAINER_MEMBER.create({ container: containerId, user: userId });
+	};
+	
 	userExistsInContainer = async ({
 		userId,
 		containerId,
@@ -24,6 +31,10 @@ class ContainerServiceImpl {
 		userId: uuid;
 		containerId: uuid;
 	}) => CONTAINER_MEMBER.exists({ user: userId, container: containerId });
+
+	
+	getContainersInRoom = async (roomId: uuid) =>
+		CONTAINER.find({ room: roomId });
 }
 
 export const ContainerService = new ContainerServiceImpl();

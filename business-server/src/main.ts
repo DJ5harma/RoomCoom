@@ -14,9 +14,9 @@ import morgan from "morgan";
 import { AuthService } from "./auth/auth.service";
 import { userRouter } from "./entities/user/user.routes";
 import { roomRouter } from "./entities/room/room.routes";
-import { containerRouter } from "./entities/container/container.routes";
 import { AuthState } from "./auth/auth.state";
 import { RoomIO } from "./entities/room/room.io";
+import { ContainerIO } from "./entities/container/container.io";
 
 const app = express();
 const server = http.createServer(app);
@@ -75,6 +75,7 @@ io.on("connection", (socket) => {
 		AuthState.storeUserIdSocket(socket, userId);
 
 		RoomIO(socket);
+		ContainerIO(socket);
 	} catch (error) {
 		socket.disconnect();
 		console.log("Disconnected socket for unauthenticated user", socket.id);
