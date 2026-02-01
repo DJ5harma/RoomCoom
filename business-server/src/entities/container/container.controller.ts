@@ -9,7 +9,7 @@ class ContainerControllerImpl {
 		const userId = AuthState.getUserId(req);
 		const containerId =
 			req.body.containerId || req.params.containerId || req.query.containerId;
-			
+
 		const existsInRoom = ContainerService.userExistsInContainer({
 			userId,
 			containerId,
@@ -20,7 +20,12 @@ class ContainerControllerImpl {
 		next();
 	}
 	async create(req: Request, res: Response) {
-		const { roomId, name } = req.body;
+		const { roomId } = req.params as { roomId: uuid };
+		const { name } = req.body;
+		console.log("BODY", req.body);
+
+		console.log(req.params, req.query);
+
 		const container = await ContainerService.createContainer({
 			name,
 			roomId,

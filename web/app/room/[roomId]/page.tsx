@@ -1,34 +1,19 @@
 "use client";
 
-import { Loading } from "@/app/components/Loading";
-import { NotFound } from "@/app/components/NotFound";
-import { RoomI, uuid } from "@/app/types";
-import { Api } from "@/utils/Api";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useRoomData } from "./context/roomData.context";
+import { ContainerForm } from "@/app/components/forms/ContainerForm";
 
 export default function Page() {
-	const { roomId } = useParams() as { roomId: uuid };
-	const [room, setRoom] = useState<RoomI | null>(null);
+	const { room, containers } = useRoomData();
 
-	const [loading, setLoading] = useState(true);
-
-	useEffect(() => {
-		Api.get(`/room/${roomId}`)
-			.then(({ data: { room } }) => {
-				setRoom(room);
-			})
-			.finally(() => {
-				setLoading(false);
-			});
-	}, []);
-
-	if (loading) return <Loading />;
-	if (!room) return <NotFound />;
 	return (
 		<div>
 			POHOCH GYA
 			<p>{room.name}</p>
+			<ContainerForm />
+			{containers.map((c) => {
+				return <div key={c.id}>{JSON.stringify(c)}</div>;
+			})}
 		</div>
 	);
 }

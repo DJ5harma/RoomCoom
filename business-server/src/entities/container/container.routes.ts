@@ -2,7 +2,7 @@ import { Router } from "express";
 import { ContainerController } from "./container.controller";
 import { testRouter } from "../plugins/test/test.routes";
 
-export const containerRouter = Router();
+export const containerRouter = Router({ mergeParams: true });
 
 containerRouter.post("/create", ContainerController.create);
 
