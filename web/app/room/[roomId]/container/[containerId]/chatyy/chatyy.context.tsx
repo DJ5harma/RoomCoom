@@ -35,7 +35,7 @@ export const ChatyyProvider = ({
 	useEffect(() => {
 		Api.get(`/room/${roomId}/container/${containerId}/chatyy/get`)
 			.then(({ data: { messages } }) => {				
-				setMessages((p) => [...messages, ...p]);
+				setMessages(messages);
 			})
 			.finally(() => {
 				setLoadingMessages(false);
