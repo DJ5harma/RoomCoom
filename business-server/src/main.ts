@@ -17,6 +17,8 @@ import { roomRouter } from "./entities/room/room.routes";
 import { AuthState } from "./auth/auth.state";
 import { RoomIO } from "./entities/room/room.io";
 import { ContainerIO } from "./entities/container/container.io";
+import Redis from "ioredis";
+import { createAdapter } from "@socket.io/redis-adapter";
 
 const app = express();
 const server = http.createServer(app);
@@ -49,7 +51,12 @@ app.get("/err", () => {
 
 app.use(AppError.ExpressErrorHandler);
 
-const io = new Server(server);
+export const redis = new Redis();
+const redisSubClient = redis.duplicate();
+
+const io = new Server(server, {
+	adapter: createAdapter(redis, redisSubClient),
+});
 
 const PORT = process.env.PORT!;
 
