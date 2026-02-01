@@ -8,6 +8,7 @@ roomRouter.post("/create", RoomController.createRoom);
 
 roomRouter.use(RoomController.authorizeUser);
 
+roomRouter.get("/:roomId", RoomController.getRoom);
 roomRouter.get("/:roomId/join", RoomController.joinRoom);
 roomRouter.get("/:roomId/containers", RoomController.getContainers);
 

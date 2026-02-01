@@ -10,15 +10,15 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { RoomType } from "../types/room.type";
+import { RoomI } from "../types";
 
 const context = createContext<{
-	rooms: RoomType[];
-	setRooms: Dispatch<SetStateAction<RoomType[]>>;
+	rooms: RoomI[];
+	setRooms: Dispatch<SetStateAction<RoomI[]>>;
 } | null>(null);
 
 export const RoomsProvider = ({ children }: { children: ReactNode }) => {
-	const [rooms, setRooms] = useState<RoomType[]>([]);
+	const [rooms, setRooms] = useState<RoomI[]>([]);
 	useEffect(() => {
 		Api.get("/user/rooms").then(({ data: { rooms } }) => setRooms(rooms));
 	}, []);

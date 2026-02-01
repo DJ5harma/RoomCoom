@@ -3,7 +3,7 @@ import { ROOM } from "./room.model";
 import { ROOM_MEMBER } from "./roomMember.model";
 
 class RoomServiceImpl {
-	getRoomById = ROOM.findById;
+	getRoomById = async (roomId: uuid) => await ROOM.findById(roomId);
 
 	addUserToRoom = async ({
 		roomId,
