@@ -1,7 +1,7 @@
-import { UserBadge } from "@/app/components/user/UserBadge";
+import { UserBadge } from "@/components/user/UserBadge";
 import { MessageI } from "../types";
-import { useRoomData } from "@/app/context/roomData.context";
-import { UserI } from "@/app/types";
+import { useRoomData } from "@/context/roomData.context";
+import { UserI } from "@/utils/types";
 
 export const Message = ({ message }: { message: MessageI }) => {
 	const { roomMembers } = useRoomData();

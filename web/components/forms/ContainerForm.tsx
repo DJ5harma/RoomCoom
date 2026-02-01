@@ -1,4 +1,4 @@
-import { useRoomData } from "@/app/context/roomData.context";
+import { useRoomData } from "@/context/roomData.context";
 import { Api } from "@/utils/Api";
 import { FormEvent } from "react";
 

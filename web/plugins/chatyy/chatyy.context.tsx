@@ -11,10 +11,10 @@ import {
 	useState,
 } from "react";
 import { MessageI } from "./types";
-import { Loading } from "@/app/components/Loading";
-import { socket } from "@/app/context/socket.context";
-import { useContainerData } from "@/app/container/containerData.context";
-import { useRoomData } from "@/app/context/roomData.context";
+import { Loading } from "@/components/Loading";
+import { socket } from "@/context/socket.context";
+import { useContainerData } from "@/container/containerData.context";
+import { useRoomData } from "@/context/roomData.context";
 
 const context = createContext<{
 	messages: MessageI[];

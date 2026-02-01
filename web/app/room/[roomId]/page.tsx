@@ -1,14 +1,13 @@
 "use client";
 
-import { TestPlugin } from "@/app/plugins/TestPlugin";
-import { useRoomData } from "../../context/roomData.context";
-import { ContainerForm } from "@/app/components/forms/ContainerForm";
+import { useRoomData } from "@/context/roomData.context";
+import { ContainerForm } from "@/components/forms/ContainerForm";
 import Link from "next/link";
-import { UserBadge } from "@/app/components/user/UserBadge";
+import { UserBadge } from "@/components/user/UserBadge";
 import { useSearchParams } from "next/navigation";
-import { ContainerDataProvider } from "../../container/containerData.context";
-import { Container } from "../../container/Container";
-import { ChatyyProvider } from "@/app/plugins/chatyy/chatyy.context";
+import { ContainerDataProvider } from "../../../container/containerData.context";
+import { Container } from "../../../container/Container";
+import { ChatyyProvider } from "@/plugins/chatyy/chatyy.context";
 
 export default function Page() {
 	const { room, containers, roomMembers } = useRoomData();
@@ -44,7 +43,6 @@ export default function Page() {
 						);
 					})}
 				</div>
-				<TestPlugin />
 				<div>
 					MEMBERS
 					{Object.values(roomMembers).map((user) => (

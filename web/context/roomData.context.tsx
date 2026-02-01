@@ -10,10 +10,10 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { ContainerI, RoomI, UserI, uuid } from "../types";
-import { Loading } from "@/app/components/Loading";
-import { NotFound } from "@/app/components/NotFound";
-import { socket } from "@/app/context/socket.context";
+import { ContainerI, RoomI, UserI, uuid } from "../utils/types";
+import { Loading } from "@/components/Loading";
+import { NotFound } from "@/components/NotFound";
+import { socket } from "@/context/socket.context";
 
 const context = createContext<{
 	room: RoomI;

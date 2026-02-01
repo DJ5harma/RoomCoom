@@ -1,4 +1,4 @@
-import { UserI } from "@/app/types";
+import { UserI } from "@/utils/types";
 import Image from "next/image";
 
 export const UserBadge = ({ user }: { user: UserI }) => {

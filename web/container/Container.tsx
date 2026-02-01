@@ -1,7 +1,7 @@
-import { UserBadge } from "@/app/components/user/UserBadge";
+import { UserBadge } from "@/components/user/UserBadge";
 import { useContainerData } from "./containerData.context";
 import { useRoomData } from "../context/roomData.context";
-import { Chatyy } from "@/app/plugins/chatyy/Chatyy";
+import { Chatyy } from "@/plugins/chatyy/Chatyy";
 import { useSearchParams } from "next/navigation";
 
 export const Container = () => {

@@ -11,7 +11,7 @@ import { Api } from "@/utils/Api";
 import { Auth } from "../components/Auth";
 import { toast } from "react-toastify";
 import { Loading } from "../components/Loading";
-import { UserI } from "../types";
+import { UserI } from "../utils/types";
 
 const context = createContext<{ user: UserI } | null>(null);
 

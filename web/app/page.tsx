@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useRooms } from "./context/rooms.context";
-import { RoomForm } from "./components/forms/RoomForm";
-import { useUser } from "./context/user.context";
+import { useRooms } from "@/context/rooms.context";
+import { RoomForm } from "@/components/forms/RoomForm";
+import { useUser } from "@/context/user.context";
 import Image from "next/image";
 
 export default function Home() {

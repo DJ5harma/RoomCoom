@@ -8,10 +8,10 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { ContainerI, UserI, uuid } from "@/app/types";
-import { Loading } from "@/app/components/Loading";
-import { NotFound } from "@/app/components/NotFound";
-import { socket } from "@/app/context/socket.context";
+import { ContainerI, UserI, uuid } from "@/utils/types";
+import { Loading } from "@/components/Loading";
+import { NotFound } from "@/components/NotFound";
+import { socket } from "@/context/socket.context";
 import { useRoomData } from "../context/roomData.context";
 
 const context = createContext<{

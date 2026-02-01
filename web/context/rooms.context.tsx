@@ -10,7 +10,7 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { RoomI } from "../types";
+import { RoomI } from "../utils/types";
 
 const context = createContext<{
 	rooms: RoomI[];

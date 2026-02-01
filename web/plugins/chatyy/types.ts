@@ -1,4 +1,4 @@
-import type { ref_uuid, uuid } from "@/app/types";
+import type { ref_uuid, uuid } from "@/utils/types";
 
 interface MessageI {
 	id: uuid;
