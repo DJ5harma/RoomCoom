@@ -1,7 +1,12 @@
 "use client";
-import { useContainerData } from "./context/containerData.context";
+import { useSearchParams } from "next/navigation";
+import { Chatyy } from "../../../../plugins/chatyy/Chatyy";
 
 export default function Page() {
-	const { container } = useContainerData();
-	return <div>CONTAINER: {JSON.stringify(container)}</div>;
+	const searchParams = useSearchParams();
+	const plugin = searchParams.get("plugin");
+
+	return {
+		chatyy: <Chatyy />,
+	}[plugin ?? "chatyy"];
 }

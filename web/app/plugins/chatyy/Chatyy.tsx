@@ -1,11 +1,11 @@
-'use client';
+"use client";
 import { useParams } from "next/navigation";
 import { useChatyy } from "./chatyy.context";
 import { FormEvent } from "react";
 import { Api } from "@/utils/Api";
 import { Message } from "./components/Message";
 
-export default function Page() {
+export function Chatyy() {
 	const { roomId, containerId } = useParams();
 	const { messages } = useChatyy();
 
