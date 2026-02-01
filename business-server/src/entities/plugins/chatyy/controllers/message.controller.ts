@@ -10,6 +10,11 @@ class MessageControllerImpl {
 		MessageService.sendToContainer({ containerId, content });
 		res.send();
 	}
+	async get(req: Request, res: Response) {
+		const { containerId } = req.params as { containerId: uuid };
+		const messages = await MessageService.getForContainer(containerId);
+		res.json(messages);
+	}
 }
 
 export const MessageController = new MessageControllerImpl();

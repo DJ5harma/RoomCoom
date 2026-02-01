@@ -1,4 +1,4 @@
-import type { uuid } from "../../types";
+import type { UserI, uuid } from "../../types";
 import { ROOM } from "./room.model";
 import { ROOM_MEMBER } from "./roomMember.model";
 
@@ -26,11 +26,15 @@ class RoomServiceImpl {
 		return rooms;
 	};
 	getRoomMembers = async ({ roomId }: { roomId: uuid }) => {
-		const memberInstances = await ROOM_MEMBER.find({ room: roomId })
+		const memberInstances = (await ROOM_MEMBER.find({ room: roomId })
 			.select("user")
-			.populate("user");
-		const members = memberInstances.map(({ user }) => user);
-		return members;
+			.populate("user")) as { user: UserI }[];
+
+		const map: { [userId: uuid]: UserI } = {};
+		memberInstances.forEach(({ user }) => {
+			map[user.id] = user;
+		});
+		return map;
 	};
 	userExistsInRoom = async ({
 		userId,

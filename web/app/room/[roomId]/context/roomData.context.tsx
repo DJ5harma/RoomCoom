@@ -17,7 +17,7 @@ import { socket } from "@/app/context/socket.context";
 
 const context = createContext<{
 	room: RoomI;
-	roomMembers: UserI[];
+	roomMembers: { [userId: uuid]: UserI };
 	containers: ContainerI[];
 	setContainers: Dispatch<SetStateAction<ContainerI[]>>;
 } | null>(null);
@@ -31,7 +31,7 @@ export const RoomDataProvider = ({
 }) => {
 	const [room, setRoom] = useState<RoomI | null>(null);
 	const [containers, setContainers] = useState<ContainerI[]>([]);
-	const [roomMembers, setRoomMembers] = useState<UserI[]>([]);
+	const [roomMembers, setRoomMembers] = useState<{ [userId: uuid]: UserI }>({});
 
 	const [loadingRoom, setLoadingRoom] = useState(true);
 	const [loadingContainers, setLoadingContainers] = useState(true);

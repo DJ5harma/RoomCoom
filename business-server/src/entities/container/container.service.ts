@@ -3,9 +3,6 @@ import { CONTAINER } from "./container.model";
 import { CONTAINER_MEMBER } from "./containerMember.model";
 
 class ContainerServiceImpl {
-	getContainerById = async (containerId: uuid) => {
-		return await CONTAINER.findById(containerId);
-	};
 	createContainer = async ({
 		name,
 		roomId,
@@ -41,6 +38,17 @@ class ContainerServiceImpl {
 
 	getContainersInRoom = async (roomId: uuid) =>
 		await CONTAINER.find({ room: roomId });
+
+	getContainer = async (containerId: uuid) => {
+		return await CONTAINER.findById(containerId);
+	};
+	getMembers = async (containerId: uuid) => {
+		const memberInstances = await CONTAINER_MEMBER.find({
+			container: containerId,
+		}).select("user");
+		const members = memberInstances.map(({ user }) => user);
+		return members;
+	};
 }
 
 export const ContainerService = new ContainerServiceImpl();

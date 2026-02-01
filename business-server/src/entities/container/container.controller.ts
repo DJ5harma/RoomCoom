@@ -37,7 +37,12 @@ class ContainerControllerImpl {
 	}
 	async get(req: Request, res: Response) {
 		const { containerId } = req.params as { containerId: uuid };
-		const container = await ContainerService.getContainerById(containerId);
+		const container = await ContainerService.getContainer(containerId);
+		res.json({ container });
+	}
+	async getMembers(req: Request, res: Response) {
+		const { containerId } = req.params as { containerId: uuid };
+		const container = await ContainerService.getMembers(containerId);
 		res.json({ container });
 	}
 }

@@ -13,6 +13,12 @@ class MessageServiceImpl {
 		const message = await MESSAGE.create({ content, container: containerId });
 		io.to(containerId).emit("chatyy:message", { message });
 	};
+
+	getForContainer = async (containerId: uuid) => {
+		const messages = await MESSAGE.find({ container: containerId });
+
+		return messages;
+	};
 }
 
 export const MessageService = new MessageServiceImpl();
