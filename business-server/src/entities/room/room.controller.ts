@@ -33,8 +33,9 @@ class RoomControllerImpl {
 		return res.json({ room });
 	}
 	async getContainers(req: Request, res: Response) {
+		
 		const { roomId } = req.params as { roomId: uuid };
-		const containers = await ContainerService.getContainersInRoom(roomId);
+		const containers = await ContainerService.getContainersInRoom(roomId);		
 		res.json({ containers });
 	}
 	async getRoom(req: Request, res: Response) {

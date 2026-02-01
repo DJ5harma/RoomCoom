@@ -41,8 +41,10 @@ export const RoomDataProvider = ({
 			.finally(() => {
 				setLoadingRoom(false);
 			});
-		Api.get(`/${roomId}/containers`)
-			.then(({ data: { containers } }) => setContainers(containers))
+		Api.get(`/room/${roomId}/containers`)
+			.then(({ data: { containers } }) => {
+				setContainers(containers);
+			})
 			.finally(() => {
 				setLoadingContainers(false);
 			});

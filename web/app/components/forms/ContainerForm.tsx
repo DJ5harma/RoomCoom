@@ -12,13 +12,10 @@ export const ContainerForm = () => {
 		const data = new FormData(e.currentTarget);
 		const containerName = data.get("container-name");
 
-		console.log("sending",{roomId});
-		
-
 		Api.post(`/room/${roomId}/container/create`, {
 			name: containerName,
-		}).then(({ data: { containers } }) => {
-			setContainers(containers);
+		}).then(({ data: { container } }) => {
+			setContainers(p => [...p, container]);
 		});
 	}
 	return (
