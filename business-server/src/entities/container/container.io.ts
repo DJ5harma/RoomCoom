@@ -6,7 +6,7 @@ export function ContainerIO(socket: Socket) {
 	const userId = AuthState.getUserIdSocket(socket);
 
 	socket.on("container:connect", async ({ containerId }) => {
-		const container = await ContainerService.findById(containerId);
+		const container = await ContainerService.getContainerById(containerId);
 		if (!container) {
 			return;
 		}
