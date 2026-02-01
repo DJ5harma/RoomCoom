@@ -10,6 +10,7 @@ roomRouter.use(RoomController.authorizeUser);
 
 roomRouter.get("/:roomId", RoomController.getRoom);
 roomRouter.get("/:roomId/join", RoomController.joinRoom);
+roomRouter.get("/:roomId/members", RoomController.getMembers);
 roomRouter.get("/:roomId/containers", RoomController.getContainers);
 
 roomRouter.use("/:roomId/container", containerRouter);

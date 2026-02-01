@@ -25,6 +25,13 @@ class RoomServiceImpl {
 		const rooms = memberInstances.map(({ room }) => room);
 		return rooms;
 	};
+	getRoomMembers = async ({ roomId }: { roomId: uuid }) => {
+		const memberInstances = await ROOM_MEMBER.find({ room: roomId })
+			.select("user")
+			.populate("user");
+		const members = memberInstances.map(({ user }) => user);
+		return members;
+	};
 	userExistsInRoom = async ({
 		userId,
 		roomId,

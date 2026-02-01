@@ -4,6 +4,7 @@ import type { uuid } from "../../types";
 import { ContainerService } from "../container/container.service";
 import { AppError } from "../../error/AppError";
 import { RoomService } from "./room.service";
+import { ROOM_MEMBER } from "./roomMember.model";
 
 class RoomControllerImpl {
 	async createRoom(req: Request, res: Response) {
@@ -32,18 +33,20 @@ class RoomControllerImpl {
 		return res.json({ room });
 	}
 	async getContainers(req: Request, res: Response) {
-		
 		const { roomId } = req.params as { roomId: uuid };
-		const containers = await ContainerService.getContainersInRoom(roomId);		
+		const containers = await ContainerService.getContainersInRoom(roomId);
 		res.json({ containers });
 	}
 	async getRoom(req: Request, res: Response) {
 		const { roomId } = req.params as { roomId: uuid };
-		console.log({roomId});
 		const room = await RoomService.getRoomById(roomId);
-		console.log({room});
-		
 		res.json({ room });
+	}
+
+	async getMembers(req: Request, res: Response) {
+		const { roomId } = req.params as { roomId: uuid };
+		const members = await RoomService.getRoomMembers({ roomId });
+		res.json({ members });
 	}
 }
 

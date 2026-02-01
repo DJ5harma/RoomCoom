@@ -10,12 +10,13 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { ContainerI, RoomI, uuid } from "../../../types";
+import { ContainerI, RoomI, UserI, uuid } from "../../../types";
 import { Loading } from "@/app/components/Loading";
 import { NotFound } from "@/app/components/NotFound";
 
 const context = createContext<{
 	room: RoomI;
+	roomMembers: UserI[];
 	containers: ContainerI[];
 	setContainers: Dispatch<SetStateAction<ContainerI[]>>;
 } | null>(null);
@@ -29,9 +30,11 @@ export const RoomDataProvider = ({
 }) => {
 	const [room, setRoom] = useState<RoomI | null>(null);
 	const [containers, setContainers] = useState<ContainerI[]>([]);
+	const [roomMembers, setRoomMembers] = useState<UserI[]>([]);
 
 	const [loadingRoom, setLoadingRoom] = useState(true);
 	const [loadingContainers, setLoadingContainers] = useState(true);
+	const [loadingRoomMembers, setLoadingRoomMembers] = useState(true);
 
 	useEffect(() => {
 		Api.get(`/room/${roomId}`)
@@ -48,12 +51,20 @@ export const RoomDataProvider = ({
 			.finally(() => {
 				setLoadingContainers(false);
 			});
+		Api.get(`/room/${roomId}/members`)
+			.then(({ data: { members } }) => {
+				setRoomMembers(members);
+			})
+			.finally(() => {
+				setLoadingRoomMembers(false);
+			});
 	}, []);
 
-	if (loadingRoom || loadingContainers) return <Loading />;
+	if (loadingRoom || loadingContainers || loadingRoomMembers)
+		return <Loading />;
 	if (!room) return <NotFound />;
 	return (
-		<context.Provider value={{ room, containers, setContainers }}>
+		<context.Provider value={{ room, containers, roomMembers, setContainers }}>
 			{children}
 		</context.Provider>
 	);
