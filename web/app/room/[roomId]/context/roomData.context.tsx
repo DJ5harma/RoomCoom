@@ -13,6 +13,7 @@ import {
 import { ContainerI, RoomI, UserI, uuid } from "../../../types";
 import { Loading } from "@/app/components/Loading";
 import { NotFound } from "@/app/components/NotFound";
+import { socket } from "@/app/context/socket.context";
 
 const context = createContext<{
 	room: RoomI;
@@ -58,6 +59,7 @@ export const RoomDataProvider = ({
 			.finally(() => {
 				setLoadingRoomMembers(false);
 			});
+		socket.emit("room:connect", { roomId });
 	}, []);
 
 	if (loadingRoom || loadingContainers || loadingRoomMembers)

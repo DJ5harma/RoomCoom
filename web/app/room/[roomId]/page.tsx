@@ -1,5 +1,6 @@
 "use client";
 
+import { TestPlugin } from "@/app/plugins/TestPlugin";
 import { useRoomData } from "./context/roomData.context";
 import { ContainerForm } from "@/app/components/forms/ContainerForm";
 
@@ -19,6 +20,8 @@ export default function Page() {
 			{roomMembers.map((c) => {
 				return <div key={c.id}>{JSON.stringify(c)}</div>;
 			})}
+
+			<TestPlugin />
 		</div>
 	);
 }

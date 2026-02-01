@@ -10,4 +10,4 @@ containerRouter.use(ContainerController.authorizeUser);
 
 containerRouter.get("/:containerId", ContainerController.get);
 
-containerRouter.get("/:containerId/test", testRouter);
+containerRouter.post("/:containerId/test", testRouter);
