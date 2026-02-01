@@ -1,5 +1,5 @@
 "use client";
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { ChatyyProvider } from "./chatyy.context";
 import { useParams } from "next/navigation";
 import { uuid } from "@/app/types";

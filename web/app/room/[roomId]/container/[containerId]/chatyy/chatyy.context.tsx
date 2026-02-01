@@ -14,7 +14,6 @@ import { uuid } from "@/app/types";
 import { MessageI } from "./types";
 import { Loading } from "@/app/components/Loading";
 import { socket } from "@/app/context/socket.context";
-import { useParams } from "next/navigation";
 
 const context = createContext<{
 	messages: MessageI[];
@@ -34,7 +33,7 @@ export const ChatyyProvider = ({
 	const [loadingMessages, setLoadingMessages] = useState(true);
 
 	useEffect(() => {
-		Api.get(`/room/${roomId}/container/${containerId}/chatyy`)
+		Api.get(`/room/${roomId}/container/${containerId}/chatyy/get`)
 			.then(({ data: { messages } }) => {
 				setMessages((p) => [...messages, ...p]);
 			})

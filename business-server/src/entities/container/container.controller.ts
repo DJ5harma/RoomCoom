@@ -10,8 +10,6 @@ class ContainerControllerImpl {
 		const containerId =
 			req.body?.containerId || req.params.containerId || req.query.containerId;
 
-		console.log("c params", req.params);
-
 		const existsInContainer = await ContainerService.userExistsInContainer({
 			userId,
 			containerId,

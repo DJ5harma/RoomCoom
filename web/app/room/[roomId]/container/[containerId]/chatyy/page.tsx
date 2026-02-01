@@ -3,13 +3,11 @@ import { useParams } from "next/navigation";
 import { useChatyy } from "./chatyy.context";
 import { FormEvent } from "react";
 import { Api } from "@/utils/Api";
-import { useRoomData } from "../../../context/roomData.context";
 import { Message } from "./components/Message";
 
 export default function Page() {
 	const { roomId, containerId } = useParams();
 	const { messages } = useChatyy();
-	const { roomMembers } = useRoomData();
 
 	function sendMessage(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();

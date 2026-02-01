@@ -12,5 +12,5 @@ containerRouter.use("/:containerId", ContainerController.authorizeUser);
 containerRouter.get("/:containerId", ContainerController.get);
 containerRouter.get("/:containerId/members", ContainerController.getMembers);
 
-containerRouter.post("/:containerId/test", testRouter);
-containerRouter.post("/:containerId/chatyy", chatyyRouter);
+containerRouter.use("/:containerId/test", testRouter);
+containerRouter.use("/:containerId/chatyy", chatyyRouter);
