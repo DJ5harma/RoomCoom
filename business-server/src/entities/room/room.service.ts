@@ -3,7 +3,7 @@ import { ROOM } from "./room.model";
 import { ROOM_MEMBER } from "./roomMember.model";
 
 class RoomServiceImpl {
-    getRoomById = ROOM.findById;
+	getRoomById = ROOM.findById;
 	userExistsInRoom = async ({
 		userId,
 		roomId,
@@ -24,6 +24,14 @@ class RoomServiceImpl {
 
 	createRoom = async ({ name, creatorId }: { name: string; creatorId: uuid }) =>
 		ROOM.create({ name, creator: creatorId });
+
+	getUserRooms = async ({ userId }: { userId: uuid }) => {
+		const memberInstances = await ROOM_MEMBER.find({ user: userId }).select(
+			"room",
+		);
+		const rooms = memberInstances.map(({ room }) => room);
+		return rooms;
+	};
 }
 
 export const RoomService = new RoomServiceImpl();
