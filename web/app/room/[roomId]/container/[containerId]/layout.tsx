@@ -1,6 +1,6 @@
 "use client";
 import { ReactNode } from "react";
-import { ContainerDataProvider } from "../context/containerData.context";
+import { ContainerDataProvider } from "./context/containerData.context";
 import { useParams } from "next/navigation";
 import { uuid } from "@/app/types";
 

@@ -34,18 +34,18 @@ export const ChatyyProvider = ({
 
 	useEffect(() => {
 		Api.get(`/room/${roomId}/container/${containerId}/chatyy/get`)
-			.then(({ data: { messages } }) => {
+			.then(({ data: { messages } }) => {				
 				setMessages((p) => [...messages, ...p]);
 			})
 			.finally(() => {
 				setLoadingMessages(false);
 			});
 
-		socket.on("chatty:message", ({ message }) => {
+		socket.on("chatyy:message", ({ message }) => {
 			setMessages((p) => [...p, message]);
 		});
 		return () => {
-			socket.off("chatty:message");
+			socket.off("chatyy:message");
 		};
 	}, []);
 

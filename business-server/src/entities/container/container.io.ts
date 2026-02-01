@@ -10,9 +10,12 @@ export function ContainerIO(socket: Socket) {
 			userId,
 			containerId,
 		});
+
+		
 		
 		if (!existsInContainer) return;
-
+		
+		console.log("JOINED CONTAINER");
 		socket.join(containerId);
 	});
 	socket.on("container:disconnect", async ({ containerId }) => {

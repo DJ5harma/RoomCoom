@@ -6,11 +6,17 @@ class MessageServiceImpl {
 	sendToContainer = async ({
 		containerId,
 		content,
+		from,
 	}: {
 		containerId: uuid;
 		content: string;
+		from: uuid;
 	}) => {
-		const message = await MESSAGE.create({ content, container: containerId });
+		const message = await MESSAGE.create({
+			content,
+			container: containerId,
+			from,
+		});
 		io.to(containerId).emit("chatyy:message", { message });
 	};
 

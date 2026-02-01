@@ -8,7 +8,7 @@ export function RoomIO(socket: Socket) {
 		const existsInRoom = await RoomService.userExistsInRoom({ userId, roomId });
 
 		if (!existsInRoom) return;
-		
+
 		socket.join(roomId);
 	});
 	socket.on("room:disconnect", async ({ roomId }) => {

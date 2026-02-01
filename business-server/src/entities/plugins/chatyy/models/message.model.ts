@@ -9,10 +9,12 @@ const MessageSchema = new mongoose.Schema<MessageI>(
 		from: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: MODEL_CONSTANTS.USER,
+			required: true,
 		},
 		container: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: MODEL_CONSTANTS.CONTAINER,
+			required: true,
 		},
 	},
 	{ timestamps: true, toJSON: { virtuals: true } },
