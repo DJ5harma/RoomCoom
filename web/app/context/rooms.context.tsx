@@ -1,22 +1,30 @@
+"use client";
+
 import { Api } from "@/utils/Api";
 import {
 	createContext,
+	Dispatch,
 	ReactNode,
+	SetStateAction,
 	useContext,
 	useEffect,
 	useState,
 } from "react";
 import { RoomType } from "../types/room.type";
 
-
-const context = createContext<{ rooms: RoomType[] } | null>(null);
+const context = createContext<{
+	rooms: RoomType[];
+	setRooms: Dispatch<SetStateAction<RoomType[]>>;
+} | null>(null);
 
 export const RoomsProvider = ({ children }: { children: ReactNode }) => {
 	const [rooms, setRooms] = useState<RoomType[]>([]);
 	useEffect(() => {
 		Api.get("/user/rooms").then(({ data: { rooms } }) => setRooms(rooms));
 	}, []);
-	return <context.Provider value={{ rooms }}>{children}</context.Provider>;
+	return (
+		<context.Provider value={{ rooms, setRooms }}>{children}</context.Provider>
+	);
 };
 
 export function useRooms() {

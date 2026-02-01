@@ -21,6 +21,6 @@ containerMemberSchema.virtual("id").get(function () {
 });
 
 export const CONTAINER_MEMBER = mongoose.model(
-	MODEL_CONSTANTS.ROOM_MEMBER,
+	MODEL_CONSTANTS.CONTAINER_MEMBER,
 	containerMemberSchema,
 );

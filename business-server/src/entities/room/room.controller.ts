@@ -6,6 +6,13 @@ import { AppError } from "../../error/AppError";
 import { RoomService } from "./room.service";
 
 class RoomControllerImpl {
+	async createRoom(req: Request, res: Response) {
+		const userId = AuthState.getUserId(req);
+		const { name } = req.body;
+		const room = await RoomService.createRoom({ name, creatorId: userId });
+		await RoomService.addUserToRoom({ roomId: room.id, userId });
+		res.json({ room });
+	}
 	async authorizeUser(req: Request, _res: Response, next: NextFunction) {
 		const userId = AuthState.getUserId(req);
 		const roomId = req.body.roomId || req.params.roomId || req.query.roomId;
@@ -17,13 +24,6 @@ class RoomControllerImpl {
 		next();
 	}
 
-	async createRoom(req: Request, res: Response) {
-		const userId = AuthState.getUserId(req);
-		const { name } = req.body;
-		const room = await RoomService.createRoom({ name, creatorId: userId });
-		await RoomService.addUserToRoom({ roomId: room.id, userId });
-		res.json({ room });
-	}
 	async joinRoom(req: Request, res: Response) {
 		const userId = AuthState.getUserId(req);
 		const { roomId } = req.params as { roomId: uuid };

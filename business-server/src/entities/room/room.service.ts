@@ -4,7 +4,7 @@ import { ROOM_MEMBER } from "./roomMember.model";
 
 class RoomServiceImpl {
 	getRoomById = ROOM.findById;
-	
+
 	addUserToRoom = async ({
 		roomId,
 		userId,
@@ -14,14 +14,14 @@ class RoomServiceImpl {
 	}) => {
 		await ROOM_MEMBER.create({ room: roomId, user: userId });
 	};
-	
+
 	createRoom = async ({ name, creatorId }: { name: string; creatorId: uuid }) =>
 		ROOM.create({ name, creator: creatorId });
-	
+
 	getUserRooms = async ({ userId }: { userId: uuid }) => {
-		const memberInstances = await ROOM_MEMBER.find({ user: userId }).select(
-			"room",
-		);
+		const memberInstances = await ROOM_MEMBER.find({ user: userId })
+			.select("room")
+			.populate("room");
 		const rooms = memberInstances.map(({ room }) => room);
 		return rooms;
 	};
