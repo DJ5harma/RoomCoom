@@ -1,4 +1,4 @@
-import type { uuid } from "../../types";
+import type { ContainerI, uuid } from "../../types";
 import { CONTAINER } from "./container.model";
 import { CONTAINER_MEMBER } from "./containerMember.model";
 
@@ -35,7 +35,6 @@ class ContainerServiceImpl {
 			container: containerId,
 		});
 	};
-
 	getContainersInRoom = async (roomId: uuid) =>
 		await CONTAINER.find({ room: roomId });
 
@@ -48,6 +47,16 @@ class ContainerServiceImpl {
 		}).select("user");
 		const members = memberInstances.map(({ user }) => user);
 		return members;
+	};
+
+	getUserContainers = async ({ userId }: { userId: uuid }) => {
+		const containerInstances = await CONTAINER_MEMBER.find({ user: userId })
+			.select("container")
+			.populate("container");
+		const containers = containerInstances.map(
+			({ container }) => container,
+		) as ContainerI[];
+		return containers;
 	};
 }
 

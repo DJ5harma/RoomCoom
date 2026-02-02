@@ -4,8 +4,8 @@ import "./globals.css";
 import { ToastContainer } from "react-toastify";
 import { UserProvider } from "@/context/user.context";
 import { SocketConnector } from "@/context/socket.context";
-import { RoomsProvider } from "@/context/rooms.context";
 import { Sidebar } from "@/components/sidebar/Sidebar";
+import { GlobalProvider } from "@/context/global.context";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -35,12 +35,12 @@ export default function RootLayout({
 				<ToastContainer />
 				<SocketConnector>
 					<UserProvider>
-						<RoomsProvider>
+						<GlobalProvider>
 							<div className="flex">
 								<Sidebar />
 								{children}
 							</div>
-						</RoomsProvider>
+						</GlobalProvider>
 					</UserProvider>
 				</SocketConnector>
 			</body>
