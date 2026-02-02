@@ -15,6 +15,17 @@ class UserInvitationImpl {
 		const key = `roomInvitation:${userId}:${roomId}`;
 		await redis.set(key, "1", "EX", 600);
 	}
+	async verifyUserRoomInvitationExists({
+		userId,
+		roomId,
+	}: {
+		userId: uuid;
+		roomId: uuid;
+	}) {
+		const key = `roomInvitation:${userId}:${roomId}`;
+		const exists = await redis.exists(key);
+		return exists !== 0;
+	}
 
 	async getUserRoomInvitations({ userId }: { userId: uuid }) {
 		const pattern = `roomInvitation:${userId}:*`;

@@ -4,6 +4,7 @@ import type { uuid } from "../../types";
 import { ContainerService } from "../container/container.service";
 import { AppError } from "../../error/AppError";
 import { RoomService } from "./room.service";
+import { UserInvitation } from "../user/user.invitation";
 import { io } from "../../main";
 
 class RoomControllerImpl {
@@ -47,6 +48,23 @@ class RoomControllerImpl {
 		const { roomId } = req.params as { roomId: uuid };
 		const members = await RoomService.getRoomMembers({ roomId });
 		res.json({ members });
+	}
+
+	async inviteUserToRoom(req: Request, res: Response) {
+		const { roomId } = req.params as { roomId: uuid };
+		const { userId } = req.body;
+
+		const alreadyThere = await RoomService.userExistsInRoom({ roomId, userId });
+		if (alreadyThere) {
+			throw new AppError(400, "Person already exists in the Room");
+		}
+		const room = await RoomService.getRoomById(roomId);
+		io.to(userId).emit("notification:roomInvite", {
+			room,
+		});
+
+		await UserInvitation.storeUserRoomInvitation({ userId, roomId });
+		res.send();
 	}
 }
 
