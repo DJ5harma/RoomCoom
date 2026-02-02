@@ -3,9 +3,13 @@ import { InputBox } from "./components/InputBox";
 
 export function Chatyy() {
 	return (
-		<div className="w-full border border-cyan-100 h-full flex flex-col items-center">
-			<ChatBox />
-			<InputBox />
+		<div className="w-full border border-cyan-100 max-h-screen flex flex-col">
+			<div className="overflow-auto">
+				<ChatBox />
+			</div>
+			<div>
+				<InputBox />
+			</div>
 		</div>
 	);
 }

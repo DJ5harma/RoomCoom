@@ -4,18 +4,28 @@ import { useUser } from "@/context/user.context";
 import { UserI } from "@/utils/types";
 import Image from "next/image";
 
-export const Message = ({ message }: { message: MessageI }) => {
+export const Message = ({
+	message,
+	isContinuation,
+}: {
+	message: MessageI;
+	isContinuation: boolean;
+}) => {
 	const { roomMembers } = useRoomData();
 	const { content, from } = message;
 	const { user } = useUser();
 
 	const sender = (typeof from === "string" ? roomMembers[from] : from) as UserI;
 	const didISend = user.id === sender.id;
+
+	const showProfilePic = isContinuation ? false : true;
+	const showName = isContinuation ? false : true;
+
 	return (
 		<div
 			className={"flex gap-2 " + (didISend ? "flex-row-reverse" : "flex-row")}
 		>
-			{true && (
+			{showProfilePic ? (
 				<Image
 					className="rounded-full size-7"
 					src={sender.pictureUrl}
@@ -23,15 +33,17 @@ export const Message = ({ message }: { message: MessageI }) => {
 					width={25}
 					alt={sender.name}
 				/>
+			) : (
+				<div className="size-[25px]" />
 			)}
 			{didISend ? (
-				<div className="bg-blue-900 text-white flex flex-col gap-2 text-sm p-3 rounded-xl shadow shadow-cyan-200">
-					<p className="text-cyan-300">{sender.name}</p>
+				<div className="bg-blue-900 text-white flex flex-col gap-2 text-sm p-3 rounded-xl shadow shadow-cyan-200 max-w-4/5">
+					{showName && <p className="text-cyan-300">{sender.name}</p>}
 					<p>{content}</p>
 				</div>
 			) : (
-				<div className="bg-neutral-800 text-white flex flex-col gap-2 text-sm p-3 rounded-xl shadow shadow-red-200">
-					<p className="text-red-400">{sender.name}</p>
+				<div className="bg-neutral-800 text-white flex flex-col gap-2 text-sm p-3 rounded-xl shadow shadow-red-200 max-w-4/5">
+					{showName && <p className="text-red-400">{sender.name}</p>}
 					<p>{content}</p>
 				</div>
 			)}
