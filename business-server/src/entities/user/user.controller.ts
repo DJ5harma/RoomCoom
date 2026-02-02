@@ -14,6 +14,11 @@ class UserControllerImpl {
 		const rooms = await RoomService.getUserRooms({ userId });
 		res.json({ rooms });
 	}
+	async searchUsers(req: Request, res: Response) {
+		const { q } = req.query as { q: string };
+		const users = await UserService.search(q);
+		res.json({ users });
+	}
 }
 
 export const UserController = new UserControllerImpl();

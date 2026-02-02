@@ -5,3 +5,4 @@ export const userRouter = Router();
 
 userRouter.get("/me", UserController.getMe);
 userRouter.get("/rooms", UserController.getRooms);
+userRouter.get("/search", UserController.searchUsers);
