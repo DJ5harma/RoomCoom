@@ -1,21 +1,55 @@
 "use client";
 
-import { useRoomData } from "../context/roomdata.context";
+import { useRoom } from "@/entities/room/RoomProvider";
+import { InstanceForm } from "@/entities/instance/InstanceForm";
+import Link from "next/link";
+import { UserBadge } from "@/components/user/UserBadge";
+import { useSearchParams } from "next/navigation";
+import { InstanceProvider } from "../../../entities/instance/InstanceProvider";
+import { Instance } from "../../../entities/instance/Instance";
 
 export default function Page() {
-	const { room, containers } = useRoomData();
+	const { room, instances, members } = useRoom();
+	const searchParams = useSearchParams();
+
+	const instanceId = searchParams.get("instanceId");
+
+	if (instanceId) {
+		return (
+			<div className="w-full">
+				<InstanceProvider instanceId={instanceId}>
+					<Instance />
+				</InstanceProvider>
+			</div>
+		);
+	}
+
 	return (
-		<div>
+		<div className="p-2 w-full flex flex-col items-center">
 			<p>{room.name}</p>
-			{containers.map(({ id, name, type }) => {
-				return (
-					<div key={id}>
-            <p>Container</p>
-						<p>{name}</p>
-						<p>{type}</p>
-					</div>
-				);
-			})}
+			<InstanceForm />
+			<div className="w-full flex justify-between">
+				<div>
+					INSTANCES
+					{instances.map(({ id, name }) => {
+						return (
+							<Link
+								className="flex flex-col bg-green-800 p-4"
+								href={`/room/${room.id}?instanceId=${id}`}
+								key={id}
+							>
+								<p>{name}</p>
+							</Link>
+						);
+					})}
+				</div>
+				<div>
+					MEMBERS
+					{Object.values(members).map((user) => (
+						<UserBadge key={user.id} user={user} />
+					))}
+				</div>
+			</div>
 		</div>
 	);
 }

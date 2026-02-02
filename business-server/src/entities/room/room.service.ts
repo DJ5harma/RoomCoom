@@ -1,35 +1,54 @@
 import { io } from "../../main";
-import type { uuid } from "../../types";
-import { UserService } from "../user/user.service";
+import type { RoomI, UserI, uuid } from "../../types";
 import { ROOM } from "./room.model";
+import { ROOM_MEMBER } from "./roomMember.model";
 
 class RoomServiceImpl {
-	async createRoom({ name, makerId }: { name: string; makerId: uuid }) {
-		const room = await ROOM.create({ name, users: [makerId] });
-		return room;
-	}
-	async joinRoom({ joinerId, roomId }: { joinerId: uuid; roomId: uuid }) {
-		const room = await ROOM.findOneAndUpdate(
-			{ _id: roomId },
-			{ $push: { users: joinerId } },
-			{ new: true },
-		);
-		const joiner = await UserService.findById(joinerId);
-		io.to(roomId).emit("room/new-joiner", { joiner });
-		return room;
-	}
-	async findRoomById(roomId: uuid) {
-		const room = await ROOM.findById(roomId);
-		return room;
-	}
-	async userExistsInRoom({ userId, roomId }: { userId: uuid; roomId: uuid }) {
-		const exists = await ROOM.exists({ _id: roomId, users: { $in: [userId] } });
-		return exists;
-	}
-	async getUserRooms({userId}: {userId: uuid}){
-		const rooms = await ROOM.find({ users: { $in: [userId] } }).select('-users');
+	getRoomById = async (roomId: uuid) => await ROOM.findById(roomId);
+
+	addUserToRoom = async ({
+		roomId,
+		userId,
+	}: {
+		roomId: uuid;
+		userId: uuid;
+	}) => {
+		await ROOM_MEMBER.create({ room: roomId, user: userId });
+	};
+
+	createRoom = async ({ name, creatorId }: { name: string; creatorId: uuid }) =>
+		ROOM.create({ name, creator: creatorId });
+
+	getUserRooms = async ({ userId }: { userId: uuid }) => {
+		const memberInstances = await ROOM_MEMBER.find({ user: userId })
+			.select("room")
+			.populate("room");
+		const rooms = memberInstances.map(({ room }) => room);
 		return rooms;
-	}
+	};
+	getRoomMembers = async ({ roomId }: { roomId: uuid }) => {
+		const memberInstances = (await ROOM_MEMBER.find({ room: roomId })
+			.select("user")
+			.populate("user")) as { user: UserI }[];
+
+		const map: { [userId: uuid]: UserI } = {};
+		memberInstances.forEach(({ user }) => {
+			map[user.id] = user;
+		});
+		return map;
+	};
+	userExistsInRoom = async ({
+		userId,
+		roomId,
+	}: {
+		userId: uuid;
+		roomId: uuid;
+	}) => ROOM_MEMBER.exists({ room: roomId, user: userId });
+
+	getRoomsByIds = async ({ roomIds }: { roomIds: uuid[] }) => {
+		const rooms = await ROOM.find({ _id: { $in: roomIds } });
+		return rooms;
+	};
 }
 
 export const RoomService = new RoomServiceImpl();

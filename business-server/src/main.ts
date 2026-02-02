@@ -14,9 +14,13 @@ import morgan from "morgan";
 import { AuthService } from "./auth/auth.service";
 import { userRouter } from "./entities/user/user.routes";
 import { roomRouter } from "./entities/room/room.routes";
-import { containerRouter } from "./entities/container/container.routes";
 import { AuthState } from "./auth/auth.state";
 import { RoomIO } from "./entities/room/room.io";
+import { InstanceIO } from "./entities/instance/instance.io";
+import Redis from "ioredis";
+import { createAdapter } from "@socket.io/redis-adapter";
+import { UserIO } from "./entities/user/user.io";
+import { instanceRouter } from "./entities/instance/instance.routes";
 
 const app = express();
 const server = http.createServer(app);
@@ -42,6 +46,7 @@ app.use(AuthController.middlewareAuth);
 
 app.use("/api/user", userRouter);
 app.use("/api/room", roomRouter);
+app.use("/api/instance", instanceRouter);
 
 app.get("/err", () => {
 	throw new Error("ERROR TEST ROUTE - OK");
@@ -49,7 +54,12 @@ app.get("/err", () => {
 
 app.use(AppError.ExpressErrorHandler);
 
-const io = new Server(server);
+export const redis = new Redis();
+const redisSubClient = redis.duplicate();
+
+const io = new Server(server, {
+	adapter: createAdapter(redis, redisSubClient),
+});
 
 const PORT = process.env.PORT!;
 
@@ -75,6 +85,8 @@ io.on("connection", (socket) => {
 		AuthState.storeUserIdSocket(socket, userId);
 
 		RoomIO(socket);
+		InstanceIO(socket);
+		UserIO(socket);
 	} catch (error) {
 		socket.disconnect();
 		console.log("Disconnected socket for unauthenticated user", socket.id);

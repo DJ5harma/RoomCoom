@@ -1,17 +1,16 @@
 import mongoose from "mongoose";
 import { MODEL_CONSTANTS } from "../../constants/modal.constants";
+import type { RoomI } from "../../types";
 
-const roomSchema = new mongoose.Schema(
+const roomSchema = new mongoose.Schema<RoomI>(
 	{
 		name: { type: String, required: true },
-		users: {
-			type: [
-				{ type: mongoose.Schema.Types.ObjectId, ref: MODEL_CONSTANTS.USER },
-			],
-			default: [],
+		creator: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: MODEL_CONSTANTS.USER,
 		},
 	},
-	{ timestamps: true, toJSON: { virtuals: true } },
+	{ toJSON: { virtuals: true } },
 );
 
 roomSchema.virtual("id").get(function () {

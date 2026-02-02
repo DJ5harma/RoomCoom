@@ -6,7 +6,9 @@ export function RoomIO(socket: Socket) {
 	const userId = AuthState.getUserIdSocket(socket);
 	socket.on("room:connect", async ({ roomId }) => {
 		const existsInRoom = await RoomService.userExistsInRoom({ userId, roomId });
+
 		if (!existsInRoom) return;
+
 		socket.join(roomId);
 	});
 	socket.on("room:disconnect", async ({ roomId }) => {

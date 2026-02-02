@@ -1,0 +1,3 @@
+export enum CHATTY_MODEL_CONSTANTS {
+    MESSAGE = "1_MESSAGE",
+}

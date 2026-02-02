@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
-import { UserProvider } from "./context/user.context";
-import { SocketConnector } from "./context/socket.context";
-import { RoomsProvider } from "./context/rooms.context";
+import { UserProvider } from "@/entities/user/UserProvider";
+import { SocketConnector } from "@/context/SocketConnector";
+import { Sidebar } from "@/components/sidebar/Sidebar";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -34,7 +34,10 @@ export default function RootLayout({
 				<ToastContainer />
 				<SocketConnector>
 					<UserProvider>
-						<RoomsProvider>{children}</RoomsProvider>
+						<div className="flex">
+							<Sidebar />
+							{children}
+						</div>
 					</UserProvider>
 				</SocketConnector>
 			</body>
