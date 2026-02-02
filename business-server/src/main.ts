@@ -20,6 +20,7 @@ import { InstanceIO } from "./entities/instance/instance.io";
 import Redis from "ioredis";
 import { createAdapter } from "@socket.io/redis-adapter";
 import { UserIO } from "./entities/user/user.io";
+import { instanceRouter } from "./entities/instance/instance.routes";
 
 const app = express();
 const server = http.createServer(app);
@@ -45,6 +46,7 @@ app.use(AuthController.middlewareAuth);
 
 app.use("/api/user", userRouter);
 app.use("/api/room", roomRouter);
+app.use("/api/instance", instanceRouter);
 
 app.get("/err", () => {
 	throw new Error("ERROR TEST ROUTE - OK");

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ToastInstance } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { UserProvider } from "@/context/user.context";
 import { SocketConnector } from "@/context/socket.context";
 import { Sidebar } from "@/components/sidebar/Sidebar";
@@ -32,7 +32,7 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<ToastInstance />
+				<ToastContainer />
 				<SocketConnector>
 					<UserProvider>
 						<GlobalProvider>

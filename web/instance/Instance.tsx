@@ -1,12 +1,11 @@
 import { UserBadge } from "@/components/user/UserBadge";
-import { useInstanceData } from "./instanceData.context";
+import { useInstance } from "./InstanceProvider";
 import { useRoomData } from "../context/roomData.context";
-import { ToolsSidebar } from "./ToolsSidebar";
 import { RenderCorrectPlugin } from "./RenderCorrectPlugin";
 
 export const Instance = () => {
 	const { roomMembers } = useRoomData();
-	const { instance, instanceMembers } = useInstanceData();
+	const { instance, instanceMembers } = useInstance();
 
 	return (
 		<div className="flex w-full">
@@ -25,9 +24,6 @@ export const Instance = () => {
 			</div>
 			<div className="flex-1">
 				<RenderCorrectPlugin />
-			</div>
-			<div>
-				<ToolsSidebar />
 			</div>
 		</div>
 	);

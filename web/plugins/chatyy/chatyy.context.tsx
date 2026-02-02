@@ -31,7 +31,7 @@ export const ChatyyProvider = ({ children }: { children: ReactNode }) => {
 	const [loadingMessages, setLoadingMessages] = useState(true);
 
 	useEffect(() => {
-		Api.get(`/room/${roomId}/instance/${instanceId}/chatyy/get`)
+		Api.get(`/instance/${instanceId}/chatyy/get`)
 			.then(({ data: { messages } }) => {
 				setMessages(messages);
 			})

@@ -3,7 +3,10 @@ export type ref_uuid = object | uuid;
 
 export type Data = object | string | number;
 
-export type PluginI = "chatyy" | "meetyy";
+export enum PluginEnum {
+	chatyy = "chatyy",
+	meetyy = "meetyy",
+}
 
 interface UserI {
 	id: uuid;
@@ -28,7 +31,7 @@ interface InstanceI {
 	id: uuid;
 	name: string; // unique in a room
 	room: ref_uuid;
-	plugin: PluginI;
+	plugin: PluginEnum;
 }
 
 interface InstanceMemberI {

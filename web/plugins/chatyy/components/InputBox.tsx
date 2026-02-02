@@ -14,7 +14,7 @@ export const InputBox = () => {
 
 		const content = formData.get("content");
 
-		Api.post(`/room/${roomId}/instance/${instanceId}/chatyy/send`, {
+		Api.post(`/instance/${instanceId}/chatyy/send`, {
 			content,
 		});
 	}

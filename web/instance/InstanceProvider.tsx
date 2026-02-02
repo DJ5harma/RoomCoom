@@ -13,36 +13,35 @@ import { Loading } from "@/components/Loading";
 import { NotFound } from "@/components/NotFound";
 import { socket } from "@/context/socket.context";
 import { useRoomData } from "../context/roomData.context";
+import { useParams } from "next/navigation";
 
 const context = createContext<{
 	instance: InstanceI;
 	instanceMembers: UserI["id"][];
 } | null>(null);
 
-export const InstanceDataProvider = ({
+export const InstanceProvider = ({
 	instanceId,
 	children,
 }: {
 	instanceId: uuid;
 	children: ReactNode;
 }) => {
-	const {
-		room: { id: roomId },
-	} = useRoomData();
+	const { roomId } = useParams();
 	const [instance, setInstance] = useState<InstanceI | null>(null);
 	const [instanceMembers, setInstanceMembers] = useState<UserI["id"][]>([]);
 	const [loadingInstance, setLoadingInstance] = useState(true);
 	const [loadingInstanceMembers, setLoadingInstanceMembers] = useState(true);
 
 	useEffect(() => {
-		Api.get(`/room/${roomId}/instance/${instanceId}`)
+		Api.get(`/instance/${instanceId}`)
 			.then(({ data: { instance } }) => {
 				setInstance(instance);
 			})
 			.finally(() => {
 				setLoadingInstance(false);
 			});
-		Api.get(`/room/${roomId}/instance/${instanceId}/members`)
+		Api.get(`/instance/${instanceId}/members`)
 			.then(({ data: { members } }) => {
 				setInstanceMembers(members);
 			})
@@ -64,11 +63,9 @@ export const InstanceDataProvider = ({
 	);
 };
 
-export function useInstanceData() {
+export function useInstance() {
 	const x = useContext(context);
 	if (!x)
-		throw new Error(
-			"useInstanceData not being used inside a InstanceDataProvider",
-		);
+		throw new Error("useInstance not being used inside a InstanceProvider");
 	return x;
 }

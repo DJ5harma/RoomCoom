@@ -33,7 +33,7 @@ export const MeetyyProvider = ({ children }: { children: ReactNode }) => {
 	const [isJoined, setIsJoined] = useState(false);
 
 	useEffect(() => {
-		Api.get(`/room/${roomId}/instance/${instanceId}/meetyy/live-token`)
+		Api.get(`/instance/${instanceId}/meetyy/live-token`)
 			.then(({ data: { liveToken } }) => {
 				setLiveToken(liveToken);
 			})

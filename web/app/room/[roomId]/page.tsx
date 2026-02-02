@@ -1,11 +1,11 @@
 "use client";
 
 import { useRoomData } from "@/context/roomData.context";
-import { InstanceForm } from "@/components/forms/InstanceForm";
+import { InstanceForm } from "@/instance/InstanceForm";
 import Link from "next/link";
 import { UserBadge } from "@/components/user/UserBadge";
 import { useSearchParams } from "next/navigation";
-import { InstanceDataProvider } from "../../../instance/instanceData.context";
+import { InstanceProvider } from "../../../instance/InstanceProvider";
 import { Instance } from "../../../instance/Instance";
 
 export default function Page() {
@@ -17,9 +17,9 @@ export default function Page() {
 	if (instanceId) {
 		return (
 			<div className="w-full">
-				<InstanceDataProvider instanceId={instanceId}>
+				<InstanceProvider instanceId={instanceId}>
 					<Instance />
-				</InstanceDataProvider>
+				</InstanceProvider>
 			</div>
 		);
 	}

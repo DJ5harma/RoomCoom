@@ -13,21 +13,11 @@ export const InstanceForm = () => {
 		const data = new FormData(e.currentTarget);
 		const instanceName = data.get("instance-name");
 
-		Api.post(`/room/${roomId}/instance/create`, {
+		Api.post(`/instance/create`, {
 			name: instanceName,
 		}).then(({ data: { instance } }) => {
-			console.log({ instance });
-
 			setRoomMap((p) => {
 				const currInstances = p[roomId].instances;
-				console.log({
-					...p,
-					[roomId]: {
-						...p[roomId],
-						instances: [...currInstances, instance],
-					},
-				});
-
 				return {
 					...p,
 					[roomId]: {
@@ -40,11 +30,7 @@ export const InstanceForm = () => {
 	}
 	return (
 		<form onSubmit={createRoom}>
-			<input
-				type="text"
-				name="instance-name"
-				className="border border-white"
-			/>
+			<input type="text" name="instance-name" className="border border-white" />
 			<button type="submit">Create Cointainer</button>
 		</form>
 	);
