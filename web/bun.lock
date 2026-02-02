@@ -6,6 +6,7 @@
       "name": "web",
       "dependencies": {
         "@livekit/components-react": "^2.9.19",
+        "@livekit/components-styles": "^1.2.0",
         "axios": "^1.13.2",
         "livekit-client": "^2.17.0",
         "next": "16.1.2",
@@ -169,6 +170,8 @@
     "@livekit/components-core": ["@livekit/components-core@0.12.12", "", { "dependencies": { "@floating-ui/dom": "1.7.4", "loglevel": "1.9.1", "rxjs": "7.8.2" }, "peerDependencies": { "livekit-client": "^2.15.14", "tslib": "^2.6.2" } }, "sha512-DQ+lOAMPvum37Ta4lQLETxQe7ZxhivI78ZfE4nnWP0AcnwNByNR2vVLp9VGvw577HmvgHEkbjBbGBJBSZEBEZA=="],
 
     "@livekit/components-react": ["@livekit/components-react@2.9.19", "", { "dependencies": { "@livekit/components-core": "0.12.12", "clsx": "2.1.1", "events": "^3.3.0", "jose": "^6.0.12", "usehooks-ts": "3.1.1" }, "peerDependencies": { "@livekit/krisp-noise-filter": "^0.2.12 || ^0.3.0", "livekit-client": "^2.16.0", "react": ">=18", "react-dom": ">=18", "tslib": "^2.6.2" }, "optionalPeers": ["@livekit/krisp-noise-filter"] }, "sha512-VEa4SsiwCHreuIdjxVPrqoWY+Ezq36fHc6swawDXcROPZMCPOeAovaxw83yZqqCKDpzT6oWoeBFDMbxbMytqRw=="],
+
+    "@livekit/components-styles": ["@livekit/components-styles@1.2.0", "", {}, "sha512-74/rt0lDh6aHmOPmWAeDE9C4OrNW9RIdmhX/YRbovQBVNGNVWojRjl3FgQZ5LPFXO6l1maKB4JhXcBFENVxVvw=="],
 
     "@livekit/mutex": ["@livekit/mutex@1.1.1", "", {}, "sha512-EsshAucklmpuUAfkABPxJNhzj9v2sG7JuzFDL4ML1oJQSV14sqrpTYnsaOudMAw9yOaW53NU3QQTlUQoRs4czw=="],
 

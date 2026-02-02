@@ -1,7 +1,7 @@
 'use client';
 import { LiveKitRoom, VideoConference } from "@livekit/components-react";
 
-// import "@livekit/components-styles";
+import "@livekit/components-styles";
 import { useMeetyy } from "./meetyy.context";
 
 export function Meetyy() {

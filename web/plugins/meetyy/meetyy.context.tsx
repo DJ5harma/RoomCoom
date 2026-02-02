@@ -30,9 +30,7 @@ export const MeetyyProvider = ({ children }: { children: ReactNode }) => {
 	useEffect(() => {
 		Api.get(`/room/${roomId}/container/${containerId}/meetyy/live-token`)
 			.then(({ data: { liveToken } }) => {
-				setLiveToken(liveToken);
-                console.log({liveToken});
-                
+				setLiveToken(liveToken);                
 			})
 			.finally(() => {
 				setLoadingLiveToken(false);
