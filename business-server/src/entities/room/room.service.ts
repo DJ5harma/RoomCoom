@@ -1,4 +1,5 @@
-import type { UserI, uuid } from "../../types";
+import { io } from "../../main";
+import type { RoomI, UserI, uuid } from "../../types";
 import { ROOM } from "./room.model";
 import { ROOM_MEMBER } from "./roomMember.model";
 
@@ -43,6 +44,11 @@ class RoomServiceImpl {
 		userId: uuid;
 		roomId: uuid;
 	}) => ROOM_MEMBER.exists({ room: roomId, user: userId });
+
+	getRoomsByIds = async ({ roomIds }: { roomIds: uuid[] }) => {
+		const rooms = await ROOM.find({ _id: { $in: roomIds } });
+		return rooms;
+	};
 }
 
 export const RoomService = new RoomServiceImpl();

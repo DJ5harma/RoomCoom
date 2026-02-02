@@ -19,6 +19,7 @@ import { RoomIO } from "./entities/room/room.io";
 import { ContainerIO } from "./entities/container/container.io";
 import Redis from "ioredis";
 import { createAdapter } from "@socket.io/redis-adapter";
+import { UserIO } from "./entities/user/user.io";
 
 const app = express();
 const server = http.createServer(app);
@@ -83,6 +84,7 @@ io.on("connection", (socket) => {
 
 		RoomIO(socket);
 		ContainerIO(socket);
+		UserIO(socket);
 	} catch (error) {
 		socket.disconnect();
 		console.log("Disconnected socket for unauthenticated user", socket.id);
