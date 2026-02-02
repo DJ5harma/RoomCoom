@@ -18,7 +18,6 @@ export function Meetyy() {
 	const { user } = useUser();
 
 	const searchParams = useSearchParams();
-	const showPrejoin = searchParams.get("plugin") === "meetyy";
 
 	if (isJoined)
 		return (
@@ -32,19 +31,20 @@ export function Meetyy() {
 				<VideoConference />
 			</LiveKitRoom>
 		);
+
+	const showPrejoin = searchParams.get("plugin") === "meetyy";
+	if (!showPrejoin) return;
 	return (
 		<div className="flex flex-col justify-center items-center h-full bg-black">
 			<h1>Meeting Onboarding</h1>
 			<p>Join as {user.name}</p>
-			{showPrejoin && (
-				<PreJoin
-					onSubmit={() => setIsJoined(true)}
-					defaults={{ username: user.name }}
-					data-lk-theme="default"
-					userLabel={user.name}
-					joinLabel="Join Meeting"
-				/>
-			)}
+			<PreJoin
+				onSubmit={() => setIsJoined(true)}
+				defaults={{ username: user.name }}
+				data-lk-theme="default"
+				userLabel={user.name}
+				joinLabel="Join Meeting"
+			/>
 		</div>
 	);
 }

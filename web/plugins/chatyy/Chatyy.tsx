@@ -1,8 +1,12 @@
 import { ChatBox } from "./components/ChatBox";
 import { InputBox } from "./components/InputBox";
 import { AutoScroller } from "./components/AutoScroller";
+import { useSearchParams } from "next/navigation";
 
 export function Chatyy() {
+	const searchParams = useSearchParams();
+	const render = searchParams.get("plugin") === "chatyy";
+	if (!render) return;
 	return (
 		<div className="w-full h-full border border-cyan-100 max-h-screen flex flex-col">
 			<div
