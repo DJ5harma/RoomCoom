@@ -1,11 +1,11 @@
 import type { NextFunction, Request, Response } from "express";
 import { AuthState } from "../../auth/auth.state";
 import type { uuid } from "../../types";
-// import { InstanceService } from "../instance/instance.service";
 import { AppError } from "../../error/AppError";
 import { RoomService } from "./room.service";
 import { UserInvitation } from "../user/user.invitation";
 import { io } from "../../main";
+import { InstanceService } from "../instance/instance.service";
 
 class RoomControllerImpl {
 	async createRoom(req: Request, res: Response) {
@@ -33,16 +33,16 @@ class RoomControllerImpl {
 		const room = await RoomService.getRoomById(roomId);
 		return res.json({ room });
 	}
-	// async getInstances(req: Request, res: Response) {
-	// 	const { roomId } = req.params as { roomId: uuid };
-	// 	const instances = await InstanceService.getInstancesInRoom(roomId);
-	// 	res.json({ instances });
-	// }
-	// async getRoom(req: Request, res: Response) {
-	// 	const { roomId } = req.params as { roomId: uuid };
-	// 	const room = await RoomService.getRoomById(roomId);
-	// 	res.json({ room });
-	// }
+	async getInstances(req: Request, res: Response) {
+		const { roomId } = req.params as { roomId: uuid };
+		const instances = await InstanceService.getInstancesInRoom(roomId);
+		res.json({ instances });
+	}
+	async getRoom(req: Request, res: Response) {
+		const { roomId } = req.params as { roomId: uuid };
+		const room = await RoomService.getRoomById(roomId);
+		res.json({ room });
+	}
 
 	async getMembers(req: Request, res: Response) {
 		const { roomId } = req.params as { roomId: uuid };

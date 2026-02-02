@@ -1,10 +1,10 @@
 import { UserBadge } from "@/components/user/UserBadge";
 import { useInstance } from "./InstanceProvider";
-import { useRoomData } from "../room/RoomProvider";
+import { useRoom } from "../room/RoomProvider";
 import { RenderCorrectPlugin } from "./RenderCorrectPlugin";
 
 export const Instance = () => {
-	const { roomMembers } = useRoomData();
+	const { members } = useRoom();
 	const { instance, instanceMembers } = useInstance();
 
 	return (
@@ -13,7 +13,7 @@ export const Instance = () => {
 				<p>{instance.name}</p>
 				<div className="flex flex-col gap-2">
 					{instanceMembers.map((userId) => {
-						const user = roomMembers[userId];
+						const user = members[userId];
 						return (
 							<div key={user.id}>
 								<UserBadge user={user} />

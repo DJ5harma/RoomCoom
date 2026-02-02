@@ -2,10 +2,9 @@ import type { Request, Response } from "express";
 import { AuthState } from "../../auth/auth.state";
 import { UserService } from "./user.service";
 import { RoomService } from "../room/room.service";
-import type { InstanceI, RoomI, uuid } from "../../types";
+import type { uuid } from "../../types";
 import { UserInvitation } from "./user.invitation";
 import { AppError } from "../../error/AppError";
-import { InstanceService } from "../instance/instance.service";
 
 class UserControllerImpl {
 	async getMe(req: Request, res: Response) {
@@ -43,30 +42,6 @@ class UserControllerImpl {
 		await RoomService.addUserToRoom({ roomId, userId });
 		const room = await RoomService.getRoomById(roomId);
 		res.json({ room });
-	}
-
-	async getGlobalCombo(req: Request, res: Response) {
-		const userId = AuthState.getUserId(req);
-		const rooms = (await RoomService.getUserRooms({ userId })) as RoomI[];
-		const instances = await InstanceService.getUserInstances({
-			userId,
-		});
-
-		const roomMap: {
-			[roomId: uuid]: {
-				room: RoomI;
-				instances: InstanceI[];
-			};
-		} = {};
-
-		rooms.forEach((room) => {
-			roomMap[room.id] = { room, instances: [] };
-		});
-		instances.forEach((c) => {
-			roomMap[c.room as uuid]?.instances.push(c);
-		});
-
-		res.json({ roomMap });
 	}
 }
 

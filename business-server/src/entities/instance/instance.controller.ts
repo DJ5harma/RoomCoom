@@ -20,8 +20,7 @@ class InstanceControllerImpl {
 		next();
 	}
 	async create(req: Request, res: Response) {
-		const { roomId } = req.params as { roomId: uuid };
-		const { name } = req.body;
+		const { name, roomId } = req.body;
 		const userId = AuthState.getUserId(req);
 		const instance = await InstanceService.createInstance({
 			name,

@@ -5,7 +5,6 @@ import { ToastContainer } from "react-toastify";
 import { UserProvider } from "@/entities/user/UserProvider";
 import { SocketConnector } from "@/context/SocketConnector";
 import { Sidebar } from "@/components/sidebar/Sidebar";
-import { GlobalProvider } from "@/context/GlobalProvider";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -35,12 +34,10 @@ export default function RootLayout({
 				<ToastContainer />
 				<SocketConnector>
 					<UserProvider>
-						<GlobalProvider>
-							<div className="flex">
-								<Sidebar />
-								{children}
-							</div>
-						</GlobalProvider>
+						<div className="flex">
+							<Sidebar />
+							{children}
+						</div>
 					</UserProvider>
 				</SocketConnector>
 			</body>

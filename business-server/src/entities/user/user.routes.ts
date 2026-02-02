@@ -8,6 +8,3 @@ userRouter.get("/rooms", UserController.getRooms);
 userRouter.get("/search", UserController.searchUsers);
 userRouter.get("/room-invitations", UserController.getUserRoomInvitations);
 userRouter.get("/room-invitation/accept/:roomId", UserController.acceptRoomInvitation);
-
-
-userRouter.get("/global-combo", UserController.getGlobalCombo)

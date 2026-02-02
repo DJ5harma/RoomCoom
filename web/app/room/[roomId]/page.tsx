@@ -1,6 +1,6 @@
 "use client";
 
-import { useRoomData } from "@/entities/room/RoomProvider";
+import { useRoom } from "@/entities/room/RoomProvider";
 import { InstanceForm } from "@/entities/instance/InstanceForm";
 import Link from "next/link";
 import { UserBadge } from "@/components/user/UserBadge";
@@ -9,7 +9,7 @@ import { InstanceProvider } from "../../../entities/instance/InstanceProvider";
 import { Instance } from "../../../entities/instance/Instance";
 
 export default function Page() {
-	const { room, instances, roomMembers } = useRoomData();
+	const { room, instances, members } = useRoom();
 	const searchParams = useSearchParams();
 
 	const instanceId = searchParams.get("instanceId");
@@ -45,7 +45,7 @@ export default function Page() {
 				</div>
 				<div>
 					MEMBERS
-					{Object.values(roomMembers).map((user) => (
+					{Object.values(members).map((user) => (
 						<UserBadge key={user.id} user={user} />
 					))}
 				</div>

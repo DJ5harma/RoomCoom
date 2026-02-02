@@ -11,12 +11,13 @@ import {
 import { InstanceI, RoomI, UserI, uuid } from "../../utils/types";
 import { Loading } from "@/components/Loading";
 import { socket } from "@/context/SocketConnector";
-import { useGlobal } from "../../context/GlobalProvider";
+import { NotFound } from "@/components/NotFound";
 
 const context = createContext<{
 	room: RoomI;
 	instances: InstanceI[];
-	roomMembers: { [userId: uuid]: UserI };
+	members: { [userId: uuid]: UserI };
+	addInstance: (instance: InstanceI) => void;
 } | null>(null);
 
 export const RoomProvider = ({
@@ -26,19 +27,35 @@ export const RoomProvider = ({
 	roomId: uuid;
 	children: ReactNode;
 }) => {
-	const [roomMembers, setRoomMembers] = useState<{ [userId: uuid]: UserI }>({});
-	const { roomMap } = useGlobal();
-	const { room, instances } = roomMap[roomId];
+	const [room, setRoom] = useState<RoomI | null>(null);
+	const [instances, setInstances] = useState<InstanceI[]>([]);
+	const [members, setMembers] = useState<{ [userId: uuid]: UserI }>({});
 
-	const [loadingRoomMembers, setLoadingRoomMembers] = useState(true);
+	const [loadingRoom, setLoadingRoom] = useState(true);
+	const [loadingInstances, setLoadingInstances] = useState(true);
+	const [loadingmembers, setLoadingmembers] = useState(true);
 
 	useEffect(() => {
-		Api.get(`/room/${roomId}/members`)
-			.then(({ data: { members } }) => {
-				setRoomMembers(members);
+		Api.get(`/room/${roomId}`)
+			.then(({ data: { room } }) => {
+				setRoom(room);
 			})
 			.finally(() => {
-				setLoadingRoomMembers(false);
+				setLoadingRoom(false);
+			});
+		Api.get(`/room/${roomId}/instances`)
+			.then(({ data: { instances } }) => {
+				setInstances(instances);
+			})
+			.finally(() => {
+				setLoadingInstances(false);
+			});
+		Api.get(`/room/${roomId}/members`)
+			.then(({ data: { members } }) => {
+				setMembers(members);
+			})
+			.finally(() => {
+				setLoadingmembers(false);
 			});
 		socket.emit("room:connect", { roomId });
 		return () => {
@@ -46,17 +63,21 @@ export const RoomProvider = ({
 		};
 	}, []);
 
-	if (loadingRoomMembers) return <Loading />;
+	if (loadingRoom || loadingInstances || loadingmembers) return <Loading />;
+	if (!room) return <NotFound />;
+
+	function addInstance(instance: InstanceI) {
+		setInstances((p) => [instance, ...p]);
+	}
 	return (
-		<context.Provider value={{ roomMembers, room, instances }}>
+		<context.Provider value={{ members, room, instances, addInstance }}>
 			{children}
 		</context.Provider>
 	);
 };
 
-export function useRoomData() {
+export function useRoom() {
 	const x = useContext(context);
-	if (!x)
-		throw new Error("useRoomData not being used inside a RoomProvider");
+	if (!x) throw new Error("useRoom not being used inside a RoomProvider");
 	return x;
 }

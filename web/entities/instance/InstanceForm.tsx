@@ -1,12 +1,9 @@
-import { useGlobal } from "@/context/GlobalProvider";
 import { Api } from "@/utils/Api";
-import { uuid } from "@/utils/types";
-import { useParams } from "next/navigation";
 import { FormEvent } from "react";
+import { useRoom } from "../room/RoomProvider";
 
 export const InstanceForm = () => {
-	const { setRoomMap } = useGlobal();
-	const { roomId } = useParams() as { roomId: uuid };
+	const { room, addInstance } = useRoom();
 
 	function createRoom(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
@@ -15,17 +12,9 @@ export const InstanceForm = () => {
 
 		Api.post(`/instance/create`, {
 			name: instanceName,
+			roomId: room.id,
 		}).then(({ data: { instance } }) => {
-			setRoomMap((p) => {
-				const currInstances = p[roomId].instances;
-				return {
-					...p,
-					[roomId]: {
-						...p[roomId],
-						instances: [...currInstances, instance],
-					},
-				};
-			});
+			addInstance(instance);
 		});
 	}
 	return (

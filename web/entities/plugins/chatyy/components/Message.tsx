@@ -1,5 +1,5 @@
 import { MessageI } from "../types";
-import { useRoomData } from "@/entities/room/RoomProvider";
+import { useRoom } from "@/entities/room/RoomProvider";
 import { useUser } from "@/entities/user/UserProvider";
 import { UserI } from "@/utils/types";
 import Image from "next/image";
@@ -12,11 +12,11 @@ export const Message = ({
 	message: MessageI;
 	isContinuation: boolean;
 }) => {
-	const { roomMembers } = useRoomData();
+	const { members } = useRoom();
 	const { content, from } = message;
 	const { user } = useUser();
 
-	const sender = (typeof from === "string" ? roomMembers[from] : from) as UserI;
+	const sender = (typeof from === "string" ? members[from] : from) as UserI;
 	const didISend = user.id === sender.id;
 
 	const showProfilePic = isContinuation ? false : true;
