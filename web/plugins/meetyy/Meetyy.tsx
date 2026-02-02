@@ -35,6 +35,7 @@ export function Meetyy() {
 	return (
 		<div className="flex flex-col justify-center items-center h-full bg-black">
 			<h1>Meeting Onboarding</h1>
+			<p>Join as {user.name}</p>
 			{showPrejoin && (
 				<PreJoin
 					onSubmit={() => setIsJoined(true)}
