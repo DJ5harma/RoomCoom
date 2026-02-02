@@ -1,22 +1,9 @@
-If deploying outside localhost:
+4️⃣ Firewall rules (MANDATORY)
 
-🔥 You MUST configure:
+If using ufw:
 
-Public IP
-
-TURN / UDP ports
-
-Firewall
-
-Add to config.yaml:
-
-rtc:
-  use_external_ip: true
-
-
-Open UDP ports (example):
-
+ufw allow 7880/tcp
+ufw allow 7881/tcp
 ufw allow 7882:7900/udp
-
-
-💡 If users are behind strict firewalls → add TURN server (coturn).
+ufw allow 3478/udp
+ufw allow 49160:49200/udp
