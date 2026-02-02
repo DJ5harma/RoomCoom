@@ -6,9 +6,5 @@ import { uuid } from "@/utils/types";
 
 export default function Layout({ children }: { children: ReactNode }) {
 	const { roomId } = useParams() as { roomId: uuid };
-	return (
-		<>
-			<RoomDataProvider roomId={roomId}>{children}</RoomDataProvider>
-		</>
-	);
+	return <RoomDataProvider roomId={roomId}>{children}</RoomDataProvider>;
 }

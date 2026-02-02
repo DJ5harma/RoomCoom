@@ -25,7 +25,7 @@ export default function Page() {
 	}
 
 	return (
-		<div>
+		<div className="p-2 w-full flex flex-col items-center">
 			<p>{room.name}</p>
 			<ContainerForm />
 			<div className="w-full flex justify-between">
