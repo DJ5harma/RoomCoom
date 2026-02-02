@@ -41,7 +41,7 @@ export const Sidebar = () => {
 
 	return (
 		<aside
-			className="border-2 border-orange-300 h-screen flex flex-col gap-4 bg-blue-950"
+			className="border-2 border-orange-300 h-screen flex flex-col gap-2 bg-blue-950 p-1 py-2"
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
 		>
@@ -52,7 +52,7 @@ export const Sidebar = () => {
 							key={link}
 							href={link}
 							className={
-								"flex items-center gap-2 p-2 " +
+								"p-2 rounded-xl " +
 								(pathname === link
 									? "bg-green-400 text-black"
 									: "bg-black")
@@ -69,14 +69,14 @@ export const Sidebar = () => {
 							key={link}
 							href={link}
 							className={
-								"flex items-center gap-2 border-2 p-2 " +
+								"flex gap-1.5 items-center p-2 rounded-lg " +
 								(pathname === link
 									? "bg-green-400 text-black"
-									: "border-green-400 bg-black")
+									: "bg-black")
 							}
 						>
 							{icon}
-							<p>{name}</p>
+							<p className="">{name}</p>
 						</Link>
 					);
 				})}

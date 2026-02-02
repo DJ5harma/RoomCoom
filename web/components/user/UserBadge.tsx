@@ -6,16 +6,16 @@ export const UserBadge = ({ user }: { user: UserI }) => {
 	return (
 		<div
 			title={email}
-			className="bg-blue-900 flex items-center p-2 gap-2 rounded-lg pr-4"
+			className="bg-red-900 flex items-center p-2 gap-2 rounded-lg pr-2 w-40"
 		>
 			<Image
 				className="rounded-full"
-				width={40}
-				height={40}
+				width={25}
+				height={25}
 				alt={name + "'s image"}
 				src={pictureUrl}
 			/>
-			<p>{name}</p>
+			<p className="text-sm">{name}</p>
 		</div>
 	);
 };

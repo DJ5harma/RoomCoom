@@ -7,20 +7,20 @@ import { UserBadge } from "@/components/user/UserBadge";
 import { useSearchParams } from "next/navigation";
 import { ContainerDataProvider } from "../../../container/containerData.context";
 import { Container } from "../../../container/Container";
-import { ChatyyProvider } from "@/plugins/chatyy/chatyy.context";
 
 export default function Page() {
 	const { room, containers, roomMembers } = useRoomData();
 	const searchParams = useSearchParams();
 
 	const containerId = searchParams.get("containerId");
+
 	if (containerId) {
 		return (
-			<ContainerDataProvider containerId={containerId}>
-				<ChatyyProvider>
-					<Container />
-				</ChatyyProvider>
-			</ContainerDataProvider>
+			<div className="w-full">
+				<ContainerDataProvider containerId={containerId}>
+						<Container />
+				</ContainerDataProvider>
+			</div>
 		);
 	}
 

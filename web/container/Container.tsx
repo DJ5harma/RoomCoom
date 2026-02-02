@@ -1,21 +1,19 @@
 import { UserBadge } from "@/components/user/UserBadge";
 import { useContainerData } from "./containerData.context";
 import { useRoomData } from "../context/roomData.context";
-import { Chatyy } from "@/plugins/chatyy/Chatyy";
-import { useSearchParams } from "next/navigation";
+import { ToolsSidebar } from "./ToolsSidebar";
+import { RenderCorrectPlugin } from "./RenderCorrectPlugin";
+import { ChatyyProvider } from "@/plugins/chatyy/chatyy.context";
 
 export const Container = () => {
 	const { roomMembers } = useRoomData();
-	const searchParams = useSearchParams();
 	const { container, containerMembers } = useContainerData();
-	const plugin = searchParams.get("plugin") as string;
-	console.log({ plugin });
 
 	return (
-		<div className="flex">
-			<div>
+		<div className="flex w-full border border-amber-500">
+			<div className="p-2">
 				<p>{container.name}</p>
-				<div>
+				<div className="flex flex-col gap-2">
 					{containerMembers.map((userId) => {
 						const user = roomMembers[userId];
 						return (
@@ -26,9 +24,14 @@ export const Container = () => {
 					})}
 				</div>
 			</div>
-			{{
-				chatyy: <Chatyy />,
-			}[plugin] ?? <Chatyy />}
+			<div className="flex-1 p-2 border-blue-400">
+				<ChatyyProvider>
+					<RenderCorrectPlugin />
+				</ChatyyProvider>
+			</div>
+			<div>
+				<ToolsSidebar />
+			</div>
 		</div>
 	);
 };
