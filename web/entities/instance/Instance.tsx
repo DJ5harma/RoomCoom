@@ -1,6 +1,6 @@
 import { UserBadge } from "@/components/user/UserBadge";
 import { useInstance } from "./InstanceProvider";
-import { useRoomData } from "../context/roomData.context";
+import { useRoomData } from "../room/RoomProvider";
 import { RenderCorrectPlugin } from "./RenderCorrectPlugin";
 
 export const Instance = () => {

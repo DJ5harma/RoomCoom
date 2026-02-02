@@ -1,4 +1,4 @@
-import { useGlobal } from "@/context/global.context";
+import { useGlobal } from "@/context/GlobalProvider";
 import { Api } from "@/utils/Api";
 import { FormEvent } from "react";
 

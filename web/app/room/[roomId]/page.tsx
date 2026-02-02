@@ -1,12 +1,12 @@
 "use client";
 
-import { useRoomData } from "@/context/roomData.context";
-import { InstanceForm } from "@/instance/InstanceForm";
+import { useRoomData } from "@/entities/room/RoomProvider";
+import { InstanceForm } from "@/entities/instance/InstanceForm";
 import Link from "next/link";
 import { UserBadge } from "@/components/user/UserBadge";
 import { useSearchParams } from "next/navigation";
-import { InstanceProvider } from "../../../instance/InstanceProvider";
-import { Instance } from "../../../instance/Instance";
+import { InstanceProvider } from "../../../entities/instance/InstanceProvider";
+import { Instance } from "../../../entities/instance/Instance";
 
 export default function Page() {
 	const { room, instances, roomMembers } = useRoomData();

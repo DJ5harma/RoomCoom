@@ -12,7 +12,7 @@ import {
 } from "react";
 import { MessageI } from "./types";
 import { Loading } from "@/components/Loading";
-import { socket } from "@/context/socket.context";
+import { socket } from "@/context/SocketConnector";
 import { useParams, useSearchParams } from "next/navigation";
 import { uuid } from "@/utils/types";
 

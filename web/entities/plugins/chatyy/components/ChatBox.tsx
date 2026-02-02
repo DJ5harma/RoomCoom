@@ -1,4 +1,4 @@
-import { useChatyy } from "../chatyy.context";
+import { useChatyy } from "../ChatyyProvider";
 import { Message } from "./Message";
 
 export const ChatBox = () => {

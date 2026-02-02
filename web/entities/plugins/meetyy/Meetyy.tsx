@@ -6,9 +6,9 @@ import {
 } from "@livekit/components-react";
 
 import "@livekit/components-styles";
-import { useMeetyy } from "./meetyy.context";
+import { useMeetyy } from "./MeetyyProvider";
 import { LIVEKIT_URL } from "@/utils/Api";
-import { useUser } from "@/context/user.context";
+import { useUser } from "@/entities/user/UserProvider";
 
 import "./livekit.css";
 import { useSearchParams } from "next/navigation";

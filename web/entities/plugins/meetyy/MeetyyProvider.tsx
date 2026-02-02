@@ -22,7 +22,6 @@ const context = createContext<{
 } | null>(null);
 
 export const MeetyyProvider = ({ children }: { children: ReactNode }) => {
-	const { roomId } = useParams() as { roomId: uuid };
 	const searchParams = useSearchParams();
 
 	const instanceId = searchParams.get("instanceId");

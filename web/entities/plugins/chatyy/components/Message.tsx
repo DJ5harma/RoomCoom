@@ -1,6 +1,6 @@
 import { MessageI } from "../types";
-import { useRoomData } from "@/context/roomData.context";
-import { useUser } from "@/context/user.context";
+import { useRoomData } from "@/entities/room/RoomProvider";
+import { useUser } from "@/entities/user/UserProvider";
 import { UserI } from "@/utils/types";
 import Image from "next/image";
 import { useState } from "react";

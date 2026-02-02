@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { RoomForm } from "@/components/forms/RoomForm";
-import { useUser } from "@/context/user.context";
+import { RoomForm } from "@/entities/room/RoomForm";
+import { useUser } from "@/entities/user/UserProvider";
 import Image from "next/image";
-import { useGlobal } from "@/context/global.context";
+import { useGlobal } from "@/context/GlobalProvider";
 import { uuid } from "@/utils/types";
 
 export default function Home() {

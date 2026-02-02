@@ -1,7 +1,7 @@
-import { Chatyy } from "@/plugins/chatyy/Chatyy";
-import { ChatyyProvider } from "@/plugins/chatyy/chatyy.context";
-import { Meetyy } from "@/plugins/meetyy/Meetyy";
-import { MeetyyProvider } from "@/plugins/meetyy/meetyy.context";
+import { Chatyy } from "@/entities/plugins/chatyy/Chatyy";
+import { ChatyyProvider } from "@/entities/plugins/chatyy/ChatyyProvider";
+import { Meetyy } from "@/entities/plugins/meetyy/Meetyy";
+import { MeetyyProvider } from "@/entities/plugins/meetyy/MeetyyProvider";
 import { useInstance } from "./InstanceProvider";
 import { PluginEnum } from "@/utils/types";
 

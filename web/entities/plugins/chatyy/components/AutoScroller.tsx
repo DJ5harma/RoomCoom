@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useChatyy } from "../chatyy.context";
+import { useChatyy } from "../ChatyyProvider";
 
 export const AutoScroller = () => {
 	const { messages } = useChatyy();

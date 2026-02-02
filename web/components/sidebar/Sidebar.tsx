@@ -1,5 +1,5 @@
 "use client";
-import { useUser } from "@/context/user.context";
+import { useUser } from "@/entities/user/UserProvider";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

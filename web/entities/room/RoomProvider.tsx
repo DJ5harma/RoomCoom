@@ -8,10 +8,10 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { InstanceI, RoomI, UserI, uuid } from "../utils/types";
+import { InstanceI, RoomI, UserI, uuid } from "../../utils/types";
 import { Loading } from "@/components/Loading";
-import { socket } from "@/context/socket.context";
-import { useGlobal } from "./global.context";
+import { socket } from "@/context/SocketConnector";
+import { useGlobal } from "../../context/GlobalProvider";
 
 const context = createContext<{
 	room: RoomI;
@@ -19,7 +19,7 @@ const context = createContext<{
 	roomMembers: { [userId: uuid]: UserI };
 } | null>(null);
 
-export const RoomDataProvider = ({
+export const RoomProvider = ({
 	roomId,
 	children,
 }: {
@@ -57,6 +57,6 @@ export const RoomDataProvider = ({
 export function useRoomData() {
 	const x = useContext(context);
 	if (!x)
-		throw new Error("useRoomData not being used inside a RoomDataProvider");
+		throw new Error("useRoomData not being used inside a RoomProvider");
 	return x;
 }
