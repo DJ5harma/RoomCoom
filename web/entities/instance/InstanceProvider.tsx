@@ -12,8 +12,6 @@ import { InstanceI, UserI, uuid } from "@/utils/types";
 import { Loading } from "@/components/Loading";
 import { NotFound } from "@/components/NotFound";
 import { socket } from "@/context/SocketConnector";
-import { useRoom } from "../room/RoomProvider";
-import { useParams } from "next/navigation";
 
 const context = createContext<{
 	instance: InstanceI;
@@ -27,7 +25,6 @@ export const InstanceProvider = ({
 	instanceId: uuid;
 	children: ReactNode;
 }) => {
-	const { roomId } = useParams();
 	const [instance, setInstance] = useState<InstanceI | null>(null);
 	const [instanceMembers, setInstanceMembers] = useState<UserI["id"][]>([]);
 	const [loadingInstance, setLoadingInstance] = useState(true);
