@@ -18,7 +18,7 @@ export default function Page() {
 		return (
 			<div className="w-full">
 				<ContainerDataProvider containerId={containerId}>
-						<Container />
+					<Container />
 				</ContainerDataProvider>
 			</div>
 		);

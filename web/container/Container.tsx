@@ -24,7 +24,7 @@ export const Container = () => {
 					})}
 				</div>
 			</div>
-			<div className="flex-1 p-2 border-blue-400">
+			<div className="flex-1">
 				<ChatyyProvider>
 					<RenderCorrectPlugin />
 				</ChatyyProvider>

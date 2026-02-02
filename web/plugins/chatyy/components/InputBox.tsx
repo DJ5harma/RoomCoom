@@ -1,11 +1,12 @@
 import { Api } from "@/utils/Api";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { FormEvent } from "react";
 import { BiSend } from "react-icons/bi";
 
 export const InputBox = () => {
-	const { roomId, containerId } = useParams();
-
+	const { roomId } = useParams();
+	const searchParams = useSearchParams();
+	const containerId = searchParams.get("containerId");
 	function sendMessage(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 
@@ -18,11 +19,18 @@ export const InputBox = () => {
 		});
 	}
 	return (
-		<form onSubmit={sendMessage} className="w-full border-2 border-amber-200 flex p-1 gap-1">
-			<input type="text" name="content" className="flex-1 bg-white text-black" />
+		<form
+			onSubmit={sendMessage}
+			className="w-full border-2 border-amber-200 flex p-1 gap-1"
+		>
+			<input
+				type="text"
+				name="content"
+				className="flex-1 bg-white text-black"
+			/>
 			<button type="submit" className="bg-white text-black">
-                <BiSend size={25} />
-            </button>
+				<BiSend size={25} />
+			</button>
 		</form>
 	);
 };

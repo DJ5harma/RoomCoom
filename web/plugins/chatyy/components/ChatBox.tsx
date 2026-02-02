@@ -1,23 +1,13 @@
-import { useUser } from "@/context/user.context";
 import { useChatyy } from "../chatyy.context";
 import { Message } from "./Message";
 
 export const ChatBox = () => {
 	const { messages } = useChatyy();
-	const { user } = useUser();
 	return (
 		<div className="w-full h-full">
-			<div>
+			<div className="flex flex-col gap-2 p-2">
 				{messages.map((message) => {
-					const didISend = message.from === user.id;
-					return (
-						<div
-							key={message.id}
-							className={"w-full flex " + (didISend ? "justify-end" : "")}
-						>
-							<Message message={message} />
-						</div>
-					);
+					return <Message key={message.id} message={message} />;
 				})}
 			</div>
 		</div>
