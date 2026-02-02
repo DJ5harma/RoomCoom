@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import { MODEL_CONSTANTS } from "../../constants/modal.constants";
-import { type ContainerI } from "../../types";
+import { type InstanceI } from "../../types";
 
-const containerSchema = new mongoose.Schema<ContainerI>(
+const instanceSchema = new mongoose.Schema<InstanceI>(
 	{
 		name: { type: String, required: true },
 		room: {
@@ -10,15 +10,16 @@ const containerSchema = new mongoose.Schema<ContainerI>(
 			ref: MODEL_CONSTANTS.ROOM,
 			required: true,
 		},
+		plugin: {type: String, enum: ["chatyy"] }
 	},
 	{ toJSON: { virtuals: true } },
 );
 
-containerSchema.virtual("id").get(function () {
+instanceSchema.virtual("id").get(function () {
 	return this._id.toString();
 });
 
-export const CONTAINER = mongoose.model(
-	MODEL_CONSTANTS.CONTAINER,
-	containerSchema,
+export const INSTANCE = mongoose.model(
+	MODEL_CONSTANTS.INSTANCE,
+	instanceSchema,
 );

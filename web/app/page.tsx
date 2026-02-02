@@ -12,21 +12,21 @@ export default function Home() {
 	const { user } = useUser();
 
 	const Diagram = ({ roomId }: { roomId: uuid }) => {
-		const { room, containers } = roomMap[roomId];
+		const { room, instances } = roomMap[roomId];
 		return (
 			<div className="flex flex-wrap">
 				<Link className="border bg-red-800 p-4" href={`/room/${roomId}`}>
 					<p>{room.name}</p>
 				</Link>
-				{containers.map((container) => {
+				{instances.map((instance) => {
 					return (
 						<>
 							<div className="border-t-2 border-white w-20" />
 							<Link
 								className="border bg-blue-800 p-4"
-								href={`/room/${roomId}?containerId=${container.id}`}
+								href={`/room/${roomId}?instanceId=${instance.id}`}
 							>
-								<p>{container.name}</p>
+								<p>{instance.name}</p>
 							</Link>
 						</>
 					);

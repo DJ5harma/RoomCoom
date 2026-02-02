@@ -8,14 +8,14 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { ContainerI, RoomI, UserI, uuid } from "../utils/types";
+import { InstanceI, RoomI, UserI, uuid } from "../utils/types";
 import { Loading } from "@/components/Loading";
 import { socket } from "@/context/socket.context";
 import { useGlobal } from "./global.context";
 
 const context = createContext<{
 	room: RoomI;
-	containers: ContainerI[];
+	instances: InstanceI[];
 	roomMembers: { [userId: uuid]: UserI };
 } | null>(null);
 
@@ -28,7 +28,7 @@ export const RoomDataProvider = ({
 }) => {
 	const [roomMembers, setRoomMembers] = useState<{ [userId: uuid]: UserI }>({});
 	const { roomMap } = useGlobal();
-	const { room, containers } = roomMap[roomId];
+	const { room, instances } = roomMap[roomId];
 
 	const [loadingRoomMembers, setLoadingRoomMembers] = useState(true);
 
@@ -48,7 +48,7 @@ export const RoomDataProvider = ({
 
 	if (loadingRoomMembers) return <Loading />;
 	return (
-		<context.Provider value={{ roomMembers, room, containers }}>
+		<context.Provider value={{ roomMembers, room, instances }}>
 			{children}
 		</context.Provider>
 	);

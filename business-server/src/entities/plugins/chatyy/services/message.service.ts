@@ -3,25 +3,25 @@ import type { uuid } from "../../../../types";
 import { MESSAGE } from "../models/message.model";
 
 class MessageServiceImpl {
-	sendToContainer = async ({
-		containerId,
+	sendToInstance = async ({
+		instanceId,
 		content,
 		from,
 	}: {
-		containerId: uuid;
+		instanceId: uuid;
 		content: string;
 		from: uuid;
 	}) => {
 		const message = await MESSAGE.create({
 			content,
-			container: containerId,
+			instance: instanceId,
 			from,
 		});
-		io.to(containerId).emit("chatyy:message", { message });
+		io.to(instanceId).emit("chatyy:message", { message });
 	};
 
-	getForContainer = async (containerId: uuid) => {
-		const messages = await MESSAGE.find({ container: containerId });
+	getForInstance = async (instanceId: uuid) => {
+		const messages = await MESSAGE.find({ instance: instanceId });
 
 		return messages;
 	};

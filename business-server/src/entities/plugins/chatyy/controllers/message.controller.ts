@@ -5,16 +5,16 @@ import { AuthState } from "../../../../auth/auth.state";
 
 class MessageControllerImpl {
 	send(req: Request, res: Response) {
-		const { containerId } = req.params as { containerId: uuid };
+		const { instanceId } = req.params as { instanceId: uuid };
 		const { content } = req.body;
 
 		const userId = AuthState.getUserId(req);
-		MessageService.sendToContainer({ containerId, content, from: userId });
+		MessageService.sendToInstance({ instanceId, content, from: userId });
 		res.send();
 	}
 	async get(req: Request, res: Response) {
-		const { containerId } = req.params as { containerId: uuid };
-		const messages = await MessageService.getForContainer(containerId);
+		const { instanceId } = req.params as { instanceId: uuid };
+		const messages = await MessageService.getForInstance(instanceId);
 		res.json({ messages });
 	}
 }

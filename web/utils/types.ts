@@ -3,6 +3,8 @@ export type ref_uuid = object | uuid;
 
 export type Data = object | string | number;
 
+export type PluginI = "chatyy" | "meetyy";
+
 interface UserI {
 	id: uuid;
 	name: string;
@@ -22,16 +24,17 @@ interface RoomMemberI {
 	user: ref_uuid;
 }
 
-interface ContainerI {
+interface InstanceI {
 	id: uuid;
 	name: string; // unique in a room
 	room: ref_uuid;
+	plugin: PluginI;
 }
 
-interface ContainerMemberI {
+interface InstanceMemberI {
 	id: uuid;
-	container: ref_uuid;
+	instance: ref_uuid;
 	user: ref_uuid;
 }
 
-export type { UserI, RoomI, RoomMemberI, ContainerI, ContainerMemberI };
+export type { UserI, RoomI, RoomMemberI, InstanceI, InstanceMemberI };

@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import { AuthState } from "../../auth/auth.state";
 import type { uuid } from "../../types";
-// import { ContainerService } from "../container/container.service";
+// import { InstanceService } from "../instance/instance.service";
 import { AppError } from "../../error/AppError";
 import { RoomService } from "./room.service";
 import { UserInvitation } from "../user/user.invitation";
@@ -33,10 +33,10 @@ class RoomControllerImpl {
 		const room = await RoomService.getRoomById(roomId);
 		return res.json({ room });
 	}
-	// async getContainers(req: Request, res: Response) {
+	// async getInstances(req: Request, res: Response) {
 	// 	const { roomId } = req.params as { roomId: uuid };
-	// 	const containers = await ContainerService.getContainersInRoom(roomId);
-	// 	res.json({ containers });
+	// 	const instances = await InstanceService.getInstancesInRoom(roomId);
+	// 	res.json({ instances });
 	// }
 	// async getRoom(req: Request, res: Response) {
 	// 	const { roomId } = req.params as { roomId: uuid };

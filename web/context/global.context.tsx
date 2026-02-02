@@ -10,13 +10,13 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { ContainerI, RoomI, uuid } from "../utils/types";
+import { InstanceI, RoomI, uuid } from "../utils/types";
 import { Loading } from "@/components/Loading";
 
 interface RoomMapI {
 	[roomId: uuid]: {
 		room: RoomI;
-		containers: ContainerI[];
+		instances: InstanceI[];
 	};
 }
 

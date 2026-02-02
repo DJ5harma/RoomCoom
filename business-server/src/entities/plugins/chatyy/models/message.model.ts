@@ -11,9 +11,9 @@ const MessageSchema = new mongoose.Schema<MessageI>(
 			ref: MODEL_CONSTANTS.USER,
 			required: true,
 		},
-		container: {
+		instance: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: MODEL_CONSTANTS.CONTAINER,
+			ref: MODEL_CONSTANTS.INSTANCE,
 			required: true,
 		},
 	},

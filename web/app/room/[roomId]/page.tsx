@@ -1,25 +1,25 @@
 "use client";
 
 import { useRoomData } from "@/context/roomData.context";
-import { ContainerForm } from "@/components/forms/ContainerForm";
+import { InstanceForm } from "@/components/forms/InstanceForm";
 import Link from "next/link";
 import { UserBadge } from "@/components/user/UserBadge";
 import { useSearchParams } from "next/navigation";
-import { ContainerDataProvider } from "../../../container/containerData.context";
-import { Container } from "../../../container/Container";
+import { InstanceDataProvider } from "../../../instance/instanceData.context";
+import { Instance } from "../../../instance/Instance";
 
 export default function Page() {
-	const { room, containers, roomMembers } = useRoomData();
+	const { room, instances, roomMembers } = useRoomData();
 	const searchParams = useSearchParams();
 
-	const containerId = searchParams.get("containerId");
+	const instanceId = searchParams.get("instanceId");
 
-	if (containerId) {
+	if (instanceId) {
 		return (
 			<div className="w-full">
-				<ContainerDataProvider containerId={containerId}>
-					<Container />
-				</ContainerDataProvider>
+				<InstanceDataProvider instanceId={instanceId}>
+					<Instance />
+				</InstanceDataProvider>
 			</div>
 		);
 	}
@@ -27,15 +27,15 @@ export default function Page() {
 	return (
 		<div className="p-2 w-full flex flex-col items-center">
 			<p>{room.name}</p>
-			<ContainerForm />
+			<InstanceForm />
 			<div className="w-full flex justify-between">
 				<div>
-					CONTAINERS
-					{containers.map(({ id, name }) => {
+					INSTANCES
+					{instances.map(({ id, name }) => {
 						return (
 							<Link
 								className="flex flex-col bg-green-800 p-4"
-								href={`/room/${room.id}?containerId=${id}`}
+								href={`/room/${room.id}?instanceId=${id}`}
 								key={id}
 							>
 								<p>{name}</p>

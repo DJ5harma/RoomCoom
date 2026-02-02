@@ -2,10 +2,10 @@ import type { Request, Response } from "express";
 import { AuthState } from "../../auth/auth.state";
 import { UserService } from "./user.service";
 import { RoomService } from "../room/room.service";
-import type { ContainerI, RoomI, uuid } from "../../types";
+import type { InstanceI, RoomI, uuid } from "../../types";
 import { UserInvitation } from "./user.invitation";
 import { AppError } from "../../error/AppError";
-import { ContainerService } from "../container/container.service";
+import { InstanceService } from "../instance/instance.service";
 
 class UserControllerImpl {
 	async getMe(req: Request, res: Response) {
@@ -48,22 +48,22 @@ class UserControllerImpl {
 	async getGlobalCombo(req: Request, res: Response) {
 		const userId = AuthState.getUserId(req);
 		const rooms = (await RoomService.getUserRooms({ userId })) as RoomI[];
-		const containers = await ContainerService.getUserContainers({
+		const instances = await InstanceService.getUserInstances({
 			userId,
 		});
 
 		const roomMap: {
 			[roomId: uuid]: {
 				room: RoomI;
-				containers: ContainerI[];
+				instances: InstanceI[];
 			};
 		} = {};
 
 		rooms.forEach((room) => {
-			roomMap[room.id] = { room, containers: [] };
+			roomMap[room.id] = { room, instances: [] };
 		});
-		containers.forEach((c) => {
-			roomMap[c.room as uuid]?.containers.push(c);
+		instances.forEach((c) => {
+			roomMap[c.room as uuid]?.instances.push(c);
 		});
 
 		res.json({ roomMap });

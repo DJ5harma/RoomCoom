@@ -4,27 +4,27 @@ import { uuid } from "@/utils/types";
 import { useParams } from "next/navigation";
 import { FormEvent } from "react";
 
-export const ContainerForm = () => {
+export const InstanceForm = () => {
 	const { setRoomMap } = useGlobal();
 	const { roomId } = useParams() as { roomId: uuid };
 
 	function createRoom(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		const data = new FormData(e.currentTarget);
-		const containerName = data.get("container-name");
+		const instanceName = data.get("instance-name");
 
-		Api.post(`/room/${roomId}/container/create`, {
-			name: containerName,
-		}).then(({ data: { container } }) => {
-			console.log({ container });
+		Api.post(`/room/${roomId}/instance/create`, {
+			name: instanceName,
+		}).then(({ data: { instance } }) => {
+			console.log({ instance });
 
 			setRoomMap((p) => {
-				const currContainers = p[roomId].containers;
+				const currInstances = p[roomId].instances;
 				console.log({
 					...p,
 					[roomId]: {
 						...p[roomId],
-						containers: [...currContainers, container],
+						instances: [...currInstances, instance],
 					},
 				});
 
@@ -32,7 +32,7 @@ export const ContainerForm = () => {
 					...p,
 					[roomId]: {
 						...p[roomId],
-						containers: [...currContainers, container],
+						instances: [...currInstances, instance],
 					},
 				};
 			});
@@ -42,7 +42,7 @@ export const ContainerForm = () => {
 		<form onSubmit={createRoom}>
 			<input
 				type="text"
-				name="container-name"
+				name="instance-name"
 				className="border border-white"
 			/>
 			<button type="submit">Create Cointainer</button>

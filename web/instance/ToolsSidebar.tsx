@@ -8,10 +8,10 @@ import { BiArrowBack, BiChat, BiVideo } from "react-icons/bi";
 export const ToolsSidebar = () => {
 	const searchParams = useSearchParams();
 	const { roomId } = useParams() as { roomId: uuid };
-	const containerId = searchParams.get("containerId");
+	const instanceId = searchParams.get("instanceId");
 
 	const BASE_ROOM = `/room/${roomId}`;
-	const BASE_CONTAINER = `/room/${roomId}?containerId=${containerId}`;
+	const BASE_INSTANCE = `/room/${roomId}?instanceId=${instanceId}`;
 
 	const plugin = searchParams.get("plugin");
 
@@ -30,13 +30,13 @@ export const ToolsSidebar = () => {
 		{
 			name: "Chatyy",
 			icon: <BiChat size={25} />,
-			link: BASE_CONTAINER + "&plugin=chatyy",
+			link: BASE_INSTANCE + "&plugin=chatyy",
 			highlight: plugin === "chatyy" || !plugin,
 		},
 		{
 			name: "Meetyy",
 			icon: <BiVideo size={25} />,
-			link: BASE_CONTAINER + "&plugin=meetyy",
+			link: BASE_INSTANCE + "&plugin=meetyy",
 			highlight: plugin === "meetyy",
 		},
 	];

@@ -6,7 +6,7 @@ import { BiSend } from "react-icons/bi";
 export const InputBox = () => {
 	const { roomId } = useParams();
 	const searchParams = useSearchParams();
-	const containerId = searchParams.get("containerId");
+	const instanceId = searchParams.get("instanceId");
 	function sendMessage(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 
@@ -14,7 +14,7 @@ export const InputBox = () => {
 
 		const content = formData.get("content");
 
-		Api.post(`/room/${roomId}/container/${containerId}/chatyy/send`, {
+		Api.post(`/room/${roomId}/instance/${instanceId}/chatyy/send`, {
 			content,
 		});
 	}

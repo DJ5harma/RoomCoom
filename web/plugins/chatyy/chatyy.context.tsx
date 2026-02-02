@@ -25,13 +25,13 @@ export const ChatyyProvider = ({ children }: { children: ReactNode }) => {
 	const { roomId } = useParams() as { roomId: uuid };
 	const searchParams = useSearchParams();
 
-	const containerId = searchParams.get("containerId");
+	const instanceId = searchParams.get("instanceId");
 
 	const [messages, setMessages] = useState<MessageI[]>([]);
 	const [loadingMessages, setLoadingMessages] = useState(true);
 
 	useEffect(() => {
-		Api.get(`/room/${roomId}/container/${containerId}/chatyy/get`)
+		Api.get(`/room/${roomId}/instance/${instanceId}/chatyy/get`)
 			.then(({ data: { messages } }) => {
 				setMessages(messages);
 			})

@@ -25,7 +25,7 @@ export const MeetyyProvider = ({ children }: { children: ReactNode }) => {
 	const { roomId } = useParams() as { roomId: uuid };
 	const searchParams = useSearchParams();
 
-	const containerId = searchParams.get("containerId");
+	const instanceId = searchParams.get("instanceId");
 
 	const [liveToken, setLiveToken] = useState<string | null>(null);
 	const [loadingLiveToken, setLoadingLiveToken] = useState(true);
@@ -33,7 +33,7 @@ export const MeetyyProvider = ({ children }: { children: ReactNode }) => {
 	const [isJoined, setIsJoined] = useState(false);
 
 	useEffect(() => {
-		Api.get(`/room/${roomId}/container/${containerId}/meetyy/live-token`)
+		Api.get(`/room/${roomId}/instance/${instanceId}/meetyy/live-token`)
 			.then(({ data: { liveToken } }) => {
 				setLiveToken(liveToken);
 			})

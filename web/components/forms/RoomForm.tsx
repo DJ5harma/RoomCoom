@@ -10,7 +10,7 @@ export const RoomForm = () => {
 		const roomName = data.get("room-name");
 
 		Api.post("/room/create", { name: roomName }).then(({ data: { room } }) => {
-			setRoomMap((p) => ({ ...p, [room.id]: { room, containers: [] } }));
+			setRoomMap((p) => ({ ...p, [room.id]: { room, instances: [] } }));
 			console.log({ room });
 		});
 	}

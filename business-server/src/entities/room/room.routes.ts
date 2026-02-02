@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { RoomController } from "./room.controller";
-import { containerRouter } from "../container/container.routes";
+import { instanceRouter } from "../instance/instance.routes";
 
 export const roomRouter = Router();
 
@@ -11,7 +11,7 @@ roomRouter.use(RoomController.authorizeUser);
 // roomRouter.get("/:roomId", RoomController.getRoom);
 roomRouter.get("/:roomId/join", RoomController.joinRoom);
 roomRouter.get("/:roomId/members", RoomController.getMembers);
-// roomRouter.get("/:roomId/containers", RoomController.getContainers);
+// roomRouter.get("/:roomId/instances", RoomController.getInstances);
 roomRouter.post("/:roomId/invite", RoomController.inviteUserToRoom);
 
-roomRouter.use("/:roomId/container", containerRouter);
+roomRouter.use("/:roomId/instance", instanceRouter);

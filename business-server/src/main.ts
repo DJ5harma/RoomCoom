@@ -16,7 +16,7 @@ import { userRouter } from "./entities/user/user.routes";
 import { roomRouter } from "./entities/room/room.routes";
 import { AuthState } from "./auth/auth.state";
 import { RoomIO } from "./entities/room/room.io";
-import { ContainerIO } from "./entities/container/container.io";
+import { InstanceIO } from "./entities/instance/instance.io";
 import Redis from "ioredis";
 import { createAdapter } from "@socket.io/redis-adapter";
 import { UserIO } from "./entities/user/user.io";
@@ -83,7 +83,7 @@ io.on("connection", (socket) => {
 		AuthState.storeUserIdSocket(socket, userId);
 
 		RoomIO(socket);
-		ContainerIO(socket);
+		InstanceIO(socket);
 		UserIO(socket);
 	} catch (error) {
 		socket.disconnect();
