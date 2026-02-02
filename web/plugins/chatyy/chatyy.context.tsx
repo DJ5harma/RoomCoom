@@ -13,8 +13,8 @@ import {
 import { MessageI } from "./types";
 import { Loading } from "@/components/Loading";
 import { socket } from "@/context/socket.context";
-import { useContainerData } from "@/container/containerData.context";
-import { useRoomData } from "@/context/roomData.context";
+import { useParams, useSearchParams } from "next/navigation";
+import { uuid } from "@/utils/types";
 
 const context = createContext<{
 	messages: MessageI[];
@@ -22,12 +22,10 @@ const context = createContext<{
 } | null>(null);
 
 export const ChatyyProvider = ({ children }: { children: ReactNode }) => {
-	const {
-		room: { id: roomId },
-	} = useRoomData();
-	const {
-		container: { id: containerId },
-	} = useContainerData();
+	const { roomId } = useParams() as { roomId: uuid };
+	const searchParams = useSearchParams();
+
+	const containerId = searchParams.get("containerId");
 
 	const [messages, setMessages] = useState<MessageI[]>([]);
 	const [loadingMessages, setLoadingMessages] = useState(true);

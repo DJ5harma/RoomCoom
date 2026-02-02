@@ -1,4 +1,5 @@
 import { Chatyy } from "@/plugins/chatyy/Chatyy";
+import { Meetyy } from "@/plugins/meetyy/Meetyy";
 import { useSearchParams } from "next/navigation";
 
 export const RenderCorrectPlugin = () => {
@@ -8,6 +9,7 @@ export const RenderCorrectPlugin = () => {
 		<>
 			{{
 				chatyy: <Chatyy />,
+				meetyy: <Meetyy />,
 			}[plugin] ?? <Chatyy />}
 		</>
 	);

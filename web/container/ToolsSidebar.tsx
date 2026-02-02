@@ -3,7 +3,7 @@ import { uuid } from "@/utils/types";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
 import { ReactNode, useState } from "react";
-import { BiArrowBack, BiChat } from "react-icons/bi";
+import { BiArrowBack, BiChat, BiVideo } from "react-icons/bi";
 
 export const ToolsSidebar = () => {
 	const searchParams = useSearchParams();
@@ -32,6 +32,12 @@ export const ToolsSidebar = () => {
 			icon: <BiChat size={25} />,
 			link: BASE_CONTAINER + "&plugin=chatyy",
 			highlight: plugin === "chatyy" || !plugin,
+		},
+		{
+			name: "Meetyy",
+			icon: <BiVideo size={25} />,
+			link: BASE_CONTAINER + "&plugin=meetyy",
+			highlight: plugin === "meetyy",
 		},
 	];
 	const [isHovered, setIsHovered] = useState(false);

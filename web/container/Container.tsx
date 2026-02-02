@@ -4,6 +4,7 @@ import { useRoomData } from "../context/roomData.context";
 import { ToolsSidebar } from "./ToolsSidebar";
 import { RenderCorrectPlugin } from "./RenderCorrectPlugin";
 import { ChatyyProvider } from "@/plugins/chatyy/chatyy.context";
+import { MeetyyProvider } from "@/plugins/meetyy/meetyy.context";
 
 export const Container = () => {
 	const { roomMembers } = useRoomData();
@@ -26,7 +27,9 @@ export const Container = () => {
 			</div>
 			<div className="flex-1">
 				<ChatyyProvider>
-					<RenderCorrectPlugin />
+					<MeetyyProvider>
+						<RenderCorrectPlugin />
+					</MeetyyProvider>
 				</ChatyyProvider>
 			</div>
 			<div>
