@@ -1,5 +1,6 @@
 import { ChatBox } from "./components/ChatBox";
 import { InputBox } from "./components/InputBox";
+import { AutoScroller } from "./components/AutoScroller";
 
 export function Chatyy() {
 	return (
@@ -12,6 +13,7 @@ export function Chatyy() {
 				}}
 			>
 				<ChatBox />
+				<AutoScroller />
 			</div>
 			<div>
 				<InputBox />
