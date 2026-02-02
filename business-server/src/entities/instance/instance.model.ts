@@ -10,7 +10,7 @@ const instanceSchema = new mongoose.Schema<InstanceI>(
 			ref: MODEL_CONSTANTS.ROOM,
 			required: true,
 		},
-		plugin: {type: String, enum: ["chatyy"] }
+		plugin: { type: String },
 	},
 	{ toJSON: { virtuals: true } },
 );
