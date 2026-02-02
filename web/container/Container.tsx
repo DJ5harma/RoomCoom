@@ -10,7 +10,7 @@ export const Container = () => {
 	const { container, containerMembers } = useContainerData();
 
 	return (
-		<div className="flex w-full border border-amber-500">
+		<div className="flex w-full">
 			<div className="p-2">
 				<p>{container.name}</p>
 				<div className="flex flex-col gap-2">

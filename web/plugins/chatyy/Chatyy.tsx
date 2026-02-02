@@ -4,7 +4,13 @@ import { InputBox } from "./components/InputBox";
 export function Chatyy() {
 	return (
 		<div className="w-full border border-cyan-100 max-h-screen flex flex-col">
-			<div className="overflow-auto">
+			<div
+				className="overflow-auto"
+				style={{
+					scrollbarWidth: "thin",
+					scrollbarColor: "gray transparent",
+				}}
+			>
 				<ChatBox />
 			</div>
 			<div>
