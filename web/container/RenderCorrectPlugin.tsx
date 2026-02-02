@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 
 export const RenderCorrectPlugin = () => {
 	const searchParams = useSearchParams();
-	const currentPlugin = (searchParams.get("plugin") ?? "chatyy") as string;
+	const currentPlugin = (searchParams.get("plugin") || "chatyy") as string;
 
 	const arr = [
 		{
