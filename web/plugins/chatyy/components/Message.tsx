@@ -3,6 +3,7 @@ import { useRoomData } from "@/context/roomData.context";
 import { useUser } from "@/context/user.context";
 import { UserI } from "@/utils/types";
 import Image from "next/image";
+import { useState } from "react";
 
 export const Message = ({
 	message,
@@ -39,14 +40,35 @@ export const Message = ({
 			{didISend ? (
 				<div className="bg-blue-900 text-white flex flex-col gap-2 text-sm p-3 rounded-xl shadow shadow-cyan-200 max-w-4/5">
 					{showName && <p className="text-cyan-300">{sender.name}</p>}
-					<p>{content}</p>
+					<Content content={content} />
 				</div>
 			) : (
 				<div className="bg-neutral-800 text-white flex flex-col gap-2 text-sm p-3 rounded-xl shadow shadow-red-200 max-w-4/5">
 					{showName && <p className="text-red-400">{sender.name}</p>}
-					<p>{content}</p>
+					<Content content={content} />
 				</div>
 			)}
 		</div>
+	);
+};
+
+const Content = ({ content }: { content: string }) => {
+	const THRESHOLD_LENGTH = 800;
+
+	const [shownLength, setShownLength] = useState(THRESHOLD_LENGTH);
+
+	if (content.length <= shownLength) return <span>{content}</span>;
+
+	function showMore() {
+		setShownLength(p => p + THRESHOLD_LENGTH)
+	}
+
+	return (
+		<>
+			<span>{content.slice(0, Math.min(shownLength))} ...</span>
+			<span className="text-yellow-300 cursor-pointer" onClick={showMore}>
+				show more
+			</span>
+		</>
 	);
 };
