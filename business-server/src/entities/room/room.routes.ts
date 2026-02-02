@@ -15,5 +15,3 @@ roomRouter.get("/:roomId/members", RoomController.getMembers);
 roomRouter.post("/:roomId/invite", RoomController.inviteUserToRoom);
 
 roomRouter.use("/:roomId/container", containerRouter);
-
-// Notification Plugin
