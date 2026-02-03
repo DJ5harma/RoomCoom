@@ -9,10 +9,10 @@ import { InstanceProvider } from "../../../entities/instance/InstanceProvider";
 import { Instance } from "../../../entities/instance/Instance";
 
 export default function Page() {
-	const { room, instances, members } = useRoom();
 	const searchParams = useSearchParams();
-
 	const instanceId = searchParams.get("instanceId");
+
+	const { room, instances } = useRoom();
 
 	if (instanceId) {
 		return (
