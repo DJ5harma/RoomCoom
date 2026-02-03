@@ -7,11 +7,13 @@ import { Instance } from "./Instance";
 
 const context = createContext<{
 	activateInstance(instanceId: uuid): void;
+	hideCurrentInstance(): void;
 	clearInstance(instanceId: uuid): void;
 	isInstanceInMemory(instanceId: uuid): boolean;
+	ShownInstance: ReactNode;
 } | null>(null);
 
-export const InstancesManager = () => {
+export const InstancesManager = ({ children }: { children: ReactNode }) => {
 	const [instancesMap, setInstancesMap] = useState<{
 		[instanceId: uuid]: ReactNode;
 	}>({});
@@ -33,17 +35,26 @@ export const InstancesManager = () => {
 	function isInstanceInMemory(instanceId: uuid) {
 		return instancesMap[instanceId] ? true : false;
 	}
+	function hideCurrentInstance() {
+		setShownInstanceId("");
+	}
 	function clearInstance(instanceId: uuid) {
 		setInstancesMap((p) => ({ ...p, [instanceId]: undefined }));
 	}
 
-	const isShown = isInstanceInMemory(shownInstanceId);
+	const ShownInstance = instancesMap[shownInstanceId];
 
 	return (
 		<context.Provider
-			value={{ activateInstance, isInstanceInMemory, clearInstance }}
+			value={{
+				activateInstance,
+				isInstanceInMemory,
+				clearInstance,
+				hideCurrentInstance,
+				ShownInstance,
+			}}
 		>
-			{isShown ? instancesMap[shownInstanceId] : <>Choose an instance</>}
+			{children}
 		</context.Provider>
 	);
 };
