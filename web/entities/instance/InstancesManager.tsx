@@ -32,11 +32,18 @@ export const InstancesManager = () => {
 	function clearInstance(instanceId: uuid) {
 		setInstancesMap((p) => ({ ...p, [instanceId]: undefined }));
 	}
-	return (
-		<context.Provider value={{ activateInstance, clearInstance }}>
-			{instancesMap[shownInstanceId]}
-		</context.Provider>
-	);
+
+	const isShown = instancesMap[shownInstanceId] !== undefined;
+
+	if (isShown) {
+		return (
+			<context.Provider value={{ activateInstance, clearInstance }}>
+				{instancesMap[shownInstanceId]}
+			</context.Provider>
+		);
+	}
+
+	return <>CHOOSE AND INSTANCE</>;
 };
 
 export function useInstancesManager() {
