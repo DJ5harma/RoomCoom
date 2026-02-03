@@ -1,29 +1,26 @@
 "use client";
 
-import { useRoom } from "@/entities/room/RoomProvider";
+import { RoomInstanceSidebar } from "@/entities/instance/InstanceSidebar";
+import { useInstancesManager } from "@/entities/instance/InstancesManager";
+import { RoomDashboard } from "@/entities/room/RoomDashboard";
+import { uuid } from "@/utils/types";
 import { useSearchParams } from "next/navigation";
-import { InstanceProvider } from "../../../entities/instance/InstanceProvider";
-import { Instance } from "../../../entities/instance/Instance";
+import { useEffect } from "react";
 
 export default function Page() {
 	const searchParams = useSearchParams();
-	const instanceId = searchParams.get("instanceId");
+	const instanceId = searchParams.get("instanceId") as uuid;
 
-	const { room } = useRoom();
+	const { ShownInstance, activateInstance } = useInstancesManager();
 
-	if (instanceId) {
-		return (
-			<div className="w-full">
-				<InstanceProvider instanceId={instanceId}>
-					<Instance />
-				</InstanceProvider>
-			</div>
-		);
-	}
+	useEffect(() => {
+		activateInstance(instanceId);
+	}, [instanceId, activateInstance]);
 
 	return (
-		<div className="p-2 w-full flex flex-col items-center">
-			<p>{room.name}</p>
+		<div className="p-2 w-full h-full flex flex-col items-center">
+			{ShownInstance ?? <RoomDashboard />}
+			<RoomInstanceSidebar />
 		</div>
 	);
 }

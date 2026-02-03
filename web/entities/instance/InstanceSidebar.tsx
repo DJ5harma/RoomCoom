@@ -2,18 +2,13 @@ import { useInstancesManager } from "./InstancesManager";
 import { useRoom } from "../room/RoomProvider";
 import { useUser } from "../user/UserProvider";
 
-export const InstanceSidebar = () => {
-	const { personalInstances, directInstances } = useUser();
+export const RoomInstanceSidebar = () => {
 	const { instances: roomInstances } = useRoom();
 	const { isInstanceInMemory } = useInstancesManager();
 
-	const instances = [
-		...roomInstances,
-		...directInstances,
-		...personalInstances,
-	];
+	const instances = [...roomInstances];
 	return (
-		<aside>
+		<aside className="h-full">
 			Active:
 			{instances
 				.filter(({ id }) => isInstanceInMemory(id))
@@ -25,6 +20,22 @@ export const InstanceSidebar = () => {
 				.filter(({ id }) => !isInstanceInMemory(id))
 				.map(({ name }) => {
 					return <>{name}</>;
+				})}
+		</aside>
+	);
+};
+export const NonRoomInstanceSidebar = () => {
+	const { personalInstances, directInstances } = useUser();
+	const { isInstanceInMemory } = useInstancesManager();
+
+	const instances = [...directInstances, ...personalInstances];
+	return (
+		<aside className="h-full">
+			Active:
+			{instances
+				.filter(({ id }) => isInstanceInMemory(id))
+				.map(({ name }) => {
+					return <>M: {name}</>;
 				})}
 			DIRECT:
 			{directInstances
