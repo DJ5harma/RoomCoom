@@ -8,6 +8,7 @@ import { Instance } from "./Instance";
 const context = createContext<{
 	activateInstance(instanceId: uuid): void;
 	clearInstance(instanceId: uuid): void;
+	isInstanceInMemory(instanceId: uuid): boolean;
 } | null>(null);
 
 export const InstancesManager = () => {
@@ -29,21 +30,22 @@ export const InstancesManager = () => {
 		}
 		setShownInstanceId(instanceId);
 	}
+	function isInstanceInMemory(instanceId: uuid) {
+		return instancesMap[instanceId] ? true : false;
+	}
 	function clearInstance(instanceId: uuid) {
 		setInstancesMap((p) => ({ ...p, [instanceId]: undefined }));
 	}
 
-	const isShown = instancesMap[shownInstanceId] !== undefined;
+	const isShown = isInstanceInMemory(shownInstanceId);
 
-	if (isShown) {
-		return (
-			<context.Provider value={{ activateInstance, clearInstance }}>
-				{instancesMap[shownInstanceId]}
-			</context.Provider>
-		);
-	}
-
-	return <>CHOOSE AND INSTANCE</>;
+	return (
+		<context.Provider
+			value={{ activateInstance, isInstanceInMemory, clearInstance }}
+		>
+			{isShown ? instancesMap[shownInstanceId] : <>Choose an instance</>}
+		</context.Provider>
+	);
 };
 
 export function useInstancesManager() {

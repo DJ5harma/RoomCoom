@@ -15,10 +15,12 @@ export const InstanceForm = ({ type }: { type: InstanceI["type"] }) => {
 		let newInstance: InstanceI | undefined = undefined;
 		switch (type) {
 			case "room":
+			case "space":
 				newInstance = (
 					await Api.post(`/room/${room.id}/instance`, {
 						name,
 						plugin,
+						type,
 					})
 				).data.newInstance;
 				break;

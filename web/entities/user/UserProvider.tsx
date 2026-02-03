@@ -10,28 +10,39 @@ import {
 import { Api } from "@/utils/Api";
 import { Auth } from "@/components/Auth";
 import { Loading } from "@/components/Loading";
-import { UserI } from "@/utils/types";
+import { InstanceI, UserI } from "@/utils/types";
 import { OmittedMembersRoomType } from "@/utils/customTypes";
 
 const context = createContext<{
 	user: UserI;
 	rooms: OmittedMembersRoomType[];
+	directInstances: InstanceI[];
+	personalInstances: InstanceI[];
 	addRoom: (room: OmittedMembersRoomType) => void;
 } | null>(null);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
 	const [user, setUser] = useState<UserI | null>(null);
 	const [rooms, setRooms] = useState<OmittedMembersRoomType[]>([]);
+
+	const [directInstances, setDirectInstances] = useState<InstanceI[]>([]);
+	const [personalInstances, setPersonalInstances] = useState<InstanceI[]>([]);
+
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		(async () => {
-			const [userData, roomsData] = await Promise.all([
-				Api.get("/user/me"),
-				Api.get("/user/rooms"),
-			]);
+			const [userData, roomsData, personalInstancesData, directInstancesData] =
+				await Promise.all([
+					Api.get("/user/me"),
+					Api.get("/user/rooms"),
+					Api.get("/user/instances/personal"),
+					Api.get("/user/instances/direct"),
+				]);
 			setUser(userData.data.user);
 			setRooms(roomsData.data.rooms);
+			setPersonalInstances(personalInstancesData.data.instances);
+			setDirectInstances(directInstancesData.data.instances);
 			setLoading(false);
 		})();
 	}, []);
@@ -43,7 +54,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 	}
 
 	return (
-		<context.Provider value={{ user, rooms, addRoom }}>
+		<context.Provider
+			value={{ user, rooms, addRoom, directInstances, personalInstances }}
+		>
 			{children}
 		</context.Provider>
 	);

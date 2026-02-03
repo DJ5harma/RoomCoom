@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import { AuthState } from "../../auth/auth.state";
-import type { uuid } from "../../types";
+import type { PluginEnum, uuid } from "../../types";
 import { AppError } from "../../error/AppError";
 import { RoomService } from "./room.service";
 import { UserInvitation } from "../user/user.invitation";
@@ -41,12 +41,16 @@ class RoomControllerImpl {
 
 	async createInstance(req: Request, res: Response) {
 		const { roomId } = req.params as { roomId: uuid };
-		const { name, plugin } = req.body;
+		const { name, plugin, type } = req.body as {
+			name: string;
+			plugin: PluginEnum;
+			type: "room" | "space";
+		};
 		const creatorId = AuthState.getUserId(req);
 		const instance = await InstanceService.createInstance(
 			name,
 			creatorId,
-			"room",
+			type,
 			plugin,
 			{ roomId },
 		);

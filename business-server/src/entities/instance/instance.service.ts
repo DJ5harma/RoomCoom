@@ -8,7 +8,7 @@ class InstanceServiceImpl {
 		creatorId: uuid,
 		type: InstanceI["type"],
 		plugin: PluginEnum,
-		{ roomId }: { roomId?: uuid },
+		{ roomId, members }: { roomId?: uuid; members?: uuid[] },
 	) => {
 		const instance = new INSTANCE({
 			name,
@@ -37,6 +37,12 @@ class InstanceServiceImpl {
 
 	getUserInstances = async (userId: uuid) =>
 		await INSTANCE.find({ "members.user": userId });
+
+	getUserPersonalInstances = async (userId: uuid) =>
+		await INSTANCE.find({ "members.user": userId, type: "user" });
+	
+	getUserDirectInstances = async (userId: uuid) =>
+		await INSTANCE.find({ "members.user": userId, type: "direct" });
 }
 
 export const InstanceService = new InstanceServiceImpl();
