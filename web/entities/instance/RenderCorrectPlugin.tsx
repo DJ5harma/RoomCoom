@@ -2,7 +2,7 @@ import { Chatyy } from "@/entities/plugins/chatyy/Chatyy";
 import { ChatyyProvider } from "@/entities/plugins/chatyy/ChatyyProvider";
 import { Meetyy } from "@/entities/plugins/meetyy/Meetyy";
 import { MeetyyProvider } from "@/entities/plugins/meetyy/MeetyyProvider";
-import { useInstance } from "./InstanceProvider";
+import { useInstance } from "@/entities/instance/InstanceProvider";
 import { PluginEnum } from "@/utils/types";
 
 export const RenderCorrectPlugin = () => {

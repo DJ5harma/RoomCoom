@@ -5,6 +5,8 @@ export const userRouter = Router();
 
 userRouter.get("/me", UserController.getMe);
 userRouter.get("/rooms", UserController.getRooms);
+
 userRouter.get("/search", UserController.searchUsers);
+
 userRouter.get("/room-invitations", UserController.getUserRoomInvitations);
 userRouter.get("/room-invitation/accept/:roomId", UserController.acceptRoomInvitation);
