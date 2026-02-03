@@ -4,7 +4,6 @@ import { Api } from "@/utils/Api";
 import {
 	createContext,
 	Dispatch,
-	ReactNode,
 	SetStateAction,
 	useContext,
 	useEffect,
@@ -14,13 +13,14 @@ import { MessageI } from "./types";
 import { Loading } from "@/components/Loading";
 import { socket } from "@/utils/SocketConnector";
 import { useInstance } from "@/entities/instance/InstanceProvider";
+import { Chatyy } from "./Chatyy";
 
 const context = createContext<{
 	messages: MessageI[];
 	setMessages: Dispatch<SetStateAction<MessageI[]>>;
 } | null>(null);
 
-export const ChatyyProvider = ({ children }: { children: ReactNode }) => {
+export const ChatyyPlugin = () => {
 	const { instance } = useInstance();
 	const [messages, setMessages] = useState<MessageI[]>([]);
 	const [loadingMessages, setLoadingMessages] = useState(true);
@@ -45,7 +45,7 @@ export const ChatyyProvider = ({ children }: { children: ReactNode }) => {
 	if (loadingMessages) return <Loading />;
 	return (
 		<context.Provider value={{ messages, setMessages }}>
-			{children}
+			<Chatyy />
 		</context.Provider>
 	);
 };

@@ -6,7 +6,7 @@ import {
 } from "@livekit/components-react";
 
 import "@livekit/components-styles";
-import { useMeetyy } from "./MeetyyProvider";
+import { useMeetyy } from "./MeetyyPlugin";
 import { LIVEKIT_URL } from "@/utils/Api";
 import { useUser } from "@/entities/user/UserProvider";
 

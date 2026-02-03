@@ -4,7 +4,6 @@ import { Api } from "@/utils/Api";
 import {
 	createContext,
 	Dispatch,
-	ReactNode,
 	SetStateAction,
 	useContext,
 	useEffect,
@@ -13,6 +12,7 @@ import {
 import { Loading } from "@/components/Loading";
 import { NotFound } from "@/components/NotFound";
 import { useInstance } from "@/entities/instance/InstanceProvider";
+import { Meetyy } from "./Meetyy";
 
 const context = createContext<{
 	liveToken: string;
@@ -20,7 +20,7 @@ const context = createContext<{
 	setIsJoined: Dispatch<SetStateAction<boolean>>;
 } | null>(null);
 
-export const MeetyyProvider = ({ children }: { children: ReactNode }) => {
+export const MeetyyPlugin = () => {
 	const { instance } = useInstance();
 
 	const [liveToken, setLiveToken] = useState<string | null>(null);
@@ -42,7 +42,7 @@ export const MeetyyProvider = ({ children }: { children: ReactNode }) => {
 	if (!liveToken) return <NotFound />;
 	return (
 		<context.Provider value={{ liveToken, isJoined, setIsJoined }}>
-			{children}
+			<Meetyy />
 		</context.Provider>
 	);
 };
