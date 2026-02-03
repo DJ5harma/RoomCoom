@@ -1,3 +1,4 @@
+import { io } from "../../main";
 import type { InstanceI, uuid } from "../../types";
 import { MEMBER } from "../shared/member.modal";
 import { INSTANCE } from "./instance.model";
@@ -14,7 +15,8 @@ class InstanceServiceImpl {
 		instanceId: uuid;
 		userId: uuid;
 	}) => {
-		await MEMBER.create({ instance: instanceId, user: userId });
+		const member = await MEMBER.create({ instance: instanceId, user: userId });
+		io.to(instanceId).emit("instance:add:member", { member });
 	};
 
 	userExistsInInstance = async ({

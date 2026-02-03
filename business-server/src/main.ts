@@ -34,10 +34,8 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 app.use(morgan("common"));
-app.get("/api/server", (_req, res) => {
-	console.log("/api/server was hit");
-	res.send("hello");
-});
+
+app.get("/", (_req, res) => res.send("hello"));
 
 app.use(passport.initialize());
 app.use("/api/auth", authRouter, AuthController.handleUserProfile);

@@ -8,32 +8,32 @@ import {
 	useState,
 } from "react";
 import { Api } from "@/utils/Api";
-import { Auth } from "../../components/Auth";
-import { toast } from "react-toastify";
-import { Loading } from "../../components/Loading";
-import { UserI } from "../../utils/types";
+import { Auth } from "@/components/Auth";
+import { Loading } from "@/components/Loading";
+import { RoomI, UserI } from "@/utils/types";
 
-const context = createContext<{ user: UserI } | null>(null);
+const context = createContext<{ user: UserI; rooms: RoomI[] } | null>(null);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
 	const [user, setUser] = useState<UserI | null>(null);
+	const [rooms, setRooms] = useState<RoomI[]>([]);
 	const [loading, setLoading] = useState(true);
 	useEffect(() => {
-		const loading = toast.loading("Checking authentication...");
-		Api.get("/user/me")
-			.then(({ data }) => {
-				const { user } = data;
-				setUser(user);
-				toast.success("Authenticated as " + user?.email);
-			})
-			.finally(() => {
-				toast.dismiss(loading);
-				setLoading(false);
-			});
+		(async () => {
+			const [userData, roomsData] = await Promise.all([
+				Api.get("/user/me"),
+				Api.get("/user/rooms"),
+			]);
+			setUser(userData.data.user);
+			setRooms(roomsData.data.rooms);
+			setLoading(false);
+		})();
 	}, []);
 	if (loading) return <Loading />;
 	if (!user) return <Auth />;
-	return <context.Provider value={{ user }}>{children}</context.Provider>;
+	return (
+		<context.Provider value={{ user, rooms }}>{children}</context.Provider>
+	);
 };
 
 export const useUser = () => {

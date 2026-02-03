@@ -12,8 +12,8 @@ import {
 } from "react";
 import { MessageI } from "./types";
 import { Loading } from "@/components/Loading";
-import { socket } from "@/context/SocketConnector";
-import { useSearchParams } from "next/navigation";
+import { socket } from "@/utils/SocketConnector";
+import { useInstance } from "@/entities/instance/InstanceProvider";
 
 const context = createContext<{
 	messages: MessageI[];
@@ -21,15 +21,12 @@ const context = createContext<{
 } | null>(null);
 
 export const ChatyyProvider = ({ children }: { children: ReactNode }) => {
-	const searchParams = useSearchParams();
-
-	const instanceId = searchParams.get("instanceId");
-
+	const { instance } = useInstance();
 	const [messages, setMessages] = useState<MessageI[]>([]);
 	const [loadingMessages, setLoadingMessages] = useState(true);
 
 	useEffect(() => {
-		Api.get(`/instance/${instanceId}/chatyy/get`)
+		Api.get(`/instance/${instance.id}/chatyy/get`)
 			.then(({ data: { messages } }) => {
 				setMessages(messages);
 			})

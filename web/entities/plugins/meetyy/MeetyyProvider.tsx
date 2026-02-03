@@ -11,8 +11,8 @@ import {
 	useState,
 } from "react";
 import { Loading } from "@/components/Loading";
-import { useSearchParams } from "next/navigation";
 import { NotFound } from "@/components/NotFound";
+import { useInstance } from "@/entities/instance/InstanceProvider";
 
 const context = createContext<{
 	liveToken: string;
@@ -21,9 +21,7 @@ const context = createContext<{
 } | null>(null);
 
 export const MeetyyProvider = ({ children }: { children: ReactNode }) => {
-	const searchParams = useSearchParams();
-
-	const instanceId = searchParams.get("instanceId");
+	const { instance } = useInstance();
 
 	const [liveToken, setLiveToken] = useState<string | null>(null);
 	const [loadingLiveToken, setLoadingLiveToken] = useState(true);
@@ -31,7 +29,7 @@ export const MeetyyProvider = ({ children }: { children: ReactNode }) => {
 	const [isJoined, setIsJoined] = useState(false);
 
 	useEffect(() => {
-		Api.get(`/instance/${instanceId}/meetyy/live-token`)
+		Api.get(`/instance/${instance.id}/meetyy/live-token`)
 			.then(({ data: { liveToken } }) => {
 				setLiveToken(liveToken);
 			})
