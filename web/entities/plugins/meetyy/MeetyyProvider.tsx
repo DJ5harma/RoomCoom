@@ -11,8 +11,7 @@ import {
 	useState,
 } from "react";
 import { Loading } from "@/components/Loading";
-import { useParams, useSearchParams } from "next/navigation";
-import { uuid } from "@/utils/types";
+import { useSearchParams } from "next/navigation";
 import { NotFound } from "@/components/NotFound";
 
 const context = createContext<{

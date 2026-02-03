@@ -15,16 +15,18 @@ interface UserI {
 	pictureUrl: string;
 }
 
+interface MemberI {
+	id: uuid;
+	user: ref_uuid;
+	joinedAt: Date;
+	room?: ref_uuid;
+	instance?: ref_uuid;
+}
+
 interface RoomI {
 	id: uuid;
 	name: string;
 	creator: ref_uuid;
-}
-
-interface RoomMemberI {
-	id: uuid;
-	room: ref_uuid;
-	user: ref_uuid;
 }
 
 interface InstanceI {
@@ -34,10 +36,4 @@ interface InstanceI {
 	plugin: PluginEnum;
 }
 
-interface InstanceMemberI {
-	id: uuid;
-	instance: ref_uuid;
-	user: ref_uuid;
-}
-
-export type { UserI, RoomI, RoomMemberI, InstanceI, InstanceMemberI };
+export type { UserI, RoomI, MemberI, InstanceI };

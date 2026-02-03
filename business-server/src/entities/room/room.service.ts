@@ -1,7 +1,6 @@
-import { io } from "../../main";
-import type { RoomI, UserI, uuid } from "../../types";
+import type { UserI, uuid } from "../../types";
 import { ROOM } from "./room.model";
-import { ROOM_MEMBER } from "./roomMember.model";
+import { MEMBER } from "../shared/member.modal";
 
 class RoomServiceImpl {
 	getRoomById = async (roomId: uuid) => await ROOM.findById(roomId);
@@ -13,21 +12,21 @@ class RoomServiceImpl {
 		roomId: uuid;
 		userId: uuid;
 	}) => {
-		await ROOM_MEMBER.create({ room: roomId, user: userId });
+		await MEMBER.create({ room: roomId, user: userId });
 	};
 
 	createRoom = async ({ name, creatorId }: { name: string; creatorId: uuid }) =>
 		ROOM.create({ name, creator: creatorId });
 
 	getUserRooms = async ({ userId }: { userId: uuid }) => {
-		const memberInstances = await ROOM_MEMBER.find({ user: userId })
+		const memberInstances = await MEMBER.find({ user: userId })
 			.select("room")
 			.populate("room");
 		const rooms = memberInstances.map(({ room }) => room);
 		return rooms;
 	};
 	getRoomMembers = async ({ roomId }: { roomId: uuid }) => {
-		const memberInstances = (await ROOM_MEMBER.find({ room: roomId })
+		const memberInstances = (await MEMBER.find({ room: roomId })
 			.select("user")
 			.populate("user")) as { user: UserI }[];
 
@@ -43,7 +42,7 @@ class RoomServiceImpl {
 	}: {
 		userId: uuid;
 		roomId: uuid;
-	}) => ROOM_MEMBER.exists({ room: roomId, user: userId });
+	}) => MEMBER.exists({ room: roomId, user: userId });
 
 	getRoomsByIds = async ({ roomIds }: { roomIds: uuid[] }) => {
 		const rooms = await ROOM.find({ _id: { $in: roomIds } });

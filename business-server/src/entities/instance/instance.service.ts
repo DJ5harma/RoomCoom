@@ -1,15 +1,9 @@
 import type { InstanceI, uuid } from "../../types";
+import { MEMBER } from "../shared/member.modal";
 import { INSTANCE } from "./instance.model";
-import { INSTANCE_MEMBER } from "./instanceMember.model";
 
 class InstanceServiceImpl {
-	createInstance = async ({
-		name,
-		roomId,
-	}: {
-		name: string;
-		roomId: uuid;
-	}) => {
+	createInstance = async ({ name, roomId }: { name: string; roomId: uuid }) => {
 		const instance = await INSTANCE.create({ name, room: roomId });
 		return instance;
 	};
@@ -20,7 +14,7 @@ class InstanceServiceImpl {
 		instanceId: uuid;
 		userId: uuid;
 	}) => {
-		await INSTANCE_MEMBER.create({ instance: instanceId, user: userId });
+		await MEMBER.create({ instance: instanceId, user: userId });
 	};
 
 	userExistsInInstance = async ({
@@ -30,7 +24,7 @@ class InstanceServiceImpl {
 		userId: uuid;
 		instanceId: uuid;
 	}) => {
-		return await INSTANCE_MEMBER.exists({
+		return await MEMBER.exists({
 			user: userId,
 			instance: instanceId,
 		});
@@ -42,7 +36,7 @@ class InstanceServiceImpl {
 		return await INSTANCE.findById(instanceId);
 	};
 	getMembers = async (instanceId: uuid) => {
-		const memberInstances = await INSTANCE_MEMBER.find({
+		const memberInstances = await MEMBER.find({
 			instance: instanceId,
 		}).select("user");
 		const members = memberInstances.map(({ user }) => user);
@@ -50,7 +44,7 @@ class InstanceServiceImpl {
 	};
 
 	getUserInstances = async ({ userId }: { userId: uuid }) => {
-		const instanceInstances = await INSTANCE_MEMBER.find({ user: userId })
+		const instanceInstances = await MEMBER.find({ user: userId })
 			.select("instance")
 			.populate("instance");
 		const instances = instanceInstances.map(

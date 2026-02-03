@@ -13,8 +13,7 @@ import {
 import { MessageI } from "./types";
 import { Loading } from "@/components/Loading";
 import { socket } from "@/context/SocketConnector";
-import { useParams, useSearchParams } from "next/navigation";
-import { uuid } from "@/utils/types";
+import { useSearchParams } from "next/navigation";
 
 const context = createContext<{
 	messages: MessageI[];
@@ -22,7 +21,6 @@ const context = createContext<{
 } | null>(null);
 
 export const ChatyyProvider = ({ children }: { children: ReactNode }) => {
-	const { roomId } = useParams() as { roomId: uuid };
 	const searchParams = useSearchParams();
 
 	const instanceId = searchParams.get("instanceId");
