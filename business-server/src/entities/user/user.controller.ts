@@ -14,7 +14,7 @@ class UserControllerImpl {
 	}
 	async getRooms(req: Request, res: Response) {
 		const userId = AuthState.getUserId(req);
-		const rooms = await RoomService.getUserRooms({ userId });
+		const rooms = await RoomService.getUserRooms(userId);
 		res.json({ rooms });
 	}
 	async searchUsers(req: Request, res: Response) {
@@ -39,7 +39,7 @@ class UserControllerImpl {
 				"Your invitation has expired or you were not invited",
 			);
 		}
-		await RoomService.addUserToRoom({ roomId, userId });
+		await RoomService.addUserToRoom(roomId, userId);
 		const room = await RoomService.getRoomById(roomId);
 		res.json({ room });
 	}

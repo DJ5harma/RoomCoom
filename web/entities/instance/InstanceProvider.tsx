@@ -8,14 +8,13 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { InstanceI, MemberI, uuid } from "@/utils/types";
+import { InstanceI, uuid } from "@/utils/types";
 import { Loading } from "@/components/Loading";
 import { NotFound } from "@/components/NotFound";
 import { socket } from "@/utils/SocketConnector";
 
 const context = createContext<{
 	instance: InstanceI;
-	members: MemberI[];
 } | null>(null);
 
 export const InstanceProvider = ({
@@ -26,21 +25,21 @@ export const InstanceProvider = ({
 	children: ReactNode;
 }) => {
 	const [instance, setInstance] = useState<InstanceI | null>(null);
-	const [members, setMembers] = useState<MemberI[]>([]);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		(async () => {
-			const [instanceData, membersData] = await Promise.all([
+			const [instanceData] = await Promise.all([
 				Api.get(`/instance/${instanceId}`),
-				Api.get(`/instance/${instanceId}/members`),
 			]);
 			setInstance(instanceData.data.instance);
-			setMembers(membersData.data.members);
 			setLoading(false);
 
-			socket.on("instance:add:member", ({ member }) => {
-				setMembers((p) => [...p, member]);
+			socket.on("instance:add:member", ({ userId }: { userId: uuid }) => {
+				setInstance((p) => ({
+					...p!,
+					members: [...instance!.members, userId],
+				}));
 			});
 			socket.emit("instance:connect", { instanceId });
 			return () => {
@@ -51,11 +50,7 @@ export const InstanceProvider = ({
 
 	if (loading) return <Loading />;
 	if (!instance) return <NotFound />;
-	return (
-		<context.Provider value={{ instance, members }}>
-			{children}
-		</context.Provider>
-	);
+	return <context.Provider value={{ instance }}>{children}</context.Provider>;
 };
 
 export function useInstance() {

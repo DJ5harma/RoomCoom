@@ -8,16 +8,20 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { InstanceI, MemberI, RoomI, uuid } from "../../utils/types";
+import { InstanceI, RoomI, UserI, uuid } from "@/utils/types";
 import { Loading } from "@/components/Loading";
 import { socket } from "@/utils/SocketConnector";
 import { NotFound } from "@/components/NotFound";
 
+type MemberType = { user: UserI };
+type MemberMapType = {
+	[userId: uuid]: MemberType;
+};
 const context = createContext<{
 	room: RoomI;
 	instances: InstanceI[];
-	members: MemberI[];
 	addInstance: (instance: InstanceI) => void;
+	getMemberByUserId: (userId: uuid) => MemberType;
 } | null>(null);
 
 export const RoomProvider = ({
@@ -29,7 +33,7 @@ export const RoomProvider = ({
 }) => {
 	const [room, setRoom] = useState<RoomI | null>(null);
 	const [instances, setInstances] = useState<InstanceI[]>([]);
-	const [members, setMembers] = useState<MemberI[]>([]);
+	const [memberMap, setMemberMap] = useState<MemberMapType>({});
 
 	const [loading, setLoading] = useState(true);
 
@@ -42,15 +46,20 @@ export const RoomProvider = ({
 			]);
 			setRoom(roomData.data.room);
 			setInstances(instancesData.data.instances);
-			setMembers(membersData.data.members);
+
+			const memberMap: MemberMapType = {};
+			membersData.data.member((member: MemberType) => {
+				memberMap[member.user.id] = member;
+			});
+			setMemberMap(memberMap);
 			setLoading(false);
-			
+
 			socket.emit("room:connect", { roomId });
 			socket.on("room:add:instance", ({ instance }) => {
 				setInstances((p) => [...p, instance]);
 			});
-			socket.on("room:add:member", ({ member }) => {
-				setMembers((p) => [...p, member]);
+			socket.on("room:add:member", ({ member }: { member: MemberType }) => {
+				setMemberMap((p) => ({ ...p, [member.user.id]: member }));
 			});
 		})();
 		return () => {
@@ -66,8 +75,11 @@ export const RoomProvider = ({
 	function addInstance(instance: InstanceI) {
 		setInstances((p) => [instance, ...p]);
 	}
+	function getMemberByUserId(userId: uuid) {
+		return memberMap[userId];
+	}
 	return (
-		<context.Provider value={{ members, room, instances, addInstance }}>
+		<context.Provider value={{ room, instances, addInstance, getMemberByUserId }}>
 			{children}
 		</context.Provider>
 	);

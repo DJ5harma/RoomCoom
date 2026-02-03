@@ -9,6 +9,15 @@ const roomSchema = new mongoose.Schema<RoomI>(
 			type: mongoose.Schema.Types.ObjectId,
 			ref: MODEL_CONSTANTS.USER,
 		},
+		members: [
+			{
+				user: {
+					type: mongoose.Schema.Types.ObjectId,
+					ref: MODEL_CONSTANTS.USER,
+				},
+				default: [],
+			},
+		],
 	},
 	{ toJSON: { virtuals: true } },
 );

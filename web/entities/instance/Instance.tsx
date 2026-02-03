@@ -4,16 +4,16 @@ import { useRoom } from "../room/RoomProvider";
 import { RenderCorrectPlugin } from "./RenderCorrectPlugin";
 
 export const Instance = () => {
-	const { members } = useRoom();
-	const { instance, instanceMembers } = useInstance();
+	const { getMemberByUserId } = useRoom();
+	const { instance } = useInstance();
 
 	return (
 		<div className="flex w-full">
 			<div className="p-2">
 				<p>{instance.name}</p>
 				<div className="flex flex-col gap-2">
-					{instanceMembers.map((userId) => {
-						const user = members[userId];
+					{instance.members.map((userId) => {
+						const user = getMemberByUserId(userId).user;
 						return (
 							<div key={user.id}>
 								<UserBadge user={user} />

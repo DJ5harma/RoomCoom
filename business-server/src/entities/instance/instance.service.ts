@@ -1,59 +1,42 @@
 import { io } from "../../main";
-import type { InstanceI, uuid } from "../../types";
-import { MEMBER } from "../shared/member.modal";
+import type { InstanceI, PluginEnum, uuid } from "../../types";
 import { INSTANCE } from "./instance.model";
 
 class InstanceServiceImpl {
-	createInstance = async ({ name, roomId }: { name: string; roomId: uuid }) => {
-		const instance = await INSTANCE.create({ name, room: roomId });
+	createInstance = async (
+		name: string,
+		creatorId: uuid,
+		type: InstanceI["type"],
+		plugin: PluginEnum,
+		{ roomId }: { roomId?: uuid },
+	) => {
+		const instance = new INSTANCE({
+			name,
+			type,
+			plugin,
+			creator: creatorId,
+		});
+		if (roomId) instance.room = roomId;
+		await instance.save();
 		return instance;
 	};
-	addUserToInstance = async ({
-		instanceId,
-		userId,
-	}: {
-		instanceId: uuid;
-		userId: uuid;
-	}) => {
-		const member = await MEMBER.create({ instance: instanceId, user: userId });
-		io.to(instanceId).emit("instance:add:member", { member });
+	addUserToInstance = async (instanceId: uuid, userId: uuid) => {
+		await INSTANCE.findByIdAndUpdate(instanceId, {
+			$addToSet: { members: userId },
+		});
+		io.to(instanceId).emit("instance:add:member", { userId });
 	};
 
-	userExistsInInstance = async ({
-		userId,
-		instanceId,
-	}: {
-		userId: uuid;
-		instanceId: uuid;
-	}) => {
-		return await MEMBER.exists({
-			user: userId,
-			instance: instanceId,
-		});
-	};
+	userExistsInInstance = async (userId: uuid, instanceId: uuid) =>
+		await INSTANCE.exists({ _id: instanceId, "members.user.userId": userId });
+
 	getInstancesInRoom = async (roomId: uuid) =>
 		await INSTANCE.find({ room: roomId });
 
-	getInstance = async (instanceId: uuid) => {
-		return await INSTANCE.findById(instanceId);
-	};
-	getMembers = async (instanceId: uuid) => {
-		const memberInstances = await MEMBER.find({
-			instance: instanceId,
-		}).select("user");
-		const members = memberInstances.map(({ user }) => user);
-		return members;
-	};
+	getInstance = async (instanceId: uuid) => await INSTANCE.findById(instanceId);
 
-	getUserInstances = async ({ userId }: { userId: uuid }) => {
-		const instanceInstances = await MEMBER.find({ user: userId })
-			.select("instance")
-			.populate("instance");
-		const instances = instanceInstances.map(
-			({ instance }) => instance,
-		) as InstanceI[];
-		return instances;
-	};
+	getUserInstances = async (userId: uuid) =>
+		await INSTANCE.find({ "members.user": userId });
 }
 
 export const InstanceService = new InstanceServiceImpl();

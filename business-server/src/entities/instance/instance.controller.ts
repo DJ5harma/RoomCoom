@@ -10,37 +10,19 @@ class InstanceControllerImpl {
 		const instanceId =
 			req.body?.instanceId || req.params.instanceId || req.query.instanceId;
 
-		const existsInInstance = await InstanceService.userExistsInInstance({
+		const existsInInstance = await InstanceService.userExistsInInstance(
 			userId,
 			instanceId,
-		});
+		);
 		if (!existsInInstance) {
 			throw new AppError(403, "Access to instance is forbidden");
 		}
 		next();
 	}
-	async create(req: Request, res: Response) {
-		const { name, roomId } = req.body;
-		const userId = AuthState.getUserId(req);
-		const instance = await InstanceService.createInstance({
-			name,
-			roomId,
-		});
-		await InstanceService.addUserToInstance({
-			instanceId: instance.id,
-			userId,
-		});
-		res.json({ instance });
-	}
 	async get(req: Request, res: Response) {
 		const { instanceId } = req.params as { instanceId: uuid };
 		const instance = await InstanceService.getInstance(instanceId);
 		res.json({ instance });
-	}
-	async getMembers(req: Request, res: Response) {
-		const { instanceId } = req.params as { instanceId: uuid };
-		const members = await InstanceService.getMembers(instanceId);
-		res.json({ members });
 	}
 }
 
