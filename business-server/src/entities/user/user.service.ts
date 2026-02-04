@@ -17,7 +17,7 @@ class UserServiceImpl {
 	findById = async (userId: string) => await USER.findById(userId);
 
 	search = async (search: string) => {
-		const users = USER.find({
+		const users = await USER.find({
 			$or: [
 				{
 					name: { $regex: search, $options: "i" },
