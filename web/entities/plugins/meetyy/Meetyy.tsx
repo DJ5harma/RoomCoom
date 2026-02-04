@@ -11,13 +11,10 @@ import { LIVEKIT_URL } from "@/utils/Api";
 import { useUser } from "@/entities/user/UserProvider";
 
 import "./livekit.css";
-import { useSearchParams } from "next/navigation";
 
 export function Meetyy() {
 	const { liveToken, isJoined, setIsJoined } = useMeetyy();
 	const { user } = useUser();
-
-	const searchParams = useSearchParams();
 
 	if (isJoined)
 		return (
@@ -32,8 +29,6 @@ export function Meetyy() {
 			</LiveKitRoom>
 		);
 
-	const showPrejoin = searchParams.get("plugin") === "meetyy";
-	if (!showPrejoin) return;
 	return (
 		<div className="flex flex-col justify-center items-center h-full bg-black">
 			<h1>Meeting Onboarding</h1>
