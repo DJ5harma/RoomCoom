@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
-import type { InstanceType, uuid } from "../../types";
+import type { Data, InstanceType, uuid } from "../../types";
 import { InstanceService } from "./instance.service";
 import { AuthState } from "../../auth/auth.state";
 import { AppError } from "../../error/AppError";
@@ -115,19 +115,19 @@ class InstanceControllerImpl {
 
 	async sendToAll(req: Request, res: Response) {
 		const { instanceId } = req.params as { instanceId: uuid };
-		const { data } = req.body;
+		const { data } = req.body as { data: Data };
 		io.to(instanceId).emit(instanceId, { data });
 		res.json({ success: true });
 	}
 	async sendToOne(req: Request, res: Response) {
 		const { instanceId } = req.params as { instanceId: uuid };
-		const { data, userId } = req.body as { data: any; userId: uuid };
+		const { data, userId } = req.body as { data: Data; userId: uuid };
 		io.to(userId).emit(instanceId, { data });
 		res.json({ success: true });
 	}
 	async sendToSome(req: Request, res: Response) {
 		const { instanceId } = req.params as { instanceId: uuid };
-		const { data, userIds } = req.body as { data: any; userIds: uuid[] };
+		const { data, userIds } = req.body as { data: Data; userIds: uuid[] };
 		userIds.forEach((userId) => io.to(userId).emit(instanceId, { data }));
 		res.json({ success: true });
 	}
