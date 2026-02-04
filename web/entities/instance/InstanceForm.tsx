@@ -1,89 +1,57 @@
 import { Api } from "@/utils/Api";
 import { FormEvent } from "react";
-import { useRoom } from "../room/RoomProvider";
-import { InstanceI, PluginI } from "@/utils/types";
+import { InstanceI, InstanceType, uuid } from "@/utils/types";
 import { useFetchPlugins } from "../plugins/useFetchPlugins";
 
-export const InstanceForm = ({ type }: { type: InstanceI["type"] }) => {
-	switch (type) {
-		case "room":
-			return <RoomInstanceForm type="room" />;
-		case "space":
-			return <RoomInstanceForm type="space" />;
-		case "direct":
-			return <NonRoomInstanceForm type="direct" />;
-		case "personal":
-		default:
-			return <NonRoomInstanceForm type="personal" />;
-	}
+type FormBody = {
+	name: string;
+	type: InstanceType;
+	pluginId: uuid;
+	roomId?: uuid;
+	space_memberIds?: uuid[];
+	direct_peerId?: uuid;
 };
 
-export const RoomInstanceForm = ({ type }: { type: InstanceI["type"] }) => {
-	const { room, addInstance } = useRoom();
-
+export const InstanceForm = ({
+	type,
+	roomId,
+	direct_peerId,
+}: {
+	type: InstanceI["type"];
+	roomId?: uuid;
+	direct_peerId?: uuid;
+}) => {
 	const { plugins } = useFetchPlugins();
 
 	async function createInstance(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		const data = new FormData(e.currentTarget);
-		const name = data.get("instance-name");
-		const pluginId = data.get("pluginId");
+		const name = data.get("instance-name") as string;
+		const pluginId = data.get("pluginId") as uuid;
 
-		let newInstance: InstanceI | undefined = undefined;
+		const reqData: FormBody = { name, pluginId, roomId, type };
+
 		switch (type) {
 			case "room":
+				reqData.roomId = roomId;
+				break;
 			case "space":
-				newInstance = (
-					await Api.post(`/room/${room.id}/instance`, {
-						name,
-						pluginId,
-						type,
-					})
-				).data.newInstance;
+				reqData.roomId = roomId;
+				reqData.space_memberIds = [];
+				break;
+			case "direct":
+				reqData.direct_peerId = direct_peerId;
+				break;
+			case "personal":
 				break;
 			default:
-				break;
+				return;
 		}
-		if (!newInstance) return;
-		addInstance(newInstance);
+		await Api.post(`/instance`, reqData);
 	}
 	return (
 		<form onSubmit={createInstance}>
 			<h2>Create {type} plugin</h2>
-			<PluginSelector plugins={plugins} />
-			<button type="submit">Create Cointainer</button>
-		</form>
-	);
-};
-export const NonRoomInstanceForm = ({ type }: { type: InstanceI["type"] }) => {
-	const { plugins } = useFetchPlugins();
-	async function createInstance(e: FormEvent<HTMLFormElement>) {
-		e.preventDefault();
-		const data = new FormData(e.currentTarget);
-		const name = data.get("instance-name");
-		const pluginId = data.get("pluginId");
-
-		// let newInstance: InstanceI | undefined = undefined;
-		// switch (type) {
-		// 	default:
-		// 		break;
-		// }
-		// if (!newInstance) return;
-		// addInstance(newInstance);
-	}
-	return (
-		<form onSubmit={createInstance} className="flex flex-col p-4 gap-4">
-			<h2>Create {type} plugin</h2>
-			<PluginSelector plugins={plugins} />
-
-			<button type="submit">Create Cointainer</button>
-		</form>
-	);
-};
-
-const PluginSelector = ({ plugins }: { plugins: PluginI[] }) => {
-	return (
-		<>
 			<input
 				type="text"
 				name="instance-name"
@@ -100,6 +68,7 @@ const PluginSelector = ({ plugins }: { plugins: PluginI[] }) => {
 					);
 				})}
 			</select>
-		</>
+			<button type="submit">Create Cointainer</button>
+		</form>
 	);
 };

@@ -5,6 +5,7 @@ import { AuthState } from "../../auth/auth.state";
 import { AppError } from "../../error/AppError";
 import { PluginService } from "../plugins/plugin.service";
 import { UserService } from "../user/user.service";
+import { io } from "../../main";
 
 class InstanceControllerImpl {
 	async authorizeUser(req: Request, _res: Response, next: NextFunction) {
@@ -100,6 +101,9 @@ class InstanceControllerImpl {
 				members,
 			},
 		);
+		if (type === "room") {
+			io.to(roomId!).emit("room:add:instance", { instance });
+		}
 		res.json({ instance });
 	}
 

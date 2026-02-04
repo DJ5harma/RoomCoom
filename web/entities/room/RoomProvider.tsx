@@ -16,7 +16,6 @@ import { NotFound } from "@/components/NotFound";
 const context = createContext<{
 	room: RoomI;
 	instances: InstanceI[];
-	addInstance: (instance: InstanceI) => void;
 } | null>(null);
 
 export const RoomProvider = ({
@@ -64,14 +63,8 @@ export const RoomProvider = ({
 
 	if (loading) return <Loading />;
 	if (!room) return <NotFound />;
-
-	function addInstance(instance: InstanceI) {
-		setInstances((p) => [instance, ...p]);
-	}
 	return (
-		<context.Provider value={{ room, instances, addInstance }}>
-			{children}
-		</context.Provider>
+		<context.Provider value={{ room, instances }}>{children}</context.Provider>
 	);
 };
 

@@ -1,4 +1,4 @@
-import { useInstancesManager } from "./InstancesManager";
+import { useInstancesManager } from "./InstanceMemory";
 import { useRoom } from "../room/RoomProvider";
 import { useUser } from "../user/UserProvider";
 import { ModalWrapper } from "@/components/ModalWrapper";

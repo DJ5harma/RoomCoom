@@ -5,7 +5,7 @@ import { ToastContainer } from "react-toastify";
 import { UserProvider } from "@/entities/user/UserProvider";
 import { SocketConnector } from "@/utils/SocketConnector";
 import { Sidebar } from "@/components/sidebar/Sidebar";
-import { InstancesManager } from "@/entities/instance/InstancesManager";
+import { InstancesManager } from "@/entities/instance/InstanceMemory";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",

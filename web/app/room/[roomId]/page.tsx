@@ -1,7 +1,7 @@
 "use client";
 
 import { RoomInstanceSidebar } from "@/entities/instance/InstanceSidebar";
-import { useInstancesManager } from "@/entities/instance/InstancesManager";
+import { useInstancesManager } from "@/entities/instance/InstanceMemory";
 import { RoomDashboard } from "@/entities/room/RoomDashboard";
 import { uuid } from "@/utils/types";
 import { useSearchParams } from "next/navigation";
