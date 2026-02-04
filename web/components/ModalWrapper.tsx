@@ -30,7 +30,7 @@ export const ModalWrapper = ({
 				}}
 			>
 				<CgClose className="absolute top-0 right-0" onClick={close} />
-				{children}
+				<context.Provider value={{ close }}>{children}</context.Provider>
 			</div>
 		</div>
 	);
