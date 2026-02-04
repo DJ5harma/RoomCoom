@@ -6,15 +6,13 @@ export function InstanceIO(socket: Socket) {
 	const userId = AuthState.getUserIdSocket(socket);
 
 	socket.on("instance:connect", async ({ instanceId }) => {
-		const existsInInstance = await InstanceService.userExistsInInstance({
+		const existsInInstance = await InstanceService.userExistsInInstance(
 			userId,
 			instanceId,
-		});
+		);
 
-		
-		
 		if (!existsInInstance) return;
-		
+
 		console.log("JOINED INSTANCE");
 		socket.join(instanceId);
 	});

@@ -1,7 +1,8 @@
+import type { uuid } from "../../types";
 import { USER } from "./user.model";
 
 class UserServiceImpl {
-	create = ({
+	create = async ({
 		email,
 		name,
 		pictureUrl,
@@ -9,11 +10,11 @@ class UserServiceImpl {
 		email: string;
 		name: string;
 		pictureUrl?: string;
-	}) => USER.create({ name, email, pictureUrl });
+	}) => await USER.create({ name, email, pictureUrl });
 
-	findByEmail = (email: string) => USER.findOne({ email });
+	findByEmail = async (email: string) => await USER.findOne({ email });
 
-	findById = (userId: string) => USER.findById(userId);
+	findById = async (userId: string) => await USER.findById(userId);
 
 	search = async (search: string) => {
 		const users = USER.find({
@@ -27,6 +28,13 @@ class UserServiceImpl {
 			],
 		});
 		return users;
+	};
+
+	existsById = async (userId: uuid) =>
+		(await USER.findById(userId)) ? true : false;
+	existByIds = async (userIds: uuid[]) => {
+		const count = await USER.countDocuments({ _id: { $in: userIds } });
+		return count === userIds.length;
 	};
 }
 

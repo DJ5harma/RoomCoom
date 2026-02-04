@@ -1,20 +1,23 @@
 import { io } from "../../main";
-import type { InstanceI, PluginEnum, uuid } from "../../types";
+import type { InstanceType, uuid } from "../../types";
 import { INSTANCE } from "./instance.model";
+
+const populateOptions = "plugin";
 
 class InstanceServiceImpl {
 	createInstance = async (
 		name: string,
 		creatorId: uuid,
-		type: InstanceI["type"],
-		plugin: PluginEnum,
+		type: InstanceType,
+		pluginId: uuid,
 		{ roomId, members }: { roomId?: uuid; members?: uuid[] },
 	) => {
 		const instance = new INSTANCE({
 			name,
 			type,
-			plugin,
+			plugin: pluginId,
 			creator: creatorId,
+			members: members ?? [],
 		});
 		if (roomId) instance.room = roomId;
 		await instance.save();
@@ -31,18 +34,23 @@ class InstanceServiceImpl {
 		await INSTANCE.exists({ _id: instanceId, "members.user.userId": userId });
 
 	getInstancesInRoom = async (roomId: uuid) =>
-		await INSTANCE.find({ room: roomId });
+		await INSTANCE.find({ room: roomId }).populate(populateOptions);
 
-	getInstance = async (instanceId: uuid) => await INSTANCE.findById(instanceId);
+	getInstance = async (instanceId: uuid) =>
+		await INSTANCE.findById(instanceId).populate(populateOptions);
 
 	getUserInstances = async (userId: uuid) =>
-		await INSTANCE.find({ "members.user": userId });
+		await INSTANCE.find({ "members.user": userId }).populate(populateOptions);
 
 	getUserPersonalInstances = async (userId: uuid) =>
-		await INSTANCE.find({ "members.user": userId, type: "user" });
-	
+		await INSTANCE.find({ "members.user": userId, type: "user" }).populate(
+			populateOptions,
+		);
+
 	getUserDirectInstances = async (userId: uuid) =>
-		await INSTANCE.find({ "members.user": userId, type: "direct" });
+		await INSTANCE.find({ "members.user": userId, type: "direct" }).populate(
+			populateOptions,
+		);
 }
 
 export const InstanceService = new InstanceServiceImpl();

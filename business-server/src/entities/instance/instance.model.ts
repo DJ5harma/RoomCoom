@@ -12,7 +12,8 @@ const instanceSchema = new mongoose.Schema<InstanceI>(
 		},
 
 		plugin: {
-			type: String,
+			type: mongoose.Schema.Types.ObjectId,
+			ref: MODEL_CONSTANTS.PLUGIN,
 			required: true,
 		},
 

@@ -50,7 +50,7 @@ class UserInvitationImpl {
 
 		if (roomIds.length === 0) return [];
 
-		const rooms = await RoomService.getRoomsByIds({ roomIds }); // MongoDB $in query
+		const rooms = await RoomService.getRoomsByIds(roomIds); // MongoDB $in query
 
 		return rooms;
 	}

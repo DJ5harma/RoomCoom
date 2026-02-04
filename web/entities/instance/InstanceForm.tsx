@@ -1,7 +1,8 @@
 import { Api } from "@/utils/Api";
 import { FormEvent } from "react";
 import { useRoom } from "../room/RoomProvider";
-import { InstanceI, PluginEnum } from "@/utils/types";
+import { InstanceI, PluginI } from "@/utils/types";
+import { useFetchPlugins } from "../plugins/useFetchPlugins";
 
 export const InstanceForm = ({ type }: { type: InstanceI["type"] }) => {
 	switch (type) {
@@ -20,11 +21,13 @@ export const InstanceForm = ({ type }: { type: InstanceI["type"] }) => {
 export const RoomInstanceForm = ({ type }: { type: InstanceI["type"] }) => {
 	const { room, addInstance } = useRoom();
 
+	const { plugins } = useFetchPlugins();
+
 	async function createInstance(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		const data = new FormData(e.currentTarget);
 		const name = data.get("instance-name");
-		const plugin = data.get("plugin");
+		const pluginId = data.get("pluginId");
 
 		let newInstance: InstanceI | undefined = undefined;
 		switch (type) {
@@ -33,7 +36,7 @@ export const RoomInstanceForm = ({ type }: { type: InstanceI["type"] }) => {
 				newInstance = (
 					await Api.post(`/room/${room.id}/instance`, {
 						name,
-						plugin,
+						pluginId,
 						type,
 					})
 				).data.newInstance;
@@ -47,29 +50,18 @@ export const RoomInstanceForm = ({ type }: { type: InstanceI["type"] }) => {
 	return (
 		<form onSubmit={createInstance}>
 			<h2>Create {type} plugin</h2>
-			<input type="text" name="instance-name" className="border border-white" placeholder="name" />
-			<label htmlFor="plugin">Choose a Plugin:</label>
-			<select id="plugin" name="plugin">
-				{([PluginEnum.chatyy, PluginEnum.meetyy] as PluginEnum[]).map(
-					(plugin) => {
-						return (
-							<option key={plugin} value={plugin}>
-								{plugin}
-							</option>
-						);
-					},
-				)}
-			</select>
+			<PluginSelector plugins={plugins} />
 			<button type="submit">Create Cointainer</button>
 		</form>
 	);
 };
 export const NonRoomInstanceForm = ({ type }: { type: InstanceI["type"] }) => {
+	const { plugins } = useFetchPlugins();
 	async function createInstance(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		const data = new FormData(e.currentTarget);
 		const name = data.get("instance-name");
-		const plugin = data.get("plugin");
+		const pluginId = data.get("pluginId");
 
 		// let newInstance: InstanceI | undefined = undefined;
 		// switch (type) {
@@ -82,20 +74,32 @@ export const NonRoomInstanceForm = ({ type }: { type: InstanceI["type"] }) => {
 	return (
 		<form onSubmit={createInstance} className="flex flex-col p-4 gap-4">
 			<h2>Create {type} plugin</h2>
-			<input type="text" name="instance-name" className="border border-white" placeholder="name" />
-			<label htmlFor="plugin">Choose a Plugin:</label>
-			<select id="plugin" name="plugin">
-				{([PluginEnum.chatyy, PluginEnum.meetyy] as PluginEnum[]).map(
-					(plugin) => {
-						return (
-							<option className="text-black" key={plugin} value={plugin}>
-								{plugin}
-							</option>
-						);
-					},
-				)}
-			</select>
+			<PluginSelector plugins={plugins} />
+
 			<button type="submit">Create Cointainer</button>
 		</form>
+	);
+};
+
+const PluginSelector = ({ plugins }: { plugins: PluginI[] }) => {
+	return (
+		<>
+			<input
+				type="text"
+				name="instance-name"
+				className="border border-white"
+				placeholder="name"
+			/>
+			<label htmlFor="pluginId">Choose a Plugin:</label>
+			<select id="pluginId" name="pluginId">
+				{plugins.map((plugin) => {
+					return (
+						<option className="text-black" key={plugin.id} value={plugin.id}>
+							{plugin.name}
+						</option>
+					);
+				})}
+			</select>
+		</>
 	);
 };
