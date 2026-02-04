@@ -45,6 +45,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 				setRooms(roomsData.data.rooms);
 				setPersonalInstances(personalInstancesData.data.instances);
 				setDirectInstances(directInstancesData.data.instances);
+				console.log("here",roomsData.data);
+				console.log("here",personalInstancesData.data);
+				console.log("here",directInstancesData.data);
+				
 			})
 			.finally(() => {
 				setLoading(false);

@@ -26,6 +26,8 @@ class UserControllerImpl {
 	async getDirectInstances(req: Request, res: Response) {
 		const userId = AuthState.getUserId(req);
 		const instances = await InstanceService.getUserDirectInstances(userId);
+		console.log({instances});
+		
 		res.json({ instances });
 	}
 	async getPersonalInstances(req: Request, res: Response) {
