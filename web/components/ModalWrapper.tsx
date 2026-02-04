@@ -18,7 +18,7 @@ export const ModalWrapper = ({
 
 	return (
 		<>
-			<div onClick={open}>{Opener}</div>
+			<div className="w-full h-full" onClick={open}>{Opener}</div>
 			{isOpen && (
 				<div
 					className="fixed top-0 left-0 w-screen h-screen flex justify-center items-center"

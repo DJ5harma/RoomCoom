@@ -3,6 +3,8 @@ import { useUser } from "../user/UserProvider";
 import { ModalWrapper } from "@/components/ModalWrapper";
 import { InstanceForm } from "./InstanceForm";
 import { useInstanceMemory } from "./InstanceMemory";
+import { Button } from "@/components/ui/Button";
+import { Badge } from "@/components/ui/Badge";
 
 export const RoomInstanceSidebar = () => {
 	const { instances: roomInstances } = useRoom();
@@ -39,30 +41,37 @@ export const NonRoomInstanceSidebar = () => {
 	const instances = [...directInstances, ...personalInstances];
 	return (
 		<aside className="h-full border flex flex-col">
-			<ModalWrapper Opener={<button>Personal +</button>}>
-				<InstanceForm type="personal" />
-			</ModalWrapper>
-			<ModalWrapper Opener={<button>Direct +</button>}>
-				<InstanceForm type="direct" />
-			</ModalWrapper>
-			<p>Active:</p>
-			{instances
-				.filter(({ id }) => isInstanceInMemory(id))
-				.map(({ name }) => {
-					return <>M: {name}</>;
-				})}
-			<p>DIRECT:</p>
-			{directInstances
-				.filter(({ id }) => !isInstanceInMemory(id))
-				.map(({ name }) => {
-					return <>{name}</>;
-				})}
-			<p>PERSONAL:</p>
-			{personalInstances
-				.filter(({ id }) => !isInstanceInMemory(id))
-				.map(({ name }) => {
-					return <>{name}</>;
-				})}
+			<div className="flex flex-col gap-1 items-center bg-green-950 p-1">
+				<Badge className="bg-green-700">Active</Badge>
+				{instances
+					.filter(({ id }) => isInstanceInMemory(id))
+					.map(({ name }) => {
+						return <>M: {name}</>;
+					})}
+			</div>
+			<div className="flex flex-col gap-1 items-center bg-red-950 p-1">
+				<ModalWrapper Opener={<Button className="bg-red-800">Direct +</Button>}>
+					<InstanceForm type="direct" />
+				</ModalWrapper>
+				{directInstances
+					.filter(({ id }) => !isInstanceInMemory(id))
+					.map(({ id, name }) => {
+						return <p key={id}>{name}</p>;
+					})}
+			</div>
+
+			<div className="flex flex-col gap-1 items-center bg-blue-950 p-1">
+				<ModalWrapper
+					Opener={<Button className="bg-blue-800">Personal +</Button>}
+				>
+					<InstanceForm type="personal" />
+				</ModalWrapper>
+				{personalInstances
+					.filter(({ id }) => !isInstanceInMemory(id))
+					.map(({ name }) => {
+						return <>{name}</>;
+					})}
+			</div>
 		</aside>
 	);
 };
