@@ -2,6 +2,7 @@ import { Api } from "@/utils/Api";
 import { UserI } from "@/utils/types";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useUser } from "./UserProvider";
 
 export const UserSearch = ({
 	onSelected,
@@ -38,6 +39,7 @@ export const UserSearch = ({
 
 	const allowSearch = selectLimit ? selectLimit > chosenUsers.length : true;
 
+	const { user: myself } = useUser();
 	return (
 		<div className="flex flex-col gap-4">
 			{allowSearch && (
@@ -70,7 +72,8 @@ export const UserSearch = ({
 			{allowSearch && (
 				<div className="flex flex-col gap-4 p-4">
 					{foundUsers.map((user) => {
-						if (chosenUsers.includes(user)) return null;
+						if (chosenUsers.includes(user) || user.id === myself.id)
+							return null;
 						return (
 							<div
 								key={user.id}
