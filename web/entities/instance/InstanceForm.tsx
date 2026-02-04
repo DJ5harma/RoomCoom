@@ -3,6 +3,7 @@ import { FormEvent, useState } from "react";
 import { InstanceI, InstanceType, uuid } from "@/utils/types";
 import { useFetchPlugins } from "../plugins/useFetchPlugins";
 import { UserSearch } from "../user/UserSearch";
+import { useModal } from "@/components/ModalWrapper";
 
 type FormBody = {
 	name: string;
@@ -22,6 +23,7 @@ export const InstanceForm = ({
 }) => {
 	const { plugins } = useFetchPlugins();
 	const [chosenUserIds, setChosenUserIds] = useState<uuid[]>([]);
+	const { close } = useModal();
 
 	async function createInstance(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
@@ -47,11 +49,11 @@ export const InstanceForm = ({
 			default:
 				return;
 		}
-		await Api.post(`/instance`, reqData);
+		Api.post(`/instance`, reqData).then(close);
 	}
 	return (
 		<form onSubmit={createInstance} className="flex flex-col gap-4">
-			<h2>Create {type} plugin</h2>
+			<h2>Create {type} instance</h2>
 			<input
 				type="text"
 				name="instance-name"
