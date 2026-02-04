@@ -29,7 +29,7 @@ export const InstanceForm = ({
 		const name = data.get("instance-name") as string;
 		const pluginId = data.get("pluginId") as uuid;
 
-		const reqData: FormBody = { name, pluginId, roomId, type };
+		const reqData: FormBody = { name, pluginId, type };
 
 		switch (type) {
 			case "room":
@@ -50,7 +50,7 @@ export const InstanceForm = ({
 		await Api.post(`/instance`, reqData);
 	}
 	return (
-		<form onSubmit={createInstance}>
+		<form onSubmit={createInstance} className="flex flex-col gap-4">
 			<h2>Create {type} plugin</h2>
 			<input
 				type="text"
@@ -60,15 +60,17 @@ export const InstanceForm = ({
 			/>
 			<label htmlFor="pluginId">Choose a Plugin:</label>
 			<select id="pluginId" name="pluginId">
-				{plugins.map((plugin) => {
-					return (
-						<option className="text-black" key={plugin.id} value={plugin.id}>
-							{plugin.name}
-						</option>
-					);
-				})}
+				{plugins
+					.filter((plugin) => plugin.supportedInstanceTypes.includes(type))
+					.map((plugin) => {
+						return (
+							<option className="text-black" key={plugin.id} value={plugin.id}>
+								{plugin.name}
+							</option>
+						);
+					})}
 			</select>
-			<button type="submit">Create Cointainer</button>
+			<button type="submit">Create Instance</button>
 		</form>
 	);
 };
