@@ -2,7 +2,7 @@ import { io } from "../../main";
 import type { InstanceType, uuid } from "../../types";
 import { INSTANCE } from "./instance.model";
 
-const populateOptions = "plugin";
+const populateOptions = "plugin members";
 
 class InstanceServiceImpl {
 	createInstance = async (

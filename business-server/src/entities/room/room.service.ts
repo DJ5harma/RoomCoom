@@ -1,5 +1,7 @@
+import { AppError } from "../../error/AppError";
 import { io } from "../../main";
-import type { uuid } from "../../types";
+import type { RoomI, uuid } from "../../types";
+import { UserService } from "../user/user.service";
 import { ROOM } from "./room.model";
 
 const roomPopulateOptions = {
@@ -18,10 +20,13 @@ class RoomServiceImpl {
 		await ROOM.find({ "members.user": userId }).select("-members");
 
 	addUserToRoom = async (roomId: uuid, userId: uuid) => {
+		const user = await UserService.findById(userId);
+		if (!user) throw new AppError(404, "User not found");
+
 		await ROOM.findByIdAndUpdate(roomId, {
-			$addToSet: { members: { user: userId } },
+			$addToSet: { members: { user: userId } as RoomI["members"][0] },
 		});
-		io.to(roomId).emit("room:add:member", { userId });
+		io.to(roomId).emit("room:add:member", { user });
 	};
 
 	userExistsInRoom = async (userId: uuid, roomId: uuid) =>

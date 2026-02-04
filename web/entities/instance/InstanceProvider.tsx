@@ -8,7 +8,7 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { InstanceI, uuid } from "@/utils/types";
+import { InstanceI, UserI, uuid } from "@/utils/types";
 import { Loading } from "@/components/Loading";
 import { NotFound } from "@/components/NotFound";
 import { socket } from "@/utils/SocketConnector";
@@ -27,6 +27,8 @@ export const InstanceProvider = ({
 	const [instance, setInstance] = useState<InstanceI | null>(null);
 	const [loading, setLoading] = useState(true);
 
+	useEffect(() => {}, [instance]);
+
 	useEffect(() => {
 		(async () => {
 			const [instanceData] = await Promise.all([
@@ -35,10 +37,10 @@ export const InstanceProvider = ({
 			setInstance(instanceData.data.instance);
 			setLoading(false);
 
-			socket.on("instance:add:member", ({ userId }: { userId: uuid }) => {
+			socket.on("instance:add:member", ({ user }: { user: UserI }) => {
 				setInstance((p) => ({
 					...p!,
-					members: [...instance!.members, userId],
+					members: [...instance!.members, user],
 				}));
 			});
 			socket.emit("instance:connect", { instanceId });

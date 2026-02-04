@@ -1,8 +1,6 @@
 import Image from "next/image";
 import { MessageI } from "../types";
-import { useRoom } from "@/entities/room/RoomProvider";
 import { useUser } from "@/entities/user/UserProvider";
-import { UserI } from "@/utils/types";
 import { useState } from "react";
 
 export const Message = ({
@@ -12,11 +10,9 @@ export const Message = ({
 	message: MessageI;
 	isContinuation: boolean;
 }) => {
-	const { getMemberByUserId } = useRoom();
-	const { content, from } = message;
+	const { content, from: sender } = message;
 	const { user } = useUser();
 
-	const sender = (typeof from === "string" ? getMemberByUserId(from) : from) as UserI;
 	const didISend = user.id === sender.id;
 
 	const showProfilePic = isContinuation ? false : true;
@@ -35,7 +31,7 @@ export const Message = ({
 					alt={sender.name}
 				/>
 			) : (
-				<div className="size-[25px]" />
+				<div className="size-6.25" />
 			)}
 			{didISend ? (
 				<div className="bg-blue-900 text-white flex flex-col gap-2 text-sm p-3 rounded-xl shadow shadow-cyan-200 max-w-4/5">
@@ -60,7 +56,7 @@ const Content = ({ content }: { content: string }) => {
 	if (content.length <= shownLength) return <span>{content}</span>;
 
 	function showMore() {
-		setShownLength(p => p + THRESHOLD_LENGTH)
+		setShownLength((p) => p + THRESHOLD_LENGTH);
 	}
 
 	return (

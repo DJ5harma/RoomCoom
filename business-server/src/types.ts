@@ -18,7 +18,7 @@ interface InstanceI {
 	room: ref_uuid;
 	type: InstanceType;
 	plugin: ref_uuid;
-	members: uuid[];
+	members: ref_uuid[];
 	state: object;
 	creator: ref_uuid;
 }

@@ -1,9 +1,9 @@
-import type { ref_uuid, uuid } from "@/utils/types";
+import type { ref_uuid, UserI, uuid } from "@/utils/types";
 
 interface MessageI {
 	id: uuid;
 	content: string;
-	from: ref_uuid;
+	from: UserI;
 	instance: ref_uuid;
 }
 
