@@ -9,6 +9,6 @@ export const useFetchPlugins = () => {
 		Api.get("/public/plugin/all").then(({ data }) => {
 			setPlugins(data.plugins);
 		});
-	});
+	}, []);
 	return { plugins };
 };
