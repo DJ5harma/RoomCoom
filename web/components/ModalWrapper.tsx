@@ -12,27 +12,37 @@ export const ModalWrapper = ({
 	Opener: ReactNode;
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
-	if (!isOpen) return Opener;
 
-	function close() {
-		setIsOpen(false);
-	}
+	const open = () => setIsOpen(true);
+	const close = () => setIsOpen(false);
 
 	return (
-		<div
-			className="fixed top-0 left-0 w-screen h-screen bg-[rgba(200, 200, 200, 0.5)] flex justify-center items-center"
-			onClick={close}
-		>
-			<div
-				className="relative"
-				onClick={(e) => {
-					e.stopPropagation();
-				}}
-			>
-				<CgClose className="absolute top-0 right-0" onClick={close} />
-				<context.Provider value={{ close }}>{children}</context.Provider>
-			</div>
-		</div>
+		<>
+			<div onClick={open}>{Opener}</div>
+			{isOpen && (
+				<div
+					className="fixed top-0 left-0 w-screen h-screen flex justify-center items-center"
+					style={{ background: "rgba(200, 200, 200, 0.5)" }}
+					onClick={close}
+				>
+					<div
+						className="relative bg-black p-4"
+						onClick={(e) => {
+							e.stopPropagation();
+						}}
+					>
+						<CgClose
+							className="absolute top-4 right-4 text-red-400"
+							size={20}
+							onClick={close}
+						/>
+						<div className="p-4">
+							<context.Provider value={{ close }}>{children}</context.Provider>
+						</div>
+					</div>
+				</div>
+			)}
+		</>
 	);
 };
 

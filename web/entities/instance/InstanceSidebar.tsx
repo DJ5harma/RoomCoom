@@ -1,6 +1,8 @@
 import { useInstancesManager } from "./InstancesManager";
 import { useRoom } from "../room/RoomProvider";
 import { useUser } from "../user/UserProvider";
+import { ModalWrapper } from "@/components/ModalWrapper";
+import { InstanceForm } from "./InstanceForm";
 
 export const RoomInstanceSidebar = () => {
 	const { instances: roomInstances } = useRoom();
@@ -9,6 +11,12 @@ export const RoomInstanceSidebar = () => {
 	const instances = [...roomInstances];
 	return (
 		<aside className="h-full flex flex-col">
+			<ModalWrapper Opener={<button>Room Instance +</button>}>
+				<InstanceForm type="room" />
+			</ModalWrapper>
+			<ModalWrapper Opener={<button>Space Instance +</button>}>
+				<InstanceForm type="space" />
+			</ModalWrapper>
 			<p>Active:</p>
 			{instances
 				.filter(({ id }) => isInstanceInMemory(id))
@@ -16,7 +24,7 @@ export const RoomInstanceSidebar = () => {
 					return <>M: {name}</>;
 				})}
 			<p>ROOM:</p>
-			{roomInstances
+			{instances
 				.filter(({ id }) => !isInstanceInMemory(id))
 				.map(({ name }) => {
 					return <>{name}</>;
@@ -31,6 +39,12 @@ export const NonRoomInstanceSidebar = () => {
 	const instances = [...directInstances, ...personalInstances];
 	return (
 		<aside className="h-full border flex flex-col">
+			<ModalWrapper Opener={<button>Personal +</button>}>
+				<InstanceForm type="user" />
+			</ModalWrapper>
+			<ModalWrapper Opener={<button>Direct +</button>}>
+				<InstanceForm type="direct" />
+			</ModalWrapper>
 			<p>Active:</p>
 			{instances
 				.filter(({ id }) => isInstanceInMemory(id))
