@@ -2,6 +2,7 @@ import { Api } from "@/utils/Api";
 import { FormEvent } from "react";
 import { InstanceI, InstanceType, uuid } from "@/utils/types";
 import { useFetchPlugins } from "../plugins/useFetchPlugins";
+import { UserSearch } from "../user/UserSearch";
 
 type FormBody = {
 	name: string;
@@ -70,6 +71,12 @@ export const InstanceForm = ({
 						);
 					})}
 			</select>
+			<p>Select User(s):</p>
+			<UserSearch
+				onSelected={(users) => {
+					console.log("2", { users });
+				}}
+			/>
 			<button type="submit">Create Instance</button>
 		</form>
 	);
