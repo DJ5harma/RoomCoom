@@ -8,7 +8,6 @@ export const useFetchPlugins = () => {
 	useEffect(() => {
 		Api.get("/public/plugin/all").then(({ data }) => {
 			setPlugins(data.plugins);
-			console.log(data.plugins);
 		});
 	}, []);
 	return { plugins };
