@@ -13,6 +13,10 @@ class InstanceControllerImpl {
 		const instanceId =
 			req.body?.instanceId || req.params.instanceId || req.query.instanceId;
 
+		if (!instanceId) {
+			next();
+			return;
+		}
 		const existsInInstance = await InstanceService.userExistsInInstance(
 			userId,
 			instanceId,

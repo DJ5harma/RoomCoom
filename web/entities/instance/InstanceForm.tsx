@@ -1,5 +1,5 @@
 import { Api } from "@/utils/Api";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { InstanceI, InstanceType, uuid } from "@/utils/types";
 import { useFetchPlugins } from "../plugins/useFetchPlugins";
 import { UserSearch } from "../user/UserSearch";
@@ -16,13 +16,12 @@ type FormBody = {
 export const InstanceForm = ({
 	type,
 	roomId,
-	direct_peerId,
 }: {
 	type: InstanceI["type"];
 	roomId?: uuid;
-	direct_peerId?: uuid;
 }) => {
 	const { plugins } = useFetchPlugins();
+	const [chosenUserIds, setChosenUserIds] = useState<uuid[]>([]);
 
 	async function createInstance(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
@@ -38,10 +37,10 @@ export const InstanceForm = ({
 				break;
 			case "space":
 				reqData.roomId = roomId;
-				reqData.space_memberIds = [];
+				reqData.space_memberIds = chosenUserIds;
 				break;
 			case "direct":
-				reqData.direct_peerId = direct_peerId;
+				reqData.direct_peerId = chosenUserIds[0];
 				break;
 			case "personal":
 				break;
@@ -72,11 +71,18 @@ export const InstanceForm = ({
 					})}
 			</select>
 			<p>Select User(s):</p>
-			<UserSearch
-				onSelected={(users) => {
-					console.log("2", { users });
-				}}
-			/>
+			{type === "space" && (
+				<UserSearch
+					onSelected={(users) => setChosenUserIds(users.map(({ id }) => id))}
+					selectLimit={20}
+				/>
+			)}
+			{type === "direct" && (
+				<UserSearch
+					onSelected={(users) => setChosenUserIds(users.map(({ id }) => id))}
+					selectLimit={1}
+				/>
+			)}
 			<button type="submit">Create Instance</button>
 		</form>
 	);
