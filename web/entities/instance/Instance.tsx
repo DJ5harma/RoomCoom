@@ -1,20 +1,15 @@
-import { useInstance } from "./InstanceProvider";
-import { ChatyyPlugin } from "../plugins/chatyy/ChatyyPlugin";
-import { MeetyyPlugin } from "../plugins/meetyy/MeetyyPlugin";
+import { ReactNode, useEffect, useState } from "react";
+import { useInstanceMemory } from "./InstanceMemory";
+import { useSearchParams } from "next/navigation";
+import { Api } from "@/utils/Api";
+import { InstanceI } from "@/utils/types";
 
 export const Instance = () => {
-	const { instance } = useInstance();
+	const searchParams = useSearchParams();
+	const instanceId = searchParams.get("instanceId");
 
-	if (instance.plugin.location === "external") {
-		return <>External Plugin support to be added</>;
-	}
+	return <>...</>
 
-	switch (instance.plugin.name) {
-		case "chatyy":
-			return <ChatyyPlugin />;
-		case "meetyy":
-			return <MeetyyPlugin />;
-		default:
-			return <>No plugin got deduced mapped for instance: {JSON.stringify(instance)}</>;
-	}
+
+	if(!instanceId) return <></>
 };
