@@ -3,4 +3,5 @@ export enum MODEL_CONSTANTS {
 	ROOM = "ROOM",
 	INSTANCE = "INSTANCE",
 	MEMBER = "MEMBER",
+	PLUGIN = "PLUGIN"
 }

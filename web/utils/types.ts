@@ -3,6 +3,13 @@ export type ref_uuid = object | uuid;
 
 export type Data = object | string | number;
 
+type InstanceType = "room" | "space" | "direct" | "user";
+
+interface PluginI {
+	name: string;
+	supportedInstanceTypes: InstanceType[];
+}
+
 export enum PluginEnum {
 	chatyy = "chatyy",
 	meetyy = "meetyy",
@@ -26,11 +33,11 @@ interface InstanceI {
 	id: uuid;
 	name: string; // unique in a room
 	room: ref_uuid;
-	type: "room" | "space" | "direct" | "user";
+	type: InstanceType;
 	plugin: PluginEnum;
 	members: uuid[];
 	state: object;
 	creator: ref_uuid;
 }
 
-export type { UserI, RoomI, InstanceI };
+export type { PluginI, UserI, RoomI, InstanceI, InstanceType };

@@ -4,23 +4,18 @@ import { Server } from "socket.io";
 import { AppError } from "./error/AppError";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import passport from "passport";
 import "./auth/auth.initializer";
-import { authRouter } from "./auth/auth.routes";
 import { ENV_CONSTANTS } from "./constants/env.constants";
-import { AuthController } from "./auth/auth.controller";
 import mongoose from "mongoose";
 import morgan from "morgan";
 import { AuthService } from "./auth/auth.service";
-import { userRouter } from "./entities/user/user.routes";
-import { roomRouter } from "./entities/room/room.routes";
 import { AuthState } from "./auth/auth.state";
 import { RoomIO } from "./entities/room/room.io";
 import { InstanceIO } from "./entities/instance/instance.io";
 import Redis from "ioredis";
 import { createAdapter } from "@socket.io/redis-adapter";
 import { UserIO } from "./entities/user/user.io";
-import { instanceRouter } from "./entities/instance/instance.routes";
+import { apiRouter } from "./api";
 
 const app = express();
 const server = http.createServer(app);
@@ -36,19 +31,11 @@ app.use(express.json());
 app.use(morgan("common"));
 
 app.get("/", (_req, res) => res.send("hello"));
-
-app.use(passport.initialize());
-app.use("/api/auth", authRouter, AuthController.handleUserProfile);
-
-app.use(AuthController.middlewareAuth);
-
-app.use("/api/user", userRouter);
-app.use("/api/room", roomRouter);
-app.use("/api/instance", instanceRouter);
-
 app.get("/err", () => {
-	throw new Error("ERROR TEST ROUTE - OK");
+	throw new Error("ERROR HANDLER WORKS CORRECTLY - OK");
 });
+
+app.use("/api", apiRouter);
 
 app.use(AppError.ExpressErrorHandler);
 
