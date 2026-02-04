@@ -26,7 +26,7 @@ class UserServiceImpl {
 					email: { $regex: search, $options: "i" },
 				},
 			],
-		});
+		}).limit(20);
 		return users;
 	};
 

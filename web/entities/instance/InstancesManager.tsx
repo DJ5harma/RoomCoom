@@ -2,11 +2,9 @@
 
 import { createContext, ReactNode, useContext, useState } from "react";
 import { uuid } from "@/utils/types";
-import { InstanceProvider } from "./InstanceProvider";
-import { Instance } from "./Instance";
 
 const context = createContext<{
-	activateInstance(instanceId: uuid): void;
+	activateInstance(instanceId: uuid, ndoe: ReactNode): void;
 	hideCurrentInstance(): void;
 	clearInstance(instanceId: uuid): void;
 	isInstanceInMemory(instanceId: uuid): boolean;
@@ -19,15 +17,11 @@ export const InstancesManager = ({ children }: { children: ReactNode }) => {
 	}>({});
 	const [shownInstanceId, setShownInstanceId] = useState<uuid>("");
 
-	function activateInstance(instanceId: uuid) {
+	function activateInstance(instanceId: uuid, node: ReactNode) {
 		if (!instancesMap[instanceId]) {
 			setInstancesMap((p) => ({
 				...p,
-				[instanceId]: (
-					<InstanceProvider instanceId={instanceId}>
-						<Instance />
-					</InstanceProvider>
-				),
+				[instanceId]: node,
 			}));
 		}
 		setShownInstanceId(instanceId);

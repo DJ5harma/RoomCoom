@@ -12,9 +12,9 @@ export const InstanceForm = ({ type }: { type: InstanceI["type"] }) => {
 			return <RoomInstanceForm type="space" />;
 		case "direct":
 			return <NonRoomInstanceForm type="direct" />;
-		case "user":
+		case "personal":
 		default:
-			return <NonRoomInstanceForm type="user" />;
+			return <NonRoomInstanceForm type="personal" />;
 	}
 };
 

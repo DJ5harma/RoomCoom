@@ -1,17 +1,20 @@
 import { useInstance } from "./InstanceProvider";
-import { PluginEnum } from "@/utils/types";
 import { ChatyyPlugin } from "../plugins/chatyy/ChatyyPlugin";
 import { MeetyyPlugin } from "../plugins/meetyy/MeetyyPlugin";
 
 export const Instance = () => {
 	const { instance } = useInstance();
 
-	switch (instance.plugin) {
-		case PluginEnum.chatyy:
+	if (instance.plugin.location === "external") {
+		return <>External Plugin support to be added</>;
+	}
+
+	switch (instance.plugin.name) {
+		case "chatyy":
 			return <ChatyyPlugin />;
-		case PluginEnum.meetyy:
+		case "meetyy":
 			return <MeetyyPlugin />;
 		default:
-			return <></>;
+			return <>No plugin got deduced mapped for instance: {JSON.stringify(instance)}</>;
 	}
 };

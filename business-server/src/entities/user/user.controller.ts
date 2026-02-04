@@ -2,7 +2,7 @@ import type { Request, Response } from "express";
 import { AuthState } from "../../auth/auth.state";
 import { UserService } from "./user.service";
 import { RoomService } from "../room/room.service";
-import type { PluginEnum, uuid } from "../../types";
+import type { uuid } from "../../types";
 import { UserInvitation } from "./user.invitation";
 import { AppError } from "../../error/AppError";
 import { InstanceService } from "../instance/instance.service";
@@ -22,25 +22,6 @@ class UserControllerImpl {
 		const { q } = req.query as { q: string };
 		const users = await UserService.search(q);
 		res.json({ users });
-	}
-
-	async createInstance(req: Request, res: Response) {
-		const { name, plugin, type, targetUserId } = req.body as {
-			name: string;
-			plugin: PluginEnum;
-			type: "direct" | "user";
-			targetUserId?: uuid;
-		};
-		const creatorId = AuthState.getUserId(req);
-		const userId = creatorId;
-		const instance = await InstanceService.createInstance(
-			name,
-			creatorId,
-			type,
-			plugin,
-			{ members: targetUserId ? [userId, targetUserId] : [userId] },
-		);
-		res.json({ instance });
 	}
 	async getDirectInstances(req: Request, res: Response) {
 		const userId = AuthState.getUserId(req);

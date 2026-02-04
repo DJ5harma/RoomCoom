@@ -40,7 +40,7 @@ export const NonRoomInstanceSidebar = () => {
 	return (
 		<aside className="h-full border flex flex-col">
 			<ModalWrapper Opener={<button>Personal +</button>}>
-				<InstanceForm type="user" />
+				<InstanceForm type="personal" />
 			</ModalWrapper>
 			<ModalWrapper Opener={<button>Direct +</button>}>
 				<InstanceForm type="direct" />

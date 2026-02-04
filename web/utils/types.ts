@@ -17,10 +17,10 @@ interface InstanceI {
 	name: string; // unique in a room
 	room: ref_uuid;
 	type: InstanceType;
-	plugin: ref_uuid;
+	plugin: PluginI;
 	members: uuid[];
 	state: object;
-	creator: ref_uuid;
+	creator: UserI;
 }
 
 interface UserI {
@@ -36,7 +36,6 @@ interface RoomI {
 	creator: ref_uuid;
 	members: { user: ref_uuid }[];
 }
-
 
 export type {
 	PluginI,
