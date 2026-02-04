@@ -1,12 +1,12 @@
-import { useInstancesManager } from "./InstanceMemory";
 import { useRoom } from "../room/RoomProvider";
 import { useUser } from "../user/UserProvider";
 import { ModalWrapper } from "@/components/ModalWrapper";
 import { InstanceForm } from "./InstanceForm";
+import { useInstanceMemory } from "./InstanceMemory";
 
 export const RoomInstanceSidebar = () => {
 	const { instances: roomInstances } = useRoom();
-	const { isInstanceInMemory } = useInstancesManager();
+	const { isInstanceInMemory } = useInstanceMemory();
 
 	const instances = [...roomInstances];
 	return (
@@ -34,7 +34,7 @@ export const RoomInstanceSidebar = () => {
 };
 export const NonRoomInstanceSidebar = () => {
 	const { personalInstances, directInstances } = useUser();
-	const { isInstanceInMemory } = useInstancesManager();
+	const { isInstanceInMemory } = useInstanceMemory();
 
 	const instances = [...directInstances, ...personalInstances];
 	return (
