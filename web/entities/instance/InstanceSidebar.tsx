@@ -8,14 +8,14 @@ export const RoomInstanceSidebar = () => {
 
 	const instances = [...roomInstances];
 	return (
-		<aside className="h-full">
-			Active:
+		<aside className="h-full flex flex-col">
+			<p>Active:</p>
 			{instances
 				.filter(({ id }) => isInstanceInMemory(id))
 				.map(({ name }) => {
 					return <>M: {name}</>;
 				})}
-			ROOM:
+			<p>ROOM:</p>
 			{roomInstances
 				.filter(({ id }) => !isInstanceInMemory(id))
 				.map(({ name }) => {
@@ -30,20 +30,20 @@ export const NonRoomInstanceSidebar = () => {
 
 	const instances = [...directInstances, ...personalInstances];
 	return (
-		<aside className="h-full">
-			Active:
+		<aside className="h-full border flex flex-col">
+			<p>Active:</p>
 			{instances
 				.filter(({ id }) => isInstanceInMemory(id))
 				.map(({ name }) => {
 					return <>M: {name}</>;
 				})}
-			DIRECT:
+			<p>DIRECT:</p>
 			{directInstances
 				.filter(({ id }) => !isInstanceInMemory(id))
 				.map(({ name }) => {
 					return <>{name}</>;
 				})}
-			PERSONAL:
+			<p>PERSONAL:</p>
 			{personalInstances
 				.filter(({ id }) => !isInstanceInMemory(id))
 				.map(({ name }) => {

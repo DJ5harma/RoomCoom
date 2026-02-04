@@ -42,7 +42,9 @@ export const InstancesManager = ({ children }: { children: ReactNode }) => {
 		setInstancesMap((p) => ({ ...p, [instanceId]: undefined }));
 	}
 
-	const ShownInstance = instancesMap[shownInstanceId];
+	const ShownInstance = isInstanceInMemory(shownInstanceId)
+		? instancesMap[shownInstanceId]
+		: null;
 
 	return (
 		<context.Provider

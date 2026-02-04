@@ -2,6 +2,6 @@ import React from 'react'
 
 export const UserDashboard = () => {
   return (
-    <div>UserDashboard</div>
+    <div className='w-full'>UserDashboard</div>
   )
 }

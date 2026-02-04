@@ -31,20 +31,23 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		(async () => {
-			const [userData, roomsData, personalInstancesData, directInstancesData] =
-				await Promise.all([
-					Api.get("/user/me"),
-					Api.get("/user/rooms"),
-					Api.get("/user/instances/personal"),
-					Api.get("/user/instances/direct"),
-				]);
-			setUser(userData.data.user);
-			setRooms(roomsData.data.rooms);
-			setPersonalInstances(personalInstancesData.data.instances);
-			setDirectInstances(directInstancesData.data.instances);
-			setLoading(false);
-		})();
+		Api.get("/user/me")
+			.then(async (userData) => {
+				setUser(userData.data.user);
+
+				const [roomsData, personalInstancesData, directInstancesData] =
+					await Promise.all([
+						Api.get("/user/rooms"),
+						Api.get("/user/instances/personal"),
+						Api.get("/user/instances/direct"),
+					]);
+				setRooms(roomsData.data.rooms);
+				setPersonalInstances(personalInstancesData.data.instances);
+				setDirectInstances(directInstancesData.data.instances);
+			})
+			.finally(() => {
+				setLoading(false);
+			});
 	}, []);
 	if (loading) return <Loading />;
 	if (!user) return <Auth />;
