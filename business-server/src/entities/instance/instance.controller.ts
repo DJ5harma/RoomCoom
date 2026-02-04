@@ -80,12 +80,14 @@ class InstanceControllerImpl {
 					`There is no such instance of type '${type}' supported`,
 				);
 		}
-		const membersExist = await UserService.existByIds(members);
-		if (!membersExist) {
-			throw new AppError(
-				400,
-				`Not all of the intended members of instance "${type}" exist`,
-			);
+		if (members.length > 0) {
+			const membersExist = await UserService.existByIds(members);
+			if (!membersExist) {
+				throw new AppError(
+					400,
+					`Not all of the intended members of instance "${type}" exist`,
+				);
+			}
 		}
 
 		const instance = await InstanceService.createInstance(
