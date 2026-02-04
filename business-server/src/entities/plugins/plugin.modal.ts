@@ -7,5 +7,8 @@ const pluginSchema = new mongoose.Schema<PluginI>({
 	supportedInstanceTypes: { type: [{ type: String }], default: [] },
 	location: { type: String, default: "internal" },
 });
+pluginSchema.virtual("id").get(function () {
+	return this._id.toString();
+});
 
 export const PLUGIN = mongoose.model(MODEL_CONSTANTS.PLUGIN, pluginSchema);
