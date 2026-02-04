@@ -33,24 +33,26 @@ class InstanceServiceImpl {
 	userExistsInInstance = async (userId: uuid, instanceId: uuid) =>
 		await INSTANCE.exists({ _id: instanceId, "members.user.userId": userId });
 
-	getInstancesInRoom = async (roomId: uuid) =>
-		await INSTANCE.find({ room: roomId }).populate(populateOptions);
-
 	getInstance = async (instanceId: uuid) =>
 		await INSTANCE.findById(instanceId).populate(populateOptions);
+
+	getInstancesInRoom = async (roomId: uuid) =>
+		await INSTANCE.find({ room: roomId }).populate(populateOptions);
 
 	getUserInstances = async (userId: uuid) =>
 		await INSTANCE.find({ "members.user": userId }).populate(populateOptions);
 
 	getUserPersonalInstances = async (userId: uuid) =>
-		await INSTANCE.find({ "members.user": userId, type: "user" }).populate(
-			populateOptions,
-		);
+		await INSTANCE.find({
+			"members.user": userId,
+			type: "personal" as InstanceType,
+		}).populate(populateOptions);
 
 	getUserDirectInstances = async (userId: uuid) =>
-		await INSTANCE.find({ "members.user": userId, type: "direct" }).populate(
-			populateOptions,
-		);
+		await INSTANCE.find({
+			"members.user": userId,
+			type: "direct" as InstanceType,
+		}).populate(populateOptions);
 }
 
 export const InstanceService = new InstanceServiceImpl();
