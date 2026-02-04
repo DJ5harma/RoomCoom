@@ -10,20 +10,19 @@ import {
 import { Api } from "@/utils/Api";
 import { Auth } from "@/components/Auth";
 import { Loading } from "@/components/Loading";
-import { InstanceI, UserI } from "@/utils/types";
-import { OmittedMembersRoomType } from "@/utils/customTypes";
+import { InstanceI, RoomI, UserI } from "@/utils/types";
 
 const context = createContext<{
 	user: UserI;
-	rooms: OmittedMembersRoomType[];
+	rooms: RoomI[];
 	directInstances: InstanceI[];
 	personalInstances: InstanceI[];
-	addRoom: (room: OmittedMembersRoomType) => void;
+	addRoom: (room: RoomI) => void;
 } | null>(null);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
 	const [user, setUser] = useState<UserI | null>(null);
-	const [rooms, setRooms] = useState<OmittedMembersRoomType[]>([]);
+	const [rooms, setRooms] = useState<RoomI[]>([]);
 
 	const [directInstances, setDirectInstances] = useState<InstanceI[]>([]);
 	const [personalInstances, setPersonalInstances] = useState<InstanceI[]>([]);
@@ -52,7 +51,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 	if (loading) return <Loading />;
 	if (!user) return <Auth />;
 
-	function addRoom(room: OmittedMembersRoomType) {
+	function addRoom(room: RoomI) {
 		setRooms((p) => [...p, room]);
 	}
 

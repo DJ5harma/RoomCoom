@@ -1,12 +1,11 @@
+import { useInstance } from "@/entities/instance/InstanceProvider";
 import { Api } from "@/utils/Api";
-import { useParams, useSearchParams } from "next/navigation";
 import { FormEvent } from "react";
 import { BiSend } from "react-icons/bi";
 
 export const InputBox = () => {
-	const { roomId } = useParams();
-	const searchParams = useSearchParams();
-	const instanceId = searchParams.get("instanceId");
+	const { instance } = useInstance();
+
 	function sendMessage(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 
@@ -14,7 +13,7 @@ export const InputBox = () => {
 
 		const content = formData.get("content");
 
-		Api.post(`/instance/${instanceId}/chatyy/send`, {
+		Api.post(`/instance/${instance.id}/chatyy/send`, {
 			content,
 		});
 	}

@@ -1,8 +1,8 @@
+import Image from "next/image";
 import { MessageI } from "../types";
 import { useRoom } from "@/entities/room/RoomProvider";
 import { useUser } from "@/entities/user/UserProvider";
 import { UserI } from "@/utils/types";
-import Image from "next/image";
 import { useState } from "react";
 
 export const Message = ({
@@ -12,11 +12,11 @@ export const Message = ({
 	message: MessageI;
 	isContinuation: boolean;
 }) => {
-	const { members } = useRoom();
+	const { getMemberByUserId } = useRoom();
 	const { content, from } = message;
 	const { user } = useUser();
 
-	const sender = (typeof from === "string" ? members[from] : from) as UserI;
+	const sender = (typeof from === "string" ? getMemberByUserId(from) : from) as UserI;
 	const didISend = user.id === sender.id;
 
 	const showProfilePic = isContinuation ? false : true;
