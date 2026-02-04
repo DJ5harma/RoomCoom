@@ -112,6 +112,25 @@ class InstanceControllerImpl {
 		const instance = await InstanceService.getInstance(instanceId);
 		res.json({ instance });
 	}
+
+	async sendToAll(req: Request, res: Response) {
+		const { instanceId } = req.params as { instanceId: uuid };
+		const { data } = req.body;
+		io.to(instanceId).emit(instanceId, { data });
+		res.json({ success: true });
+	}
+	async sendToOne(req: Request, res: Response) {
+		const { instanceId } = req.params as { instanceId: uuid };
+		const { data, userId } = req.body as { data: any; userId: uuid };
+		io.to(userId).emit(instanceId, { data });
+		res.json({ success: true });
+	}
+	async sendToSome(req: Request, res: Response) {
+		const { instanceId } = req.params as { instanceId: uuid };
+		const { data, userIds } = req.body as { data: any; userIds: uuid[] };
+		userIds.forEach((userId) => io.to(userId).emit(instanceId, { data }));
+		res.json({ success: true });
+	}
 }
 
 export const InstanceController = new InstanceControllerImpl();

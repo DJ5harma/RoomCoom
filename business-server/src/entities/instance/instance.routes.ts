@@ -16,5 +16,9 @@ instanceRouter.use("/:instanceId", InstanceController.authorizeUser);
 
 instanceRouter.get("/:instanceId", InstanceController.get);
 
+instanceRouter.post("/:instanceId/sendToAll", InstanceController.sendToAll)
+instanceRouter.post("/:instanceId/sendToOne", InstanceController.sendToOne)
+instanceRouter.post("/:instanceId/sendToSome", InstanceController.sendToSome)
+
 instanceRouter.use("/:instanceId/chatyy", chatyyRouter);
 instanceRouter.use("/:instanceId/meetyy", meetyyRouter);
