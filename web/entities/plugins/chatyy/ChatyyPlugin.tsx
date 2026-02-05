@@ -1,6 +1,4 @@
 "use client";
-
-import { Api } from "@/utils/Api";
 import {
 	createContext,
 	Dispatch,
@@ -11,7 +9,6 @@ import {
 } from "react";
 import { MessageI } from "./types";
 import { Loading } from "@/components/Loading";
-import { socket } from "@/utils/SocketConnector";
 import { Chatyy } from "./Chatyy";
 import { useInstance } from "@/entities/instance/InstanceProvider";
 
@@ -21,12 +18,13 @@ const context = createContext<{
 } | null>(null);
 
 export const ChatyyPlugin = () => {
-	const { instance } = useInstance();
+	const { instanceApi, subscribe, unsubscribe } = useInstance();
 	const [messages, setMessages] = useState<MessageI[]>([]);
 	const [loadingMessages, setLoadingMessages] = useState(true);
 
 	useEffect(() => {
-		Api.get(`/instance/${instance.id}/chatyy/get`)
+		instanceApi
+			.get("/messages")
 			.then(({ data: { messages } }) => {
 				setMessages(messages);
 			})
@@ -34,11 +32,11 @@ export const ChatyyPlugin = () => {
 				setLoadingMessages(false);
 			});
 
-		socket.on("chatyy:message", ({ message }) => {
+		subscribe(({ message }) => {
 			setMessages((p) => [...p, message]);
 		});
 		return () => {
-			socket.off("chatyy:message");
+			unsubscribe();
 		};
 	}, []);
 

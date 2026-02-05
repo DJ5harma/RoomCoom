@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import type { MessageI } from "../types";
-import { MODEL_CONSTANTS } from "../../../../constants/modal.constants";
-import { CHATTY_MODEL_CONSTANTS } from "../chatyy.model_constants";
+import type { MessageI } from "./types";
+import { MODEL_CONSTANTS } from "../../../constants/modal.constants";
+import { CHATTY_MODEL_CONSTANTS } from "./chatyy.model_constants";
 
 const MessageSchema = new mongoose.Schema<MessageI>(
 	{

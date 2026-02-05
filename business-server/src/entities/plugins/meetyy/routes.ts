@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { TokenController } from "./controllers/token.controller";
+import { TokenController } from "./token.controller";
 
 export const meetyyRouter = Router({ mergeParams: true });
 

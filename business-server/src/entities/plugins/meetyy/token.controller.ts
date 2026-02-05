@@ -1,9 +1,9 @@
 import type { Request, Response } from "express";
-import type { uuid } from "../../../../types";
+import type { uuid } from "../../../types";
 import { AccessToken } from "livekit-server-sdk";
-import { AuthState } from "../../../../auth/auth.state";
-import { ENV_CONSTANTS } from "../../../../constants/env.constants";
-import { UserService } from "../../../user/user.service";
+import { AuthState } from "../../../auth/auth.state";
+import { ENV_CONSTANTS } from "../../../constants/env.constants";
+import { UserService } from "../../user/user.service";
 
 class TokenControllerImpl {
 	getToken = async (req: Request, res: Response) => {

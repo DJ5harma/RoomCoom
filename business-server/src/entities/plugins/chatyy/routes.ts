@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { MessageController } from "./controllers/message.controller";
+import { MessageController } from "./message.controller";
 
 export const chatyyRouter = Router({ mergeParams: true });
 
-chatyyRouter.post("/send", MessageController.send);
-chatyyRouter.get("/get", MessageController.get);
+chatyyRouter.post("/storeMessage", MessageController.storeMessage);
+chatyyRouter.get("/messages", MessageController.get);

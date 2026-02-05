@@ -1,7 +1,7 @@
 export type uuid = string;
 export type ref_uuid = object | uuid;
 
-export type Data = object | string | number;
+export type Data = object | string | number ;
 
 type PluginLocationType = "internal" | "external";
 interface PluginI {

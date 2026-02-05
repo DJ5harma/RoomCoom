@@ -1,10 +1,9 @@
 import { useInstance } from "@/entities/instance/InstanceProvider";
-import { Api } from "@/utils/Api";
 import { FormEvent } from "react";
 import { BiSend } from "react-icons/bi";
 
 export const InputBox = () => {
-	const { instance } = useInstance();
+	const { sendToAll, instanceApi } = useInstance();
 
 	function sendMessage(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
@@ -13,9 +12,11 @@ export const InputBox = () => {
 
 		const content = formData.get("content");
 
-		Api.post(`/instance/${instance.id}/chatyy/send`, {
-			content,
-		});
+		instanceApi
+			.post(`/storeMessage`, {
+				content,
+			})
+			.then(({ data }) => sendToAll({ message: data.message }));
 	}
 	return (
 		<form

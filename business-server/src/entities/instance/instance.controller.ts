@@ -119,20 +119,24 @@ class InstanceControllerImpl {
 
 	async sendToAll(req: Request, res: Response) {
 		const { instanceId } = req.params as { instanceId: uuid };
-		const { data } = req.body as { data: Data };
-		io.to(instanceId).emit(instanceId, { data });
+		const { payload } = req.body as { payload: Data };
+
+		io.to(instanceId).emit(instanceId, payload);
 		res.json({ success: true });
 	}
 	async sendToOne(req: Request, res: Response) {
 		const { instanceId } = req.params as { instanceId: uuid };
-		const { data, userId } = req.body as { data: Data; userId: uuid };
-		io.to(userId).emit(instanceId, { data });
+		const { payload, memberId } = req.body as { payload: Data; memberId: uuid };
+		io.to(memberId).emit(instanceId, payload);
 		res.json({ success: true });
 	}
 	async sendToSome(req: Request, res: Response) {
 		const { instanceId } = req.params as { instanceId: uuid };
-		const { data, userIds } = req.body as { data: Data; userIds: uuid[] };
-		userIds.forEach((userId) => io.to(userId).emit(instanceId, { data }));
+		const { payload, memberIds } = req.body as {
+			payload: Data;
+			memberIds: uuid[];
+		};
+		memberIds.forEach((memberId) => io.to(memberId).emit(instanceId, payload));
 		res.json({ success: true });
 	}
 }

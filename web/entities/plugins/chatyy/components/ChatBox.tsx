@@ -3,6 +3,7 @@ import { Message } from "./Message";
 
 export const ChatBox = () => {
 	const { messages } = useChatyy();
+
 	return (
 		<div className="w-full">
 			<div className="flex flex-col gap-2 p-2">
