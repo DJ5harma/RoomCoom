@@ -43,7 +43,7 @@ const instanceSchema = new mongoose.Schema<InstanceI>(
 			required: true,
 		},
 	},
-	{ timestamps: true },
+	{ timestamps: true, toJSON: { virtuals: true }  },
 );
 
 instanceSchema.virtual("id").get(function () {

@@ -21,7 +21,9 @@ class MessageServiceImpl {
 	};
 
 	getForInstance = async (instanceId: uuid) => {
-		const messages = await MESSAGE.find({ instance: instanceId });
+		const messages = await MESSAGE.find({ instance: instanceId }).populate(
+			"from",
+		);
 
 		return messages;
 	};

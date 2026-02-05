@@ -12,8 +12,8 @@ import {
 import { MessageI } from "./types";
 import { Loading } from "@/components/Loading";
 import { socket } from "@/utils/SocketConnector";
-import { useInstance } from "@/entities/instance/InstanceProvider";
 import { Chatyy } from "./Chatyy";
+import { useInstance } from "@/entities/instance/InstanceProvider";
 
 const context = createContext<{
 	messages: MessageI[];

@@ -11,8 +11,8 @@ import {
 } from "react";
 import { Loading } from "@/components/Loading";
 import { NotFound } from "@/components/NotFound";
-import { useInstance } from "@/entities/instance/InstanceProvider";
 import { Meetyy } from "./Meetyy";
+import { useInstance } from "@/entities/instance/InstanceProvider";
 
 const context = createContext<{
 	liveToken: string;
@@ -22,7 +22,6 @@ const context = createContext<{
 
 export const MeetyyPlugin = () => {
 	const { instance } = useInstance();
-
 	const [liveToken, setLiveToken] = useState<string | null>(null);
 	const [loadingLiveToken, setLoadingLiveToken] = useState(true);
 

@@ -10,6 +10,8 @@ export const Message = ({
 	message: MessageI;
 	isContinuation: boolean;
 }) => {
+	console.log({message});
+	
 	const { content, from: sender } = message;
 	const { user } = useUser();
 

@@ -5,6 +5,8 @@ import { InstanceForm } from "./InstanceForm";
 import { useInstanceMemory } from "./InstanceMemory";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import { InstanceI } from "@/utils/types";
+import { InstanceProvider } from "./InstanceProvider";
 
 export const RoomInstanceSidebar = () => {
 	const { instances: roomInstances } = useRoom();
@@ -22,15 +24,15 @@ export const RoomInstanceSidebar = () => {
 			<p>Active:</p>
 			{instances
 				.filter(({ id }) => isInstanceInMemory(id))
-				.map(({ name }) => {
-					return <>M: {name}</>;
-				})}
+				.map((instance) => (
+					<InstanceBadge key={instance.id} instance={instance} />
+				))}
 			<p>ROOM:</p>
 			{instances
 				.filter(({ id }) => !isInstanceInMemory(id))
-				.map(({ name }) => {
-					return <>{name}</>;
-				})}
+				.map((instance) => (
+					<InstanceBadge key={instance.id} instance={instance} />
+				))}
 		</aside>
 	);
 };
@@ -45,9 +47,9 @@ export const NonRoomInstanceSidebar = () => {
 				<Badge className="bg-green-700">Active</Badge>
 				{instances
 					.filter(({ id }) => isInstanceInMemory(id))
-					.map(({ name }) => {
-						return <>M: {name}</>;
-					})}
+					.map((instance) => (
+						<InstanceBadge key={instance.id} instance={instance} />
+					))}
 			</div>
 			<div className="flex flex-col gap-1 items-center bg-red-950 p-1">
 				<ModalWrapper Opener={<Button className="bg-red-800">Direct +</Button>}>
@@ -55,9 +57,9 @@ export const NonRoomInstanceSidebar = () => {
 				</ModalWrapper>
 				{directInstances
 					.filter(({ id }) => !isInstanceInMemory(id))
-					.map(({ id, name }) => {
-						return <p key={id}>{name}</p>;
-					})}
+					.map((instance) => (
+						<InstanceBadge key={instance.id} instance={instance} />
+					))}
 			</div>
 
 			<div className="flex flex-col gap-1 items-center bg-blue-950 p-1">
@@ -68,10 +70,27 @@ export const NonRoomInstanceSidebar = () => {
 				</ModalWrapper>
 				{personalInstances
 					.filter(({ id }) => !isInstanceInMemory(id))
-					.map(({ name }) => {
-						return <>{name}</>;
-					})}
+					.map((instance) => (
+						<InstanceBadge key={instance.id} instance={instance} />
+					))}
 			</div>
 		</aside>
+	);
+};
+
+const InstanceBadge = ({ instance }: { instance: InstanceI }) => {
+	const { activateInstance } = useInstanceMemory();
+	return (
+		<div
+			className="bg-white text-black p-2 rounded-xl cursor-pointer"
+			onClick={() => {
+				activateInstance(instance, <InstanceProvider instance={instance} />);
+			}}
+		>
+			<div className="flex items-center flex-col">
+				<p className="text-md">{instance.name}</p>
+				<p className="text-sm text-gray-400">{instance.plugin.name}</p>
+			</div>
+		</div>
 	);
 };

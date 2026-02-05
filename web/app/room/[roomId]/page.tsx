@@ -6,7 +6,7 @@ import { RoomDashboard } from "@/entities/room/RoomDashboard";
 import { uuid } from "@/utils/types";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { Instance } from "@/entities/instance/Instance";
+import { Instance } from "@/entities/instance/InstanceProvider";
 
 export default function Page() {
 	const searchParams = useSearchParams();

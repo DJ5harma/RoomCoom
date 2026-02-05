@@ -30,8 +30,13 @@ class InstanceServiceImpl {
 		io.to(instanceId).emit("instance:add:member", { userId });
 	};
 
-	userExistsInInstance = async (userId: uuid, instanceId: uuid) =>
-		await INSTANCE.exists({ _id: instanceId, membersId: userId });
+	userExistsInInstance = async (userId: uuid, instanceId: uuid) => {
+		const exists = await INSTANCE.exists({
+			_id: instanceId,
+			members: userId,
+		});
+		return !!exists;
+	};
 
 	getInstance = async (instanceId: uuid) =>
 		await INSTANCE.findById(instanceId).populate(populateOptions);
