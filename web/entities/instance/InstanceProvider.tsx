@@ -15,15 +15,18 @@ const context = createContext<{
 	instance: InstanceI;
 	getMemberById: (userId: uuid) => UserI;
 
-	sendToAll: (data: Data) => Promise<{ success: true }>;
-	sendToOne: (data: Data, memberId: uuid) => Promise<{ success: true }>;
-	sendToSome: (data: Data, memberIds: uuid[]) => Promise<{ success: true }>;
+	sendToAll: (payload: Data, options?: SendOptions) => void;
+	sendToOne: (payload: Data, memberId: uuid, options?: SendOptions) => void;
+	sendToSome: (payload: Data, memberIds: uuid[], options?: SendOptions) => void;
 
 	instanceApi: AxiosInstance;
 	subscribe: (fn: (...args: any[]) => void) => Socket;
 	unsubscribe: () => Socket;
 } | null>(null);
 
+type SendOptions = {
+	protocol?: "http" | "socket.io";
+};
 type MemberMap = { [userId: uuid]: UserI };
 
 export const InstanceProvider = ({ instance }: { instance: InstanceI }) => {
@@ -45,28 +48,60 @@ export const InstanceProvider = ({ instance }: { instance: InstanceI }) => {
 
 	if (!instance) return <NotFound />;
 
-	async function sendToAll(payload: Data) {
-		return (
-			await Api.post(`/instance/${instance.id}/sendToAll`, {
-				payload,
-			})
-		).data;
+	async function sendToAll(
+		payload: Data,
+		{ protocol = "socket.io" }: SendOptions = {},
+	) {
+		switch (protocol) {
+			case "http":
+				Api.post(`/instance/${instance.id}/sendToAll`, {
+					payload,
+				});
+
+				break;
+			case "socket.io":
+			default:
+				console.log({ payload });
+
+				socket.emit("instance:sendToAll", { payload });
+				break;
+		}
 	}
-	async function sendToOne(payload: Data, memberId: uuid) {
-		return (
-			await Api.post(`/instance/${instance.id}/sendToOne`, {
-				payload,
-				memberId,
-			})
-		).data;
+	async function sendToOne(
+		payload: Data,
+		memberId: uuid,
+		{ protocol = "socket.io" }: SendOptions = {},
+	) {
+		switch (protocol) {
+			case "http":
+				Api.post(`/instance/${instance.id}/sendToOne`, {
+					payload,
+					memberId,
+				});
+				break;
+			case "socket.io":
+			default:
+				socket.emit("instance:sendToOne", { payload, memberId });
+				break;
+		}
 	}
-	async function sendToSome(payload: Data, memberIds: uuid[]) {
-		return (
-			await Api.post(`/instance/${instance.id}/sendToOne`, {
-				payload,
-				memberIds,
-			})
-		).data;
+	async function sendToSome(
+		payload: Data,
+		memberIds: uuid[],
+		{ protocol = "socket.io" }: SendOptions = {},
+	) {
+		switch (protocol) {
+			case "http":
+				Api.post(`/instance/${instance.id}/sendToOne`, {
+					payload,
+					memberIds,
+				});
+				break;
+			case "socket.io":
+			default:
+				socket.emit("instance:sendToSome", { payload, memberIds });
+				break;
+		}
 	}
 
 	const subscribe = (fn: (...args: any[]) => void) =>
