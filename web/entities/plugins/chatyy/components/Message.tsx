@@ -2,6 +2,7 @@ import Image from "next/image";
 import { MessageI } from "../types";
 import { useUser } from "@/entities/user/UserProvider";
 import { useState } from "react";
+import { useInstance } from "@/entities/instance/InstanceProvider";
 
 export const Message = ({
 	message,
@@ -10,9 +11,11 @@ export const Message = ({
 	message: MessageI;
 	isContinuation: boolean;
 }) => {
-	const { content, from: sender } = message;
+	const { content, from } = message;
 	const { user } = useUser();
+	const { getMemberById } = useInstance();
 
+	const sender = getMemberById(from);
 	const didISend = user.id === sender.id;
 
 	const showProfilePic = isContinuation ? false : true;

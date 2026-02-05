@@ -2,8 +2,6 @@ import { io } from "../../../../main";
 import type { uuid } from "../../../../types";
 import { MESSAGE } from "../models/message.model";
 
-const populateOptions = "from";
-
 class MessageServiceImpl {
 	sendToInstance = async ({
 		instanceId,
@@ -14,20 +12,16 @@ class MessageServiceImpl {
 		content: string;
 		from: uuid;
 	}) => {
-		const { id } = await MESSAGE.create({
+		const message = await MESSAGE.create({
 			content,
 			instance: instanceId,
 			from,
 		});
-		const message = await MESSAGE.findById(id).populate(populateOptions);
 		io.to(instanceId).emit("chatyy:message", { message });
 	};
 
 	getForInstance = async (instanceId: uuid) => {
-		const messages = await MESSAGE.find({ instance: instanceId }).populate(
-			populateOptions,
-		);
-
+		const messages = await MESSAGE.find({ instance: instanceId });
 		return messages;
 	};
 }
