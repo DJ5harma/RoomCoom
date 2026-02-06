@@ -16,11 +16,14 @@ export const PluginDashboard = () => {
 	];
 
 	return (
-		<div className="w-full flex justify-between">
-			<div className="flex-1">
+		<div className="w-full flex justify-between h-screen">
+			<div className="flex-1 h-full">
 				{arr.map(({ name, node }, i) => {
 					return (
-						<div key={i} className={active === name ? "block" : "hidden"}>
+						<div
+							key={i}
+							className={"h-full " + (active === name ? "block" : "hidden")}
+						>
 							{node}
 						</div>
 					);
