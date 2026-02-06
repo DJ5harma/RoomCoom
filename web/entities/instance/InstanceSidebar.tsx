@@ -5,10 +5,9 @@ import { InstanceForm } from "./InstanceForm";
 import { useInstanceMemory } from "./InstanceMemory";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-import { InstanceI } from "@/utils/types";
-import { InstanceProvider } from "./InstanceProvider";
+import { InstanceBadge } from "./InstanceBadge";
 
-export const RoomInstanceSidebar = () => {
+const RoomInstanceSidebar = () => {
 	const { instances: roomInstances } = useRoom();
 	const { isInstanceInMemory } = useInstanceMemory();
 
@@ -36,7 +35,7 @@ export const RoomInstanceSidebar = () => {
 		</aside>
 	);
 };
-export const NonRoomInstanceSidebar = () => {
+const NonRoomInstanceSidebar = () => {
 	const { personalInstances, directInstances } = useUser();
 	const { isInstanceInMemory } = useInstanceMemory();
 
@@ -78,19 +77,7 @@ export const NonRoomInstanceSidebar = () => {
 	);
 };
 
-const InstanceBadge = ({ instance }: { instance: InstanceI }) => {
-	const { activateInstance } = useInstanceMemory();
-	return (
-		<div
-			className="bg-white text-black p-2 rounded-xl cursor-pointer"
-			onClick={() => {
-				activateInstance(instance, <InstanceProvider instance={instance} />);
-			}}
-		>
-			<div className="flex items-center flex-col">
-				<p className="text-md">{instance.name}</p>
-				<p className="text-sm text-gray-400">{instance.plugin.name}</p>
-			</div>
-		</div>
-	);
+export const InstanceSidebar = {
+	room: RoomInstanceSidebar,
+	nonRoom: NonRoomInstanceSidebar,
 };
