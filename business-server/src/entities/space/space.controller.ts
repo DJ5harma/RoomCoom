@@ -50,7 +50,7 @@ class SpaceControllerImpl {
 
 	async get(req: Request, res: Response) {
 		const { spaceId } = req.params as { spaceId: uuid };
-		const space = await SpaceService.getSpace(spaceId);
+		const space = await SpaceService.getSpaceById(spaceId);
 		res.json({ space });
 	}
 }

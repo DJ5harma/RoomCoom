@@ -1,3 +1,5 @@
+"use client";
+
 import { InstanceType, UserI, uuid } from "@/utils/types";
 import { createContext, ReactNode, useContext, useEffect } from "react";
 import { useUser } from "../user/UserProvider";
@@ -68,21 +70,16 @@ const DirectPluginProvider = ({ children }: { children: ReactNode }) => {
 	});
 	const members = space.members;
 
-	const { user } = useUser();
-
-	const peer = members[0].id === user.id ? members[1] : members[0];
-
-	const peerId = peer.id;
-	const userId = user.id;
+	const directId = space.id;
 
 	useEffect(() => {
-		socket.emit(`join:direct`, { peerId });
+		socket.emit(`join:direct`, { directId });
 		return () => {
-			socket.emit(`leave:direct`, { peerId });
+			socket.emit(`leave:direct`, { directId });
 		};
 	}, []);
 
-	const sourceId = `${userId}:${peerId}`;
+	const sourceId = space.id;
 
 	return (
 		<context.Provider value={{ members, easyApi, sourceId }}>

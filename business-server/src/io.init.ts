@@ -20,22 +20,16 @@ export function IOinit(socket: Socket) {
 		socket.leave(userId);
 	});
 
-	socket.on(`join:${"direct" as InstanceType}`, async ({ peerId }) => {
-		const allow = await SpaceService.findExactlyOneTheseMembersSpace([
-			userId,
-			peerId,
-			{ name: "DIRECT" },
-		]);
+	socket.on(`join:${"direct" as InstanceType}`, async ({ directId }) => {
+		const allow = await SpaceService.userExistsInSpace(userId, directId);
 		if (!allow) {
 			console.warn("Access to join denied");
 			return;
 		}
-		socket.join(`${userId}:${peerId}`);
-		socket.join(`${peerId}:${userId}`);
+		socket.join(directId);
 	});
-	socket.on(`leave:${"direct" as InstanceType}`, ({ peerId }) => {
-		socket.leave(`${userId}:${peerId}`);
-		socket.leave(`${peerId}:${userId}`);
+	socket.on(`leave:${"direct" as InstanceType}`, ({ directId }) => {
+		socket.leave(directId);
 	});
 
 	socket.on(`join:${"club" as InstanceType}`, async ({ clubId }) => {
