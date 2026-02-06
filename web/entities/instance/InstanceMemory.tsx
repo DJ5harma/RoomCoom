@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+	createContext,
+	ReactNode,
+	useContext,
+	useEffect,
+	useState,
+} from "react";
 import { InstanceI, uuid } from "@/utils/types";
 
 type InstanceMap = {
@@ -41,6 +47,7 @@ export const InstanceMemory = ({ children }: { children: ReactNode }) => {
 			return p;
 		});
 	}
+	useEffect(() => {}, []);
 
 	const isSomethingShown = instancesMap[shownInstanceId] ? true : false;
 	function getShownNode() {

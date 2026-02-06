@@ -6,15 +6,13 @@ export const InstanceBadge = ({ instance }: { instance: InstanceI }) => {
 	const { activateInstance } = useInstanceMemory();
 	return (
 		<div
-			className="bg-white text-black p-2 rounded-xl cursor-pointer"
+			className="bg-white text-black rounded-xl cursor-pointer w-full p-2 flex items-center justify-between gap-2"
 			onClick={() => {
 				activateInstance(instance, <InstanceProvider instance={instance} />);
 			}}
 		>
-			<div className="flex items-center flex-col">
-				<p className="text-md">{instance.name}</p>
-				<p className="text-sm text-gray-400">{instance.plugin.name}</p>
-			</div>
+			<p className="text-md">{instance.name}</p>
+			<p className="text-xs bg-black text-white p-1 rounded-full">{instance.plugin.name}</p>
 		</div>
 	);
 };

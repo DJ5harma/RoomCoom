@@ -1,41 +1,12 @@
-import { useRoom } from "../room/RoomProvider";
-import { useUser } from "../user/UserProvider";
 import { ModalWrapper } from "@/components/ModalWrapper";
-import { InstanceForm } from "./InstanceForm";
-import { useInstanceMemory } from "./InstanceMemory";
-import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-import { InstanceBadge } from "./InstanceBadge";
+import { Button } from "@/components/ui/Button";
+import { InstanceBadge } from "@/entities/instance/InstanceBadge";
+import { InstanceForm } from "@/entities/instance/InstanceForm";
+import { useInstanceMemory } from "@/entities/instance/InstanceMemory";
+import { useUser } from "@/entities/user/UserProvider";
 
-const RoomInstanceSidebar = () => {
-	const { instances: roomInstances } = useRoom();
-	const { isInstanceInMemory } = useInstanceMemory();
-
-	const instances = [...roomInstances];
-	return (
-		<aside className="h-full flex flex-col">
-			<ModalWrapper Opener={<button>Room Instance +</button>}>
-				<InstanceForm type="room" />
-			</ModalWrapper>
-			<ModalWrapper Opener={<button>Space Instance +</button>}>
-				<InstanceForm type="space" />
-			</ModalWrapper>
-			<p>Active:</p>
-			{instances
-				.filter(({ id }) => isInstanceInMemory(id))
-				.map((instance) => (
-					<InstanceBadge key={instance.id} instance={instance} />
-				))}
-			<p>ROOM:</p>
-			{instances
-				.filter(({ id }) => !isInstanceInMemory(id))
-				.map((instance) => (
-					<InstanceBadge key={instance.id} instance={instance} />
-				))}
-		</aside>
-	);
-};
-const NonRoomInstanceSidebar = () => {
+export const UserSidebar = () => {
 	const { personalInstances, directInstances } = useUser();
 	const { isInstanceInMemory } = useInstanceMemory();
 
@@ -75,9 +46,4 @@ const NonRoomInstanceSidebar = () => {
 			</div>
 		</aside>
 	);
-};
-
-export const InstanceSidebar = {
-	room: RoomInstanceSidebar,
-	nonRoom: NonRoomInstanceSidebar,
 };
