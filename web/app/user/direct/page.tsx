@@ -1,3 +1,4 @@
+'use client';
 import { useSpace } from "@/entities/space/SpaceProvider";
 
 export default function Page() {
