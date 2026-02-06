@@ -12,7 +12,7 @@ export const InputBox = () => {
 
 		const content = formData.get("content");
 
-		easyApi.post(`/storeMessage`, {
+		easyApi.post(`/chatyy/storeMessage`, {
 			content,
 		});
 	}
