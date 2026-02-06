@@ -30,6 +30,7 @@ export const AuthController = {
 			secure: process.env.NODE_ENV === "production",
 			sameSite: "lax",
 			path: "/",
+			maxAge: 1000 * 60 * 60 * 24 * 7,
 		});
 		res.redirect(ENV_CONSTANTS.WEB_URL);
 	},

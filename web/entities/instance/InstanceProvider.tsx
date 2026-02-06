@@ -135,7 +135,7 @@ export const InstanceProvider = ({ instance }: { instance: InstanceI }) => {
 					case "meetyy":
 						return <MeetyyPlugin />;
 					default:
-						return <div>{instance.name} Plugin not made yet</div>;
+						return <div>{instance.plugin.name} Plugin not made yet</div>;
 				}
 			})()}
 		</context.Provider>
