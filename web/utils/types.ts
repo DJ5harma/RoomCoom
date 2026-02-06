@@ -1,7 +1,7 @@
 export type uuid = string;
 export type ref_uuid = object | uuid;
 
-export type Data = object | string | number ;
+export type Data = object | string | number;
 
 type PluginLocationType = "internal" | "external";
 interface PluginI {
@@ -17,7 +17,6 @@ interface InstanceI {
 	name: string; // unique in a room
 	room: ref_uuid;
 	type: InstanceType;
-	plugin: PluginI;
 	members: UserI[];
 	state: object;
 	creator: UserI;

@@ -11,12 +11,6 @@ const instanceSchema = new mongoose.Schema<InstanceI>(
 			required: true,
 		},
 
-		plugin: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: MODEL_CONSTANTS.PLUGIN,
-			required: true,
-		},
-
 		// null for direct/user contexts
 		room: {
 			type: mongoose.Schema.Types.ObjectId,
@@ -43,7 +37,7 @@ const instanceSchema = new mongoose.Schema<InstanceI>(
 			required: true,
 		},
 	},
-	{ timestamps: true, toJSON: { virtuals: true }  },
+	{ timestamps: true, toJSON: { virtuals: true } },
 );
 
 instanceSchema.virtual("id").get(function () {

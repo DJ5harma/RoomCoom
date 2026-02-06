@@ -2,20 +2,18 @@ import { io } from "../../main";
 import type { InstanceType, uuid } from "../../types";
 import { INSTANCE } from "./instance.model";
 
-const populateOptions = "plugin members";
+const populateOptions = "members";
 
 class InstanceServiceImpl {
 	createInstance = async (
 		name: string,
 		creatorId: uuid,
 		type: InstanceType,
-		pluginId: uuid,
 		{ roomId, members }: { roomId?: uuid; members?: uuid[] },
 	) => {
 		const instance = new INSTANCE({
 			name,
 			type,
-			plugin: pluginId,
 			creator: creatorId,
 			members: members ?? [],
 		});

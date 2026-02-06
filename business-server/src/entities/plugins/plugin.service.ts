@@ -13,6 +13,12 @@ class PluginServiceImpl {
 		if (!plugin.supportedInstanceTypes.includes(instanceType)) return false;
 		return true;
 	};
+	getSupportedByInstanceType = async (instanceType: InstanceType) => {
+		const supportedPlugins = await PLUGIN.find({
+			supportedInstanceTypes: instanceType,
+		});
+		return supportedPlugins;
+	};
 }
 
 export const PluginService = new PluginServiceImpl();

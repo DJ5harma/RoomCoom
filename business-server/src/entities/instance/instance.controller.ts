@@ -3,9 +3,9 @@ import type { Data, InstanceType, uuid } from "../../types";
 import { InstanceService } from "./instance.service";
 import { AuthState } from "../../auth/auth.state";
 import { AppError } from "../../error/AppError";
-import { PluginService } from "../plugins/plugin.service";
 import { UserService } from "../user/user.service";
 import { io } from "../../main";
+import { PluginService } from "../plugins/plugin.service";
 
 class InstanceControllerImpl {
 	async authorizeUser(req: Request, _res: Response, next: NextFunction) {
@@ -27,25 +27,13 @@ class InstanceControllerImpl {
 		next();
 	}
 	async create(req: Request, res: Response) {
-		const { name, type, pluginId, roomId, direct_peerId, space_memberIds } =
-			req.body as {
-				name: string;
-				type: InstanceType;
-				pluginId: uuid;
-				roomId?: uuid;
-				space_memberIds?: uuid[];
-				direct_peerId?: uuid;
-			};
-
-		const isSupported = await PluginService.doesSupportInstanceTypeById(
-			pluginId,
-			type,
-		);
-		if (!isSupported)
-			throw new AppError(
-				400,
-				`The specified plugin doesn't support the instance of type ${type}`,
-			);
+		const { name, type, roomId, direct_peerId, space_memberIds } = req.body as {
+			name: string;
+			type: InstanceType;
+			roomId?: uuid;
+			space_memberIds?: uuid[];
+			direct_peerId?: uuid;
+		};
 
 		const creatorId = AuthState.getUserId(req);
 		let members: uuid[];
@@ -99,7 +87,6 @@ class InstanceControllerImpl {
 			name,
 			creatorId,
 			type,
-			pluginId,
 			{
 				roomId,
 				members,
@@ -114,7 +101,10 @@ class InstanceControllerImpl {
 	async get(req: Request, res: Response) {
 		const { instanceId } = req.params as { instanceId: uuid };
 		const instance = await InstanceService.getInstance(instanceId);
-		res.json({ instance });
+		const plugins = await PluginService.getSupportedByInstanceType(
+			instance!.type,
+		);
+		res.json({ instance, plugins });
 	}
 
 	async sendToAll(req: Request, res: Response) {
