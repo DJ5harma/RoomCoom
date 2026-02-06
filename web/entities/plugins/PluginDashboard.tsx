@@ -2,20 +2,31 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import { ChatyyPlugin } from "./chatyy/ChatyyPlugin";
 import { MeetyyPlugin } from "./meetyy/MeetyyPlugin";
-import Link from "next/link";
 import { DefaultyyPlugin } from "./_defaultyy/DefaultyyPlugin";
+import Link from "next/link";
 
 export const PluginDashboard = () => {
 	const searchParams = useSearchParams();
-	const plugin = searchParams.get("plugin") ?? "NULL";
+	const active = searchParams.get("plugin") ?? "defaultyy";
 
-	const Node = { chatyy: <ChatyyPlugin />, meetyy: <MeetyyPlugin /> }[
-		plugin
-	] ?? <DefaultyyPlugin />;
+	const arr = [
+		{ name: "defaultyy", node: <DefaultyyPlugin /> },
+		{ name: "chatyy", node: <ChatyyPlugin /> },
+		{ name: "meetyy", node: <MeetyyPlugin /> },
+	];
 
 	return (
 		<div className="w-full flex justify-between">
-			{Node}
+			<div className="flex-1">
+				{arr.map(({ name, node }, i) => {
+					return (
+						<div key={i} className={active === name ? "block" : "hidden"}>
+							{node}
+						</div>
+					);
+				})}
+			</div>
+
 			<PluginSidebar />
 		</div>
 	);
@@ -23,19 +34,18 @@ export const PluginDashboard = () => {
 
 const PluginSidebar = () => {
 	const pathname = usePathname();
+
 	return (
 		<aside className="flex flex-col gap-2">
-			{["defaultyy", "chatyy", "meetyy"].map((plugin) => {
-				return (
-					<Link
-						className="p-2 bg-white text-black"
-						href={pathname + "?plugin=" + plugin}
-						key={plugin}
-					>
-						{plugin}
-					</Link>
-				);
-			})}
+			{["defaultyy", "chatyy", "meetyy"].map((plugin) => (
+				<Link
+					className="p-2 bg-white text-black"
+					href={`${pathname}?plugin=${plugin}`}
+					key={plugin}
+				>
+					{plugin}
+				</Link>
+			))}
 		</aside>
 	);
 };
