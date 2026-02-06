@@ -6,6 +6,7 @@ import type { InstanceType } from "../types";
 
 export function IOinit(socket: Socket) {
 	const userId = AuthState.getUserIdSocket(socket);
+
 	socket.on(`join:${"personal" as InstanceType}`, ({ myId }) => {
 		const allow = userId === myId;
 		if (!allow) {
@@ -14,6 +15,10 @@ export function IOinit(socket: Socket) {
 		}
 		socket.join(myId);
 	});
+	socket.on(`leave:${"personal" as InstanceType}`, ({ myId }) => {
+		socket.leave(myId);
+	});
+
 	socket.on(`join:${"direct" as InstanceType}`, async ({ peerId }) => {
 		const allow = await SpaceService.doExactlyTheseMembersExistInAnySpace([
 			userId,
@@ -26,6 +31,11 @@ export function IOinit(socket: Socket) {
 		socket.join(`${userId}:${peerId}`);
 		socket.join(`${peerId}:${userId}`);
 	});
+	socket.on(`leave:${"direct" as InstanceType}`, ({ peerId }) => {
+		socket.leave(`${userId}:${peerId}`);
+		socket.leave(`${peerId}:${userId}`);
+	});
+
 	socket.on(`join:${"club" as InstanceType}`, async ({ clubId }) => {
 		const allow = await SpaceService.userExistsInSpace(userId, clubId);
 		if (!allow) {
@@ -34,6 +44,10 @@ export function IOinit(socket: Socket) {
 		}
 		socket.join(clubId);
 	});
+	socket.on(`leave:${"club" as InstanceType}`, ({ clubId }) => {
+		socket.leave(clubId);
+	});
+
 	socket.on(`join:${"room" as InstanceType}`, async ({ roomId }) => {
 		const allow = await RoomService.userExistsInRoom(userId, roomId);
 		if (!allow) {
@@ -41,5 +55,8 @@ export function IOinit(socket: Socket) {
 			return;
 		}
 		socket.join(roomId);
+	});
+	socket.on(`leave:${"room" as InstanceType}`, ({ roomId }) => {
+		socket.leave(roomId);
 	});
 }
