@@ -1,5 +1,4 @@
 import { AppError } from "../../error/AppError";
-import { io } from "../../main";
 import type { RoomI, uuid } from "../../types";
 import { UserService } from "../user/user.service";
 import { ROOM } from "./room.model";
@@ -32,7 +31,6 @@ class RoomServiceImpl {
 		await ROOM.findByIdAndUpdate(roomId, {
 			$addToSet: { members: { user: userId } as RoomI["members"][0] },
 		});
-		io.to(roomId).emit("room:add:member", { user });
 	};
 
 	userExistsInRoom = async (userId: uuid, roomId: uuid) =>
