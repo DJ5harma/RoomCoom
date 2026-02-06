@@ -40,14 +40,19 @@ const DirectPluginProvider = ({ children }: { children: ReactNode }) => {
 	return <context.Provider value={{ members }}>{children}</context.Provider>;
 };
 const ClubPluginProvider = ({ children }: { children: ReactNode }) => {
+	const { room } = useRoom();
 	const { space } = useSpace();
 	const members = space.members;
-	return <context.Provider value={{ members }}>{children}</context.Provider>;
+	return (
+		<context.Provider value={{ members, room }}>{children}</context.Provider>
+	);
 };
 const RoomPluginProvider = ({ children }: { children: ReactNode }) => {
 	const { room } = useRoom();
 	const members = room.members.map(({ user }) => user);
-	return <context.Provider value={{ members }}>{children}</context.Provider>;
+	return (
+		<context.Provider value={{ members, room }}>{children}</context.Provider>
+	);
 };
 
 export const usePlugin = () => {
