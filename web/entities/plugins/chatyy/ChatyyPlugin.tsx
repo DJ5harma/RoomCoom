@@ -25,7 +25,7 @@ export const ChatyyPlugin = () => {
 
 	useEffect(() => {
 		easyApi
-			.get("/messages")
+			.get("/chatyy/messages")
 			.then(({ data: { messages } }) => {
 				setMessages(messages);
 			})

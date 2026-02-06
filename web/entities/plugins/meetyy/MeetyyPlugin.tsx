@@ -28,7 +28,7 @@ export const MeetyyPlugin = () => {
 
 	useEffect(() => {
 		easyApi
-			.get(`/live-token`)
+			.get(`/meetyy/live-token`)
 			.then(({ data: { liveToken } }) => {
 				setLiveToken(liveToken);
 			})

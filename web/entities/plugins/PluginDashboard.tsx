@@ -1,3 +1,4 @@
+'use client';
 import { usePathname, useSearchParams } from "next/navigation";
 import { ChatyyPlugin } from "./chatyy/ChatyyPlugin";
 import { MeetyyPlugin } from "./meetyy/MeetyyPlugin";

@@ -1,7 +1,5 @@
-import React from 'react'
+import { PluginDashboard } from "@/entities/plugins/PluginDashboard";
 
 export default function page() {
-  return (
-    <div>page</div>
-  )
+	return <PluginDashboard />;
 }
