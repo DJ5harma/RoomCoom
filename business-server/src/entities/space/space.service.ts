@@ -35,8 +35,9 @@ class SpaceServiceImpl {
 		});
 		return !!exists;
 	};
-	findExactlyTheseMembersSpace = async (memberIds: uuid[]) => {
+	findExactlyOneTheseMembersSpace = async (memberIds: uuid[], filters?: object) => {
 		const space = await SPACE.findOne({
+			...filters,
 			members: { $all: memberIds, $size: memberIds.length },
 		});
 		return space;

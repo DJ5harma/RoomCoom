@@ -34,12 +34,12 @@ class UserControllerImpl {
 			);
 		}
 		const userId = AuthState.getUserId(req);
-		let space = await SpaceService.findExactlyTheseMembersSpace([
-			userId,
-			peerId,
-		]);
+		let space = await SpaceService.findExactlyOneTheseMembersSpace(
+			[userId, peerId],
+			{ name: "DIRECT" },
+		);
 		const creatorId = userId;
-		if (!space || space.name !== "DIRECT") {
+		if (!space) {
 			space = await SpaceService.createSpace("DIRECT", creatorId, [
 				userId,
 				peerId,
