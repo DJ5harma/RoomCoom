@@ -1,3 +1,4 @@
+"use client";
 import { ModalWrapper } from "@/components/ModalWrapper";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";

@@ -1,3 +1,4 @@
+"use client";
 import { Api } from "@/utils/Api";
 import { FormEvent, useState } from "react";
 import { InstanceI, InstanceType, uuid } from "@/utils/types";
