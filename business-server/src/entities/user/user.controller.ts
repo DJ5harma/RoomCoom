@@ -5,6 +5,7 @@ import { RoomService } from "../room/room.service";
 import type { uuid } from "../../types";
 import { UserInvitation } from "./user.invitation";
 import { AppError } from "../../error/AppError";
+import { SpaceService } from "../space/space.service";
 
 class UserControllerImpl {
 	async getMe(req: Request, res: Response) {
@@ -21,6 +22,30 @@ class UserControllerImpl {
 		const { q } = req.query as { q: string };
 		const users = await UserService.search(q);
 		res.json({ users });
+	}
+
+	async getDirect(req: Request, res: Response) {
+		const { peerId } = req.params as { peerId: uuid };
+		const peerExists = await UserService.existsById(peerId);
+		if (!peerExists) {
+			throw new AppError(
+				404,
+				"The peer you're trying to connect to was not found",
+			);
+		}
+		const userId = AuthState.getUserId(req);
+		let space = await SpaceService.findExactlyTheseMembersSpace([
+			userId,
+			peerId,
+		]);
+		const creatorId = userId;
+		if (!space) {
+			space = await SpaceService.createSpace("DIRECT", creatorId, [
+				userId,
+				peerId,
+			]);
+		}
+		res.json({ space });
 	}
 
 	async getUserRoomInvitations(req: Request, res: Response) {
