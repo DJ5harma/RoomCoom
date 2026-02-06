@@ -15,7 +15,7 @@ class MessageControllerImpl {
 			from: userId,
 		});
 		const message = await MESSAGE.findById(messageId).populate("from");
-		io.to(sourceId).emit(sourceId + ":message", message);
+		io.to(sourceId).emit("chatyy:message", message);
 		res.json({ message });
 	}
 	async get(req: Request, res: Response) {

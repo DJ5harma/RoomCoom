@@ -19,7 +19,7 @@ const context = createContext<{
 } | null>(null);
 
 export const ChatyyPlugin = () => {
-	const { easyApi, sourceId } = usePlugin();
+	const { easyApi } = usePlugin();
 	const [messages, setMessages] = useState<MessageI[]>([]);
 	const [loadingMessages, setLoadingMessages] = useState(true);
 
@@ -33,11 +33,11 @@ export const ChatyyPlugin = () => {
 				setLoadingMessages(false);
 			});
 
-		socket.on(sourceId + ":message", (message) => {
+		socket.on("chatyy:message", (message) => {
 			setMessages((p) => [...p, message]);
 		});
 		return () => {
-			socket.off(sourceId + ":message");
+			socket.off("chatyy:message");
 		};
 	}, []);
 
