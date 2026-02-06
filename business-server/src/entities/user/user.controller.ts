@@ -39,7 +39,7 @@ class UserControllerImpl {
 			peerId,
 		]);
 		const creatorId = userId;
-		if (!space) {
+		if (!space || space.name !== "DIRECT") {
 			space = await SpaceService.createSpace("DIRECT", creatorId, [
 				userId,
 				peerId,
