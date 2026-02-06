@@ -4,7 +4,6 @@ import {
 	type Request,
 	type Response,
 } from "express";
-import { PUBLIC_pluginRouter } from "./entities/plugins/plugin.routes";
 import passport from "passport";
 import { authRouter } from "./auth/auth.routes";
 import { AuthController } from "./auth/auth.controller";
@@ -18,8 +17,6 @@ import { UserController } from "./entities/user/user.controller";
 import { AuthState } from "./auth/auth.state";
 
 export const apiRouter = Router();
-
-apiRouter.use("/public/plugin", PUBLIC_pluginRouter);
 
 apiRouter.use(passport.initialize());
 apiRouter.use("/auth", authRouter, AuthController.handleUserProfile);
