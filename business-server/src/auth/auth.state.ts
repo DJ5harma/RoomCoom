@@ -19,6 +19,19 @@ class AuthStateImpl {
 	getUserId(req: Request) {
 		return AuthState.getState(req, "userId") as string;
 	}
+	storeSourceId(req: Request) {
+		const { spaceId, roomId, userId } = req.params;
+		if (spaceId) {
+			this.storeState(req, "sourceId", spaceId);
+		} else if (roomId) {
+			this.storeState(req, "sourceId", roomId);
+		} else if (userId) {
+			this.storeState(req, "sourceId", userId);
+		}
+	}
+	getSourceId(req: Request) {
+		return this.getState(req, "sourceId");
+	}
 	storeUserIdSocket(socket: Socket, userId: uuid) {
 		socket.data.userId = userId;
 	}

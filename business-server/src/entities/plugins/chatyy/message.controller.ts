@@ -1,11 +1,10 @@
 import type { Request, Response } from "express";
-import type { uuid } from "../../../types";
 import { AuthState } from "../../../auth/auth.state";
 import { MESSAGE } from "./message.model";
 
 class MessageControllerImpl {
 	async storeMessage(req: Request, res: Response) {
-		const { sourceId } = req.params as { sourceId: uuid };
+		const sourceId = AuthState.getSourceId(req);
 		const { content } = req.body;
 
 		const userId = AuthState.getUserId(req);
@@ -17,7 +16,7 @@ class MessageControllerImpl {
 		res.json({ message });
 	}
 	async get(req: Request, res: Response) {
-		const { sourceId } = req.params as { sourceId: uuid };
+		const sourceId = AuthState.getSourceId(req);
 		const messages = await MESSAGE.find({ source: sourceId }).populate("from");
 		res.json({ messages });
 	}

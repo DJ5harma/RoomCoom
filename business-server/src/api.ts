@@ -15,6 +15,7 @@ import { pluginRouter } from "./plugin.routes";
 import { RoomController } from "./entities/room/room.controller";
 import { SpaceController } from "./entities/space/space.controller";
 import { UserController } from "./entities/user/user.controller";
+import { AuthState } from "./auth/auth.state";
 
 export const apiRouter = Router();
 
@@ -54,13 +55,6 @@ apiRouter.use(
 );
 
 function addSourceId(req: Request, _: Response, next: NextFunction) {
-	const { spaceId, roomId, userId } = req.params;
-	if (spaceId) {
-		req.params.sourceId = spaceId;
-	} else if (roomId) {
-		req.params.sourceId = roomId;
-	} else if (userId) {
-		req.params.sourceId = userId;
-	}
+	AuthState.storeSourceId(req);
 	next();
 }
