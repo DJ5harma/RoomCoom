@@ -1,9 +1,9 @@
 "use client";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { ChatyyPlugin } from "./chatyy/ChatyyPlugin";
 import { MeetyyPlugin } from "./meetyy/MeetyyPlugin";
 import { DefaultyyPlugin } from "./_defaultyy/DefaultyyPlugin";
-import Link from "next/link";
+import { PluginSidebar } from "./PluginSidebar";
 
 export const PluginDashboard = () => {
 	const searchParams = useSearchParams();
@@ -30,25 +30,7 @@ export const PluginDashboard = () => {
 				})}
 			</div>
 
-			<PluginSidebar />
+			<PluginSidebar activePlugin={active} />
 		</div>
-	);
-};
-
-const PluginSidebar = () => {
-	const pathname = usePathname();
-
-	return (
-		<aside className="flex flex-col gap-2">
-			{["defaultyy", "chatyy", "meetyy"].map((plugin) => (
-				<Link
-					className="p-2 bg-white text-black"
-					href={`${pathname}?plugin=${plugin}`}
-					key={plugin}
-				>
-					{plugin}
-				</Link>
-			))}
-		</aside>
 	);
 };
