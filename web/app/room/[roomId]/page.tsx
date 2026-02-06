@@ -1,12 +1,12 @@
 "use client";
 
-import { RoomDashboard } from "@/entities/room/RoomDashboard";
+import { useRoom } from "@/entities/room/RoomProvider";
 
 export default function Page() {
+	const {room} = useRoom()
 	return (
 		<div className="p-2 w-full h-full flex flex-col items-center">
-			{/* <Instance />  */}
-			<RoomDashboard />
+			ROOM page
 		</div>
 	);
 }

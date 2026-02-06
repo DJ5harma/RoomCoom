@@ -40,7 +40,7 @@ export const RoomProvider = ({
 
 			setLoading(false);
 		})();
-	}, []);
+	}, [roomId]);
 
 	if (loading) return <Loading />;
 	if (!room) return <NotFound />;

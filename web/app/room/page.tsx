@@ -1,5 +1,5 @@
 export default function page() {
   return (
-    <div>ROOM PAGE</div>
+    <div>ALL ROOM  PAGE</div>
   )
 }

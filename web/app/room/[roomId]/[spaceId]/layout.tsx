@@ -1,0 +1,11 @@
+"use client";
+
+import { SpaceProvider } from "@/entities/space/SpaceProvider";
+import { uuid } from "@/utils/types";
+import { useParams } from "next/navigation";
+import { ReactNode } from "react";
+
+export default function Layout({ children }: { children: ReactNode }) {
+	const { spaceId } = useParams() as { spaceId: uuid };
+	return <SpaceProvider spaceId={spaceId}>{children}</SpaceProvider>;
+}

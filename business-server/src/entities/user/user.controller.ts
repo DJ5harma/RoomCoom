@@ -5,7 +5,6 @@ import { RoomService } from "../room/room.service";
 import type { uuid } from "../../types";
 import { UserInvitation } from "./user.invitation";
 import { AppError } from "../../error/AppError";
-import { InstanceService } from "../space/space.service";
 
 class UserControllerImpl {
 	async getMe(req: Request, res: Response) {
@@ -22,18 +21,6 @@ class UserControllerImpl {
 		const { q } = req.query as { q: string };
 		const users = await UserService.search(q);
 		res.json({ users });
-	}
-	async getDirectInstances(req: Request, res: Response) {
-		const userId = AuthState.getUserId(req);
-		const instances = await InstanceService.getUserDirectInstances(userId);
-		console.log({instances});
-		
-		res.json({ instances });
-	}
-	async getPersonalInstances(req: Request, res: Response) {
-		const userId = AuthState.getUserId(req);
-		const instances = await InstanceService.getUserPersonalInstances(userId);
-		res.json({ instances });
 	}
 
 	async getUserRoomInvitations(req: Request, res: Response) {
