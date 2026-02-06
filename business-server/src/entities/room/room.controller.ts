@@ -67,7 +67,7 @@ class RoomControllerImpl {
 		const { roomId } = req.params as { roomId: uuid };
 		await RoomService.addUserToRoom(roomId, userId);
 		const room = await RoomService.getRoomById(roomId);
-		return res.json({ room });
+		res.json({ room });
 	}
 	async inviteUserToRoom(req: Request, res: Response) {
 		const { roomId } = req.params as { roomId: uuid };
