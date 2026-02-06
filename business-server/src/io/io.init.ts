@@ -7,16 +7,11 @@ import type { InstanceType } from "../types";
 export function IOinit(socket: Socket) {
 	const userId = AuthState.getUserIdSocket(socket);
 
-	socket.on(`join:${"personal" as InstanceType}`, ({ myId }) => {
-		const allow = userId === myId;
-		if (!allow) {
-			console.warn("Access to join denied");
-			return;
-		}
-		socket.join(myId);
+	socket.on(`join:${"personal" as InstanceType}`, () => {
+		socket.join(userId);
 	});
-	socket.on(`leave:${"personal" as InstanceType}`, ({ myId }) => {
-		socket.leave(myId);
+	socket.on(`leave:${"personal" as InstanceType}`, () => {
+		socket.leave(userId);
 	});
 
 	socket.on(`join:${"direct" as InstanceType}`, async ({ peerId }) => {
