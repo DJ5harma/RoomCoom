@@ -57,6 +57,7 @@ class RoomControllerImpl {
 			}
 		}
 		const club = await SpaceService.createSpace(name, creatorId, memberIds);
+		await RoomService.addClubToRoom(roomId, club.id);
 
 		res.json({ club });
 	}

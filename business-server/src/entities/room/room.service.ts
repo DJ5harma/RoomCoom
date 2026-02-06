@@ -25,11 +25,14 @@ class RoomServiceImpl {
 		await ROOM.find({ "members.user": userId }).select("-members");
 
 	addUserToRoom = async (roomId: uuid, userId: uuid) => {
-		const user = await UserService.findById(userId);
-		if (!user) throw new AppError(404, "User not found");
-
 		await ROOM.findByIdAndUpdate(roomId, {
 			$addToSet: { members: { user: userId } as RoomI["members"][0] },
+		});
+	};
+
+	addClubToRoom = async (roomId: uuid, clubId: uuid) => {
+		await ROOM.findByIdAndUpdate(roomId, {
+			$addToSet: { clubs: { club: clubId } as RoomI["clubs"][0] },
 		});
 	};
 
