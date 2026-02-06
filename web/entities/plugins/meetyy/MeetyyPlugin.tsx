@@ -1,6 +1,5 @@
 "use client";
 
-import { Api } from "@/utils/Api";
 import {
 	createContext,
 	Dispatch,
@@ -12,7 +11,7 @@ import {
 import { Loading } from "@/components/Loading";
 import { NotFound } from "@/components/NotFound";
 import { Meetyy } from "./Meetyy";
-import { useInstance } from "@/entities/instance/InstanceProvider";
+import { usePlugin } from "../PluginProvider";
 
 const context = createContext<{
 	liveToken: string;
@@ -21,14 +20,15 @@ const context = createContext<{
 } | null>(null);
 
 export const MeetyyPlugin = () => {
-	const { instance } = useInstance();
 	const [liveToken, setLiveToken] = useState<string | null>(null);
 	const [loadingLiveToken, setLoadingLiveToken] = useState(true);
+	const { easyApi } = usePlugin();
 
 	const [isJoined, setIsJoined] = useState(false);
 
 	useEffect(() => {
-		Api.get(`/instance/${instance.id}/meetyy/live-token`)
+		easyApi
+			.get(`/live-token`)
 			.then(({ data: { liveToken } }) => {
 				setLiveToken(liveToken);
 			})
