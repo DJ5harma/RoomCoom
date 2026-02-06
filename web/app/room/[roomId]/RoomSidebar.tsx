@@ -1,14 +1,15 @@
 import { ModalWrapper } from "@/components/ModalWrapper";
-import { InstanceBadge } from "@/entities/instance/InstanceBadge";
+import { InstanceBadge } from "@/components/InstanceBadge";
 import { InstanceForm } from "@/entities/instance/InstanceForm";
 import { useInstanceMemory } from "@/entities/instance/InstanceMemory";
 import { useRoom } from "@/entities/room/RoomProvider";
 
 export const RoomSidebar = () => {
-	const { instances: roomInstances } = useRoom();
+	const { instances: roomInstances, room } = useRoom();
 	const { isInstanceInMemory } = useInstanceMemory();
 
 	const instances = [...roomInstances];
+
 	return (
 		<aside className="h-full flex flex-col">
 			<ModalWrapper Opener={<button>Room Instance +</button>}>
@@ -21,13 +22,21 @@ export const RoomSidebar = () => {
 			{instances
 				.filter(({ id }) => isInstanceInMemory(id))
 				.map((instance) => (
-					<InstanceBadge key={instance.id} instance={instance} />
+					<InstanceBadge
+						key={instance.id}
+						instance={instance}
+						href={`/room/${room.id}/${instance.id}`}
+					/>
 				))}
 			<p>ROOM:</p>
 			{instances
 				.filter(({ id }) => !isInstanceInMemory(id))
 				.map((instance) => (
-					<InstanceBadge key={instance.id} instance={instance} />
+					<InstanceBadge
+						key={instance.id}
+						instance={instance}
+						href={`/room/${room.id}/${instance.id}`}
+					/>
 				))}
 		</aside>
 	);

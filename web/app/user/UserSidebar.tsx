@@ -2,7 +2,7 @@
 import { ModalWrapper } from "@/components/ModalWrapper";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { InstanceBadge } from "@/entities/instance/InstanceBadge";
+import { InstanceBadge } from "@/components/InstanceBadge";
 import { InstanceForm } from "@/entities/instance/InstanceForm";
 import { useInstanceMemory } from "@/entities/instance/InstanceMemory";
 import { useUser } from "@/entities/user/UserProvider";
@@ -19,7 +19,11 @@ export const UserSidebar = () => {
 				{instances
 					.filter(({ id }) => isInstanceInMemory(id))
 					.map((instance) => (
-						<InstanceBadge key={instance.id} instance={instance} />
+						<InstanceBadge
+							key={instance.id}
+							instance={instance}
+							href={`/user/${instance.id}`}
+						/>
 					))}
 			</div>
 			<div className="flex flex-col gap-1 items-center bg-red-950 p-1">
@@ -29,7 +33,11 @@ export const UserSidebar = () => {
 				{directInstances
 					.filter(({ id }) => !isInstanceInMemory(id))
 					.map((instance) => (
-						<InstanceBadge key={instance.id} instance={instance} />
+						<InstanceBadge
+							key={instance.id}
+							instance={instance}
+							href={`/user/${instance.id}`}
+						/>
 					))}
 			</div>
 
@@ -42,7 +50,11 @@ export const UserSidebar = () => {
 				{personalInstances
 					.filter(({ id }) => !isInstanceInMemory(id))
 					.map((instance) => (
-						<InstanceBadge key={instance.id} instance={instance} />
+						<InstanceBadge
+							key={instance.id}
+							instance={instance}
+							href={`/user/${instance.id}`}
+						/>
 					))}
 			</div>
 		</aside>
