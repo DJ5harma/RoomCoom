@@ -6,6 +6,8 @@ import { AuthController } from "./auth/auth.controller";
 import { userRouter } from "./entities/user/user.routes";
 import { roomRouter } from "./entities/room/room.routes";
 import { spaceRouter } from "./entities/space/space.routes";
+import { chatyyRouter } from "./entities/plugins/chatyy/routes";
+import { meetyyRouter } from "./entities/plugins/meetyy/routes";
 
 export const apiRouter = Router();
 
@@ -18,3 +20,6 @@ apiRouter.use(AuthController.middlewareAuth);
 apiRouter.use("/user", userRouter);
 apiRouter.use("/room", roomRouter);
 apiRouter.use("/space", spaceRouter);
+
+apiRouter.use("/chatyy/:sourceId", chatyyRouter);
+apiRouter.use("/meetyy/:sourceId", meetyyRouter);

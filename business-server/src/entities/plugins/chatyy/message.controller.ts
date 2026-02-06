@@ -5,20 +5,20 @@ import { MESSAGE } from "./message.model";
 
 class MessageControllerImpl {
 	async storeMessage(req: Request, res: Response) {
-		const { instanceId } = req.params as { instanceId: uuid };
+		const { sourceId } = req.params as { sourceId: uuid };
 		const { content } = req.body;
 
 		const userId = AuthState.getUserId(req);
 		const message = await MESSAGE.create({
 			content,
-			instance: instanceId,
+			source: sourceId,
 			from: userId,
 		});
 		res.json({ message });
 	}
 	async get(req: Request, res: Response) {
-		const { instanceId } = req.params as { instanceId: uuid };
-		const messages = await MESSAGE.find({ instance: instanceId });
+		const { sourceId } = req.params as { sourceId: uuid };
+		const messages = await MESSAGE.find({ source: sourceId });
 		res.json({ messages });
 	}
 }

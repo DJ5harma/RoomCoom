@@ -7,7 +7,7 @@ import { UserService } from "../../user/user.service";
 
 class TokenControllerImpl {
 	getToken = async (req: Request, res: Response) => {
-		const { instanceId } = req.params as { instanceId: uuid };
+		const { sourceId } = req.params as { sourceId: uuid };
 		const userId = AuthState.getUserId(req);
 
 		const user = (await UserService.findById(userId))!;
@@ -19,7 +19,7 @@ class TokenControllerImpl {
 		);
 		liveToken.addGrant({
 			roomJoin: true,
-			room: instanceId,
+			room: sourceId,
 			canPublish: true,
 			canSubscribe: true,
 		});
