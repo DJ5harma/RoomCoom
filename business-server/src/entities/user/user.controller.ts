@@ -1,4 +1,4 @@
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import { AuthState } from "../../auth/auth.state";
 import { UserService } from "./user.service";
 import { RoomService } from "../room/room.service";
@@ -67,6 +67,17 @@ class UserControllerImpl {
 		await RoomService.addUserToRoom(roomId, userId);
 		const room = await RoomService.getRoomById(roomId);
 		res.json({ room });
+	}
+
+	authorizePersonal(req: Request, _: Response, next: NextFunction) {
+		const { userId } = req.params;
+		if (AuthState.getUserId(req) !== userId) {
+			throw new AppError(
+				401,
+				"Personal plugin shall only request regarding the user",
+			);
+		}
+		next();
 	}
 }
 

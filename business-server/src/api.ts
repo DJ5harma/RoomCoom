@@ -1,4 +1,9 @@
-import { Router } from "express";
+import {
+	Router,
+	type NextFunction,
+	type Request,
+	type Response,
+} from "express";
 import { PUBLIC_pluginRouter } from "./entities/plugins/plugin.routes";
 import passport from "passport";
 import { authRouter } from "./auth/auth.routes";
@@ -9,6 +14,7 @@ import { spaceRouter } from "./entities/space/space.routes";
 import { pluginRouter } from "./plugin.routes";
 import { RoomController } from "./entities/room/room.controller";
 import { SpaceController } from "./entities/space/space.controller";
+import { UserController } from "./entities/user/user.controller";
 
 export const apiRouter = Router();
 
@@ -22,19 +28,39 @@ apiRouter.use("/user", userRouter);
 apiRouter.use("/room", roomRouter);
 apiRouter.use("/space", spaceRouter);
 
-apiRouter.use("/plugin/personal", pluginRouter);
 apiRouter.use(
-    "/plugin/direct/:spaceId",
-	SpaceController.authorizeUser,
+	"/plugin/personal/:userId",
+	UserController.authorizePersonal,
+	addSourceId,
 	pluginRouter,
 );
 apiRouter.use(
-    "/plugin/club/:spaceId",
-    SpaceController.authorizeUser,
-    pluginRouter,
+	"/plugin/direct/:spaceId",
+	SpaceController.authorizeUser,
+	addSourceId,
+	pluginRouter,
 );
 apiRouter.use(
-    "/plugin/room/:roomId",
-    RoomController.authorizeUser,
-    pluginRouter,
+	"/plugin/club/:spaceId",
+	SpaceController.authorizeUser,
+	addSourceId,
+	pluginRouter,
 );
+apiRouter.use(
+	"/plugin/room/:roomId",
+	RoomController.authorizeUser,
+	addSourceId,
+	pluginRouter,
+);
+
+function addSourceId(req: Request, _: Response, next: NextFunction) {
+	const { spaceId, roomId, userId } = req.params;
+	if (spaceId) {
+		req.params.sourceId = spaceId;
+	} else if (roomId) {
+		req.params.sourceId = roomId;
+	} else if (userId) {
+		req.params.sourceId = userId;
+	}
+	next();
+}

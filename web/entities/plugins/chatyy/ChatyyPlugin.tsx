@@ -10,7 +10,7 @@ import {
 import { MessageI } from "./types";
 import { Loading } from "@/components/Loading";
 import { Chatyy } from "./Chatyy";
-import { useInstance } from "@/entities/instance/InstanceProvider";
+import { usePlugin } from "../PluginProvider";
 
 const context = createContext<{
 	messages: MessageI[];
@@ -18,12 +18,12 @@ const context = createContext<{
 } | null>(null);
 
 export const ChatyyPlugin = () => {
-	const { instanceApi, subscribe, unsubscribe } = useInstance();
+	const { easyApi, sourceId } = usePlugin();
 	const [messages, setMessages] = useState<MessageI[]>([]);
 	const [loadingMessages, setLoadingMessages] = useState(true);
 
 	useEffect(() => {
-		instanceApi
+		easyApi
 			.get("/messages")
 			.then(({ data: { messages } }) => {
 				setMessages(messages);
@@ -32,12 +32,7 @@ export const ChatyyPlugin = () => {
 				setLoadingMessages(false);
 			});
 
-		subscribe(({ message }) => {
-			setMessages((p) => [...p, message]);
-		});
-		return () => {
-			unsubscribe();
-		};
+		return () => {};
 	}, []);
 
 	if (loadingMessages) return <Loading />;

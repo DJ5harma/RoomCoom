@@ -1,4 +1,4 @@
-import { InstanceType, UserI } from "@/utils/types";
+import { InstanceType, UserI, uuid } from "@/utils/types";
 import { createContext, ReactNode, useContext, useEffect } from "react";
 import { useUser } from "../user/UserProvider";
 import { useRoom } from "../room/RoomProvider";
@@ -7,7 +7,11 @@ import axios, { AxiosInstance } from "axios";
 import { API_URL } from "@/utils/Api";
 import { socket } from "@/utils/SocketConnector";
 
-type PluginContextType = { members: UserI[]; easyApi: AxiosInstance };
+type PluginContextType = {
+	members: UserI[];
+	easyApi: AxiosInstance;
+	sourceId: uuid;
+};
 
 const context = createContext<PluginContextType | null>(null);
 
@@ -34,8 +38,10 @@ export const PluginProvider = ({
 
 const PersonalPluginProvider = ({ children }: { children: ReactNode }) => {
 	const { user } = useUser();
+	const userId = user.id;
+
 	const easyApi = axios.create({
-		baseURL: `${API_URL}/api/plugin/personal`,
+		baseURL: `${API_URL}/api/plugin/personal/${userId}`,
 		withCredentials: true,
 	});
 	const members = [user];
@@ -45,8 +51,13 @@ const PersonalPluginProvider = ({ children }: { children: ReactNode }) => {
 			socket.emit(`leave:personal`);
 		};
 	}, []);
+
+	const sourceId = user.id;
+
 	return (
-		<context.Provider value={{ members, easyApi }}>{children}</context.Provider>
+		<context.Provider value={{ members, easyApi, sourceId }}>
+			{children}
+		</context.Provider>
 	);
 };
 const DirectPluginProvider = ({ children }: { children: ReactNode }) => {
@@ -62,14 +73,21 @@ const DirectPluginProvider = ({ children }: { children: ReactNode }) => {
 	const peer = members[0].id === user.id ? members[1] : members[0];
 
 	const peerId = peer.id;
+	const userId = user.id;
+
 	useEffect(() => {
 		socket.emit(`join:direct`, { peerId });
 		return () => {
 			socket.emit(`leave:direct`, { peerId });
 		};
 	}, []);
+
+	const sourceId = `${userId}:${peerId}`;
+
 	return (
-		<context.Provider value={{ members, easyApi }}>{children}</context.Provider>
+		<context.Provider value={{ members, easyApi, sourceId }}>
+			{children}
+		</context.Provider>
 	);
 };
 const ClubPluginProvider = ({ children }: { children: ReactNode }) => {
@@ -87,8 +105,13 @@ const ClubPluginProvider = ({ children }: { children: ReactNode }) => {
 			socket.emit(`leave:club`, { clubId });
 		};
 	}, []);
+
+	const sourceId = clubId;
+
 	return (
-		<context.Provider value={{ members, easyApi }}>{children}</context.Provider>
+		<context.Provider value={{ members, easyApi, sourceId }}>
+			{children}
+		</context.Provider>
 	);
 };
 const RoomPluginProvider = ({ children }: { children: ReactNode }) => {
@@ -99,6 +122,9 @@ const RoomPluginProvider = ({ children }: { children: ReactNode }) => {
 	});
 	const members = room.members.map(({ user }) => user);
 	const roomId = room.id;
+
+	const sourceId = roomId;
+
 	useEffect(() => {
 		socket.emit(`join:room`, { roomId });
 		return () => {
@@ -106,7 +132,9 @@ const RoomPluginProvider = ({ children }: { children: ReactNode }) => {
 		};
 	}, []);
 	return (
-		<context.Provider value={{ members, easyApi }}>{children}</context.Provider>
+		<context.Provider value={{ members, easyApi, sourceId }}>
+			{children}
+		</context.Provider>
 	);
 };
 
