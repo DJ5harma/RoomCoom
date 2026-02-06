@@ -19,14 +19,6 @@ class SpaceServiceImpl {
 		io.to(spaceId).emit(`space:${spaceId}:add:member`, { userId });
 	};
 
-	userExistsInSpace = async (userId: uuid, spaceId: uuid) => {
-		const exists = await SPACE.exists({
-			_id: spaceId,
-			members: userId,
-		});
-		return !!exists;
-	};
-
 	getSpace = async (spaceId: uuid) =>
 		await SPACE.findById(spaceId).populate(populateOptions);
 
@@ -35,6 +27,20 @@ class SpaceServiceImpl {
 
 	getUserSpaces = async (userId: uuid) =>
 		await SPACE.find({ members: userId }).populate(populateOptions);
+
+	userExistsInSpace = async (userId: uuid, spaceId: uuid) => {
+		const exists = await SPACE.exists({
+			_id: spaceId,
+			members: userId,
+		});
+		return !!exists;
+	};
+	doExactlyTheseMembersExistInAnySpace = async (memberIds: uuid[]) => {
+		const exists = await SPACE.exists({
+			members: { $all: memberIds, $size: memberIds.length },
+		});
+		return !!exists;
+	};
 }
 
 export const SpaceService = new SpaceServiceImpl();

@@ -1,10 +1,10 @@
-import { InstanceType, RoomI, UserI } from "@/utils/types";
+import { InstanceType, UserI } from "@/utils/types";
 import { createContext, ReactNode, useContext } from "react";
 import { useUser } from "../user/UserProvider";
 import { useRoom } from "../room/RoomProvider";
 import { useSpace } from "../space/SpaceProvider";
 
-type PluginContextType = { members: UserI[]; room?: RoomI };
+type PluginContextType = { members: UserI[] };
 
 const context = createContext<PluginContextType | null>(null);
 
@@ -40,19 +40,14 @@ const DirectPluginProvider = ({ children }: { children: ReactNode }) => {
 	return <context.Provider value={{ members }}>{children}</context.Provider>;
 };
 const ClubPluginProvider = ({ children }: { children: ReactNode }) => {
-	const { room } = useRoom();
 	const { space } = useSpace();
 	const members = space.members;
-	return (
-		<context.Provider value={{ members, room }}>{children}</context.Provider>
-	);
+	return <context.Provider value={{ members }}>{children}</context.Provider>;
 };
 const RoomPluginProvider = ({ children }: { children: ReactNode }) => {
 	const { room } = useRoom();
 	const members = room.members.map(({ user }) => user);
-	return (
-		<context.Provider value={{ members, room }}>{children}</context.Provider>
-	);
+	return <context.Provider value={{ members }}>{children}</context.Provider>;
 };
 
 export const usePlugin = () => {

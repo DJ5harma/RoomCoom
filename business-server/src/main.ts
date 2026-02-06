@@ -13,6 +13,7 @@ import { AuthState } from "./auth/auth.state";
 import Redis from "ioredis";
 import { createAdapter } from "@socket.io/redis-adapter";
 import { apiRouter } from "./api";
+import { IOinit } from "./io/io.init";
 
 const app = express();
 const server = http.createServer(app);
@@ -65,6 +66,7 @@ io.on("connection", (socket) => {
 	try {
 		const { userId } = AuthService.verifyUser(access_token);
 		AuthState.storeUserIdSocket(socket, userId);
+		IOinit(socket);
 	} catch (error) {
 		socket.disconnect();
 		console.log("Disconnected socket for unauthenticated user", socket.id);
