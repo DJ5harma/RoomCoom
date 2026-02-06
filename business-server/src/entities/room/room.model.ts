@@ -20,6 +20,16 @@ const roomSchema = new mongoose.Schema<RoomI>(
 			],
 			default: [],
 		},
+		clubs: {
+			type: [
+				{
+					club: {
+						type: mongoose.Schema.Types.ObjectId,
+						ref: MODEL_CONSTANTS.SPACE,
+					},
+				},
+			],
+		},
 	},
 	{ toJSON: { virtuals: true } },
 );

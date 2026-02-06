@@ -5,14 +5,9 @@ import { SPACE } from "./space.model";
 const populateOptions = "members";
 
 class SpaceServiceImpl {
-	createSpace = async (
-		name: string,
-		creatorId: uuid,
-		{ roomId, memberIds }: { roomId: uuid; memberIds: uuid[] },
-	) => {
+	createSpace = async (name: string, creatorId: uuid, memberIds: uuid[]) => {
 		return await SPACE.create({
 			name,
-			room: roomId,
 			creator: creatorId,
 			members: memberIds,
 		});

@@ -4,34 +4,33 @@ import { SpaceService } from "./space.service";
 import { AuthState } from "../../auth/auth.state";
 import { AppError } from "../../error/AppError";
 import { UserService } from "../user/user.service";
-import { io } from "../../main";
 
 class SpaceControllerImpl {
 	async authorizeUser(req: Request, _res: Response, next: NextFunction) {
 		const userId = AuthState.getUserId(req);
-		const SpaceId =
-			req.body?.SpaceId || req.params.SpaceId || req.query.SpaceId;
+		const spaceId =
+			req.body?.spaceId || req.params.spaceId || req.query.spaceId;
 
-		if (!SpaceId) {
+		if (!spaceId) {
 			next();
 			return;
 		}
-		const existsInSpace = await SpaceService.userExistsInSpace(userId, SpaceId);
+		const existsInSpace = await SpaceService.userExistsInSpace(userId, spaceId);
 		if (!existsInSpace) {
 			throw new AppError(403, "Access to Space is forbidden");
 		}
 		next();
 	}
 	async create(req: Request, res: Response) {
-		const { name, roomId, memberIds } = req.body as {
+		const { name, memberIds } = req.body as {
 			name: string;
 			roomId: uuid;
-			memberIds: uuid[];
+			memberIds?: uuid[];
 		};
 
 		const creatorId = AuthState.getUserId(req);
 
-		if (memberIds.length > 0) {
+		if (memberIds && memberIds.length > 0) {
 			const membersExist = await UserService.existByIds(memberIds);
 			if (!membersExist) {
 				throw new AppError(
@@ -41,11 +40,11 @@ class SpaceControllerImpl {
 			}
 		}
 
-		const space = await SpaceService.createSpace(name, creatorId, {
-			roomId,
-			memberIds,
-		});
-		io.to(roomId).emit(`room:${roomId}:add:space`, { space });
+		const space = await SpaceService.createSpace(
+			name,
+			creatorId,
+			memberIds ?? [],
+		);
 		res.json({ space });
 	}
 

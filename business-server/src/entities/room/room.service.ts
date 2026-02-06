@@ -5,7 +5,7 @@ import { UserService } from "../user/user.service";
 import { ROOM } from "./room.model";
 
 const roomPopulateOptions = {
-	path: "members",
+	path: "members spaces",
 	populate: { path: "user" },
 };
 
@@ -15,6 +15,12 @@ class RoomServiceImpl {
 
 	getRoomById = async (roomId: uuid) =>
 		await ROOM.findById(roomId).populate(roomPopulateOptions);
+
+	getRoomMemberIds = async (roomId: uuid) => {
+		const room = await ROOM.findById(roomId).select("members");
+		if (!room) throw new AppError(404, "Room Not Found");
+		return room.members.map(({ user: userId }) => userId) as uuid[];
+	};
 
 	getUserRooms = async (userId: uuid) =>
 		await ROOM.find({ "members.user": userId }).select("-members");

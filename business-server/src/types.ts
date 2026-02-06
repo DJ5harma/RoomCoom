@@ -4,7 +4,7 @@ export type ref_uuid = object | uuid;
 export type Data = object | string | number;
 
 type PluginLocationType = "internal" | "external";
-type InstanceType = "user" | "direct" | "space" | "room";
+type InstanceType = "personal" | "direct" | "club" | "room";
 interface PluginI {
 	id: uuid;
 	name: string;
@@ -14,8 +14,7 @@ interface PluginI {
 
 interface SpaceI {
 	id: uuid;
-	name: string; // unique in a room
-	room: ref_uuid;
+	name: string;
 	members: ref_uuid[];
 	state: object;
 	creator: ref_uuid;
@@ -33,6 +32,7 @@ interface RoomI {
 	name: string;
 	creator: ref_uuid;
 	members: { user: ref_uuid }[];
+	clubs: { club: ref_uuid }[];
 }
 
 export type { PluginI, UserI, RoomI, SpaceI, PluginLocationType, InstanceType };

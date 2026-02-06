@@ -4,7 +4,7 @@ export type ref_uuid = object | uuid;
 export type Data = object | string | number;
 
 type PluginLocationType = "internal" | "external";
-type InstanceType = "user" | "direct" | "space" | "room";
+type InstanceType = "personal" | "direct" | "club" | "room";
 interface PluginI {
 	id: uuid;
 	name: string;

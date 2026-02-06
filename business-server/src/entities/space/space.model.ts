@@ -5,15 +5,7 @@ import type { SpaceI } from "../../types";
 const spaceSchema = new mongoose.Schema<SpaceI>(
 	{
 		name: { type: String, required: true },
-		// null for direct/user contexts
-		room: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: MODEL_CONSTANTS.ROOM,
-			default: null,
-			required: false,
-		},
 
-		// for group/direct/user
 		members: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
@@ -38,7 +30,4 @@ spaceSchema.virtual("id").get(function () {
 	return this._id.toString();
 });
 
-export const SPACE = mongoose.model(
-	MODEL_CONSTANTS.SPACE,
-	spaceSchema,
-);
+export const SPACE = mongoose.model(MODEL_CONSTANTS.SPACE, spaceSchema);
