@@ -2,7 +2,6 @@ import Image from "next/image";
 import { MessageI } from "../types";
 import { useUser } from "@/entities/user/UserProvider";
 import { useState } from "react";
-import { useInstance } from "@/entities/instance/InstanceProvider";
 
 export const Message = ({
 	message,
@@ -13,10 +12,8 @@ export const Message = ({
 }) => {
 	const { content, from } = message;
 	const { user } = useUser();
-	const { getMemberById } = useInstance();
 
-	const sender = getMemberById(from);
-	const didISend = user.id === sender.id;
+	const didISend = user.id === from.id;
 
 	const showProfilePic = isContinuation ? false : true;
 	const showName = isContinuation ? false : true;
@@ -28,22 +25,22 @@ export const Message = ({
 			{showProfilePic ? (
 				<Image
 					className="rounded-full size-7"
-					src={sender.pictureUrl}
+					src={from.pictureUrl}
 					height={25}
 					width={25}
-					alt={sender.name}
+					alt={from.name}
 				/>
 			) : (
 				<div className="size-6.25" />
 			)}
 			{didISend ? (
 				<div className="bg-blue-900 text-white flex flex-col gap-2 text-sm p-3 rounded-xl shadow shadow-cyan-200 max-w-4/5">
-					{showName && <p className="text-cyan-300">{sender.name}</p>}
+					{showName && <p className="text-cyan-300">{from.name}</p>}
 					<Content content={content} />
 				</div>
 			) : (
 				<div className="bg-neutral-800 text-white flex flex-col gap-2 text-sm p-3 rounded-xl shadow shadow-red-200 max-w-4/5">
-					{showName && <p className="text-red-400">{sender.name}</p>}
+					{showName && <p className="text-red-400">{from.name}</p>}
 					<Content content={content} />
 				</div>
 			)}

@@ -11,6 +11,7 @@ import { MessageI } from "./types";
 import { Loading } from "@/components/Loading";
 import { Chatyy } from "./Chatyy";
 import { usePlugin } from "../PluginProvider";
+import { socket } from "@/utils/SocketConnector";
 
 const context = createContext<{
 	messages: MessageI[];
@@ -32,7 +33,12 @@ export const ChatyyPlugin = () => {
 				setLoadingMessages(false);
 			});
 
-		return () => {};
+		socket.on(sourceId + ":message", (message) => {
+			setMessages((p) => [...p, message]);
+		});
+		return () => {
+			socket.off(sourceId + ":message");
+		};
 	}, []);
 
 	if (loadingMessages) return <Loading />;

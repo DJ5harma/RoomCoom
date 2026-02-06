@@ -1,9 +1,9 @@
-import { useInstance } from "@/entities/instance/InstanceProvider";
 import { FormEvent } from "react";
 import { BiSend } from "react-icons/bi";
+import { usePlugin } from "../../PluginProvider";
 
 export const InputBox = () => {
-	const { sendToAll, instanceApi } = useInstance();
+	const { easyApi } = usePlugin();
 
 	function sendMessage(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
@@ -12,11 +12,9 @@ export const InputBox = () => {
 
 		const content = formData.get("content");
 
-		instanceApi
-			.post(`/storeMessage`, {
-				content,
-			})
-			.then(({ data }) => sendToAll({ message: data.message }));
+		easyApi.post(`/storeMessage`, {
+			content,
+		});
 	}
 	return (
 		<form

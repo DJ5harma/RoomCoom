@@ -18,7 +18,7 @@ class MessageControllerImpl {
 	}
 	async get(req: Request, res: Response) {
 		const { sourceId } = req.params as { sourceId: uuid };
-		const messages = await MESSAGE.find({ source: sourceId });
+		const messages = await MESSAGE.find({ source: sourceId }).populate("from");
 		res.json({ messages });
 	}
 }
