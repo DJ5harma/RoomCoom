@@ -13,7 +13,7 @@ import { AuthState } from "./auth/auth.state";
 import Redis from "ioredis";
 import { createAdapter } from "@socket.io/redis-adapter";
 import { apiRouter } from "./api";
-import { IOinit } from "./io/io.init";
+import { IOinit } from "./io.init";
 
 const app = express();
 const server = http.createServer(app);
