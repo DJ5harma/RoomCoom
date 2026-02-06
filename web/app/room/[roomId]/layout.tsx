@@ -3,14 +3,13 @@ import { ReactNode } from "react";
 import { RoomProvider } from "@/entities/room/RoomProvider";
 import { useParams } from "next/navigation";
 import { uuid } from "@/utils/types";
+import { PluginProvider } from "@/entities/plugins/PluginProvider";
 
 export default function Layout({ children }: { children: ReactNode }) {
 	const { roomId } = useParams() as { roomId: uuid };
 	return (
 		<RoomProvider roomId={roomId}>
-			<div className="flex">
-				{children}
-			</div>
+			<PluginProvider instanceType="room">{children}</PluginProvider>
 		</RoomProvider>
 	);
 }
