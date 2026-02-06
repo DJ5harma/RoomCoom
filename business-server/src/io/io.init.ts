@@ -15,9 +15,10 @@ export function IOinit(socket: Socket) {
 	});
 
 	socket.on(`join:${"direct" as InstanceType}`, async ({ peerId }) => {
-		const allow = await SpaceService.doExactlyTheseMembersExistInAnySpace([
+		const allow = await SpaceService.findExactlyOneTheseMembersSpace([
 			userId,
 			peerId,
+            {name: "DIRECT"}
 		]);
 		if (!allow) {
 			console.warn("Access to join denied");
