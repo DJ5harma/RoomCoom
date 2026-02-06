@@ -49,7 +49,7 @@ const PORT = process.env.PORT!;
 mongoose.connect(ENV_CONSTANTS.MONGO_URI).then(() => {
 	console.log("MongoDB connected");
 	server.listen(PORT, () => {
-		console.log(`socket.io server: ${ENV_CONSTANTS.MY_URL}`);
+		console.log(`express & socket.io server: ${ENV_CONSTANTS.MY_URL}`);
 	});
 });
 

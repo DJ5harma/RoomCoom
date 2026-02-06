@@ -14,7 +14,6 @@ class AuthStateImpl {
 		return (req as ModdedRequest).state[stateKey];
 	}
 	storeUserId(req: Request, userId: string) {
-		console.log({ userId });
 		AuthState.storeState(req, "userId", userId);
 	}
 	getUserId(req: Request) {
