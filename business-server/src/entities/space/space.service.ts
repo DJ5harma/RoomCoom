@@ -35,6 +35,22 @@ class SpaceServiceImpl {
 		});
 		return !!exists;
 	};
+	findExactlyOneTheseMembersSpace = async (
+		memberIds: uuid[],
+		filters?: object,
+	) => {
+		const space = await SPACE.findOne({
+			...filters,
+			members: { $all: memberIds, $size: memberIds.length },
+		});
+		return space;
+	};
+	doExactlyTheseMembersExistInAnySpace = async (memberIds: uuid[]) => {
+		const exists = await SPACE.exists({
+			members: { $all: memberIds, $size: memberIds.length },
+		});
+		return !!exists;
+	};
 }
 
 export const SpaceService = new SpaceServiceImpl();

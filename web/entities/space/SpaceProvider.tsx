@@ -19,22 +19,25 @@ const context = createContext<{
 export const SpaceProvider = ({
 	spaceId,
 	children,
+	fetchedSpace,
 }: {
 	spaceId: uuid;
 	children: ReactNode;
+	fetchedSpace?: SpaceI;
 }) => {
-	const [space, setSpace] = useState<SpaceI | null>(null);
+	const [space, setSpace] = useState<SpaceI | null>(fetchedSpace ?? null);
 
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(!fetchedSpace);
 
 	useEffect(() => {
+		if (fetchedSpace) return;
 		(async () => {
 			const [spaceData] = await Promise.all([Api.get(`/space/${spaceId}`)]);
 			setSpace(spaceData.data.space);
 
 			setLoading(false);
 		})();
-	}, [spaceId]);
+	}, [spaceId, fetchedSpace]);
 
 	if (loading) return <Loading />;
 	if (!space) return <NotFound />;
