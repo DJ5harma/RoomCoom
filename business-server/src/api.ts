@@ -6,8 +6,9 @@ import { AuthController } from "./auth/auth.controller";
 import { userRouter } from "./entities/user/user.routes";
 import { roomRouter } from "./entities/room/room.routes";
 import { spaceRouter } from "./entities/space/space.routes";
-import { chatyyRouter } from "./entities/plugins/chatyy/routes";
-import { meetyyRouter } from "./entities/plugins/meetyy/routes";
+import { pluginRouter } from "./plugin.routes";
+import { RoomController } from "./entities/room/room.controller";
+import { SpaceController } from "./entities/space/space.controller";
 
 export const apiRouter = Router();
 
@@ -21,5 +22,19 @@ apiRouter.use("/user", userRouter);
 apiRouter.use("/room", roomRouter);
 apiRouter.use("/space", spaceRouter);
 
-apiRouter.use("/chatyy/:sourceId", chatyyRouter);
-apiRouter.use("/meetyy/:sourceId", meetyyRouter);
+apiRouter.use("/plugin/personal", pluginRouter);
+apiRouter.use(
+    "/plugin/direct/:spaceId",
+	SpaceController.authorizeUser,
+	pluginRouter,
+);
+apiRouter.use(
+    "/plugin/club/:spaceId",
+    SpaceController.authorizeUser,
+    pluginRouter,
+);
+apiRouter.use(
+    "/plugin/room/:roomId",
+    RoomController.authorizeUser,
+    pluginRouter,
+);
