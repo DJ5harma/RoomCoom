@@ -1,5 +1,4 @@
 import type { Request, Response } from "express";
-import type { uuid } from "../../../types";
 import { AccessToken } from "livekit-server-sdk";
 import { AuthState } from "../../../auth/auth.state";
 import { ENV_CONSTANTS } from "../../../constants/env.constants";
@@ -7,11 +6,11 @@ import { UserService } from "../../user/user.service";
 
 class TokenControllerImpl {
 	getToken = async (req: Request, res: Response) => {
-		const { sourceId } = req.params as { sourceId: uuid };
+		const sourceId = AuthState.getSourceId(req);
 		const userId = AuthState.getUserId(req);
 
 		const user = (await UserService.findById(userId))!;
-		
+
 		const liveToken = new AccessToken(
 			ENV_CONSTANTS.LIVEKIT_API_KEY,
 			ENV_CONSTANTS.LIVEKIT_API_SECRET,
@@ -23,7 +22,7 @@ class TokenControllerImpl {
 			canPublish: true,
 			canSubscribe: true,
 		});
-		
+
 		res.json({ liveToken: await liveToken.toJwt() });
 	};
 }

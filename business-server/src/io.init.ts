@@ -3,15 +3,9 @@ import { AuthState } from "./auth/auth.state";
 import { SpaceService } from "./entities/space/space.service";
 import { RoomService } from "./entities/room/room.service";
 import type { InstanceType } from "./types";
-import { chatyyRouterIO } from "./entities/plugins/chatyy/io.routes";
-import { meetyyRouterIO } from "./entities/plugins/meetyy/io.routes";
-
-const io_routers = [chatyyRouterIO, meetyyRouterIO];
 
 export function IOinit(socket: Socket) {
 	const userId = AuthState.getUserIdSocket(socket);
-
-	io_routers.forEach((ior) => ior(socket));
 
 	socket.on(`join:${"personal" as InstanceType}`, () => {
 		socket.join(userId);

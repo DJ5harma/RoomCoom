@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import { AuthState } from "../../../auth/auth.state";
 import { MESSAGE } from "./message.model";
+import { io } from "../../../main";
 
 class MessageControllerImpl {
 	async storeMessage(req: Request, res: Response) {
@@ -8,11 +9,13 @@ class MessageControllerImpl {
 		const { content } = req.body;
 
 		const userId = AuthState.getUserId(req);
-		const message = await MESSAGE.create({
+		const { id: messageId } = await MESSAGE.create({
 			content,
 			source: sourceId,
 			from: userId,
 		});
+		const message = await MESSAGE.findById(messageId).populate("from");
+		io.to(sourceId).emit(sourceId + ":message", message);
 		res.json({ message });
 	}
 	async get(req: Request, res: Response) {

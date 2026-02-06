@@ -30,7 +30,7 @@ class AuthStateImpl {
 		}
 	}
 	getSourceId(req: Request) {
-		return this.getState(req, "sourceId");
+		return this.getState(req, "sourceId") as uuid;
 	}
 	storeUserIdSocket(socket: Socket, userId: uuid) {
 		socket.data.userId = userId;
