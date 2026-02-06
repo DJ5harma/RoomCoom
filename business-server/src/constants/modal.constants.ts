@@ -1,7 +1,7 @@
 export enum MODEL_CONSTANTS {
 	USER = "USER",
 	ROOM = "ROOM",
-	INSTANCE = "INSTANCE",
+	SPACE = "SPACE",
 	MEMBER = "MEMBER",
 	PLUGIN = "PLUGIN"
 }

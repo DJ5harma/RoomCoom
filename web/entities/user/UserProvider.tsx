@@ -10,25 +10,17 @@ import {
 import { Api } from "@/utils/Api";
 import { Auth } from "@/components/Auth";
 import { Loading } from "@/components/Loading";
-import { InstanceI, RoomI, UserI } from "@/utils/types";
-
-type RoomWithoutMembersType = Omit<RoomI, "members">;
+import { RoomI, UserI } from "@/utils/types";
 
 const context = createContext<{
 	user: UserI;
-	rooms: RoomWithoutMembersType[];
-	directInstances: InstanceI[];
-	personalInstances: InstanceI[];
-	addRoom: (room: RoomWithoutMembersType) => void;
+	rooms: RoomI[];
+	addRoom: (room: RoomI) => void;
 } | null>(null);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
 	const [user, setUser] = useState<UserI | null>(null);
-	const [rooms, setRooms] = useState<RoomWithoutMembersType[]>([]);
-
-	const [directInstances, setDirectInstances] = useState<InstanceI[]>([]);
-	const [personalInstances, setPersonalInstances] = useState<InstanceI[]>([]);
-
+	const [rooms, setRooms] = useState<RoomI[]>([]);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
@@ -36,15 +28,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 			.then(async (userData) => {
 				setUser(userData.data.user);
 
-				const [roomsData, personalInstancesData, directInstancesData] =
-					await Promise.all([
-						Api.get("/user/rooms"),
-						Api.get("/user/instances/personal"),
-						Api.get("/user/instances/direct"),
-					]);
+				const [roomsData] = await Promise.all([Api.get("/user/rooms")]);
 				setRooms(roomsData.data.rooms);
-				setPersonalInstances(personalInstancesData.data.instances);
-				setDirectInstances(directInstancesData.data.instances);
 			})
 			.finally(() => {
 				setLoading(false);
@@ -53,14 +38,12 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 	if (loading) return <Loading />;
 	if (!user) return <Auth />;
 
-	function addRoom(room: RoomWithoutMembersType) {
+	function addRoom(room: RoomI) {
 		setRooms((p) => [...p, room]);
 	}
 
 	return (
-		<context.Provider
-			value={{ user, rooms, addRoom, directInstances, personalInstances }}
-		>
+		<context.Provider value={{ user, rooms, addRoom }}>
 			{children}
 		</context.Provider>
 	);

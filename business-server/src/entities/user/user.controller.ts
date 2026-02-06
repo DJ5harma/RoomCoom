@@ -5,7 +5,7 @@ import { RoomService } from "../room/room.service";
 import type { uuid } from "../../types";
 import { UserInvitation } from "./user.invitation";
 import { AppError } from "../../error/AppError";
-import { InstanceService } from "../instance/instance.service";
+import { InstanceService } from "../space/space.service";
 
 class UserControllerImpl {
 	async getMe(req: Request, res: Response) {

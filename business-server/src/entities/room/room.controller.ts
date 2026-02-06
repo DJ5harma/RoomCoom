@@ -5,7 +5,7 @@ import { AppError } from "../../error/AppError";
 import { RoomService } from "./room.service";
 import { UserInvitation } from "../user/user.invitation";
 import { io } from "../../main";
-import { InstanceService } from "../instance/instance.service";
+import { SpaceService } from "../space/space.service";
 
 class RoomControllerImpl {
 	async create(req: Request, res: Response) {
@@ -18,7 +18,8 @@ class RoomControllerImpl {
 	async get(req: Request, res: Response) {
 		const { roomId } = req.params as { roomId: uuid };
 		const room = await RoomService.getRoomById(roomId);
-		res.json({ room });
+		const spaces = await SpaceService.getSpacesInRoom(roomId);
+		res.json({ room, spaces });
 	}
 	async authorizeUser(req: Request, _res: Response, next: NextFunction) {
 		const userId = AuthState.getUserId(req);
@@ -45,12 +46,6 @@ class RoomControllerImpl {
 		const room = await RoomService.getRoomById(roomId);
 		return res.json({ room });
 	}
-	async getInstances(req: Request, res: Response) {
-		const { roomId } = req.params as { roomId: uuid };
-		const instances = await InstanceService.getInstancesInRoom(roomId);
-		res.json({ instances });
-	}
-
 	async inviteUserToRoom(req: Request, res: Response) {
 		const { roomId } = req.params as { roomId: uuid };
 		const { userId } = req.body;

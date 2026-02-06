@@ -8,14 +8,13 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { InstanceI, RoomI, uuid } from "@/utils/types";
+import { RoomI, SpaceI, uuid } from "@/utils/types";
 import { Loading } from "@/components/Loading";
-import { socket } from "@/utils/SocketConnector";
 import { NotFound } from "@/components/NotFound";
 
 const context = createContext<{
 	room: RoomI;
-	instances: InstanceI[];
+	spaces: SpaceI[];
 } | null>(null);
 
 export const RoomProvider = ({
@@ -26,45 +25,27 @@ export const RoomProvider = ({
 	children: ReactNode;
 }) => {
 	const [room, setRoom] = useState<RoomI | null>(null);
-	const [instances, setInstances] = useState<InstanceI[]>([]);
+	const [spaces, setSpaces] = useState<SpaceI[]>([]);
 
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		(async () => {
-			const [roomData, instancesData] = await Promise.all([
+			const [roomData, spacesData] = await Promise.all([
 				Api.get(`/room/${roomId}`),
-				Api.get(`/room/${roomId}/instances`),
+				Api.get(`/room/${roomId}/spaces`),
 			]);
 			setRoom(roomData.data.room);
-			setInstances(instancesData.data.instances);
+			setSpaces(spacesData.data.spaces);
 
 			setLoading(false);
-
-			socket.emit("room:connect", { roomId });
-			socket.on("room:add:instance", ({ instance }) => {
-				setInstances((p) => [...p, instance]);
-			});
-			socket.on(
-				"room:add:member",
-				({ member }: { member: RoomI["members"][0] }) => {
-					setRoom((p) => {
-						return { ...p!, members: [...p!.members, member] };
-					});
-				},
-			);
 		})();
-		return () => {
-			socket.emit("room:disconnect", { roomId });
-			socket.off("room:add:instance");
-			socket.off("room:add:member");
-		};
 	}, []);
 
 	if (loading) return <Loading />;
 	if (!room) return <NotFound />;
 	return (
-		<context.Provider value={{ room, instances }}>{children}</context.Provider>
+		<context.Provider value={{ room, spaces }}>{children}</context.Provider>
 	);
 };
 

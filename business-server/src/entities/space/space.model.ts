@@ -1,16 +1,10 @@
 import mongoose from "mongoose";
 import { MODEL_CONSTANTS } from "../../constants/modal.constants";
-import type { InstanceI } from "../../types";
+import type { SpaceI } from "../../types";
 
-const instanceSchema = new mongoose.Schema<InstanceI>(
+const spaceSchema = new mongoose.Schema<SpaceI>(
 	{
 		name: { type: String, required: true },
-		type: {
-			type: String,
-			enum: ["room", "space", "direct", "user"],
-			required: true,
-		},
-
 		// null for direct/user contexts
 		room: {
 			type: mongoose.Schema.Types.ObjectId,
@@ -40,11 +34,11 @@ const instanceSchema = new mongoose.Schema<InstanceI>(
 	{ timestamps: true, toJSON: { virtuals: true } },
 );
 
-instanceSchema.virtual("id").get(function () {
+spaceSchema.virtual("id").get(function () {
 	return this._id.toString();
 });
 
-export const INSTANCE = mongoose.model(
-	MODEL_CONSTANTS.INSTANCE,
-	instanceSchema,
+export const SPACE = mongoose.model(
+	MODEL_CONSTANTS.SPACE,
+	spaceSchema,
 );

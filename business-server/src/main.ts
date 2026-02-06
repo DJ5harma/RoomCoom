@@ -10,11 +10,8 @@ import mongoose from "mongoose";
 import morgan from "morgan";
 import { AuthService } from "./auth/auth.service";
 import { AuthState } from "./auth/auth.state";
-import { RoomIO } from "./entities/room/room.io";
-import { InstanceIO } from "./entities/instance/instance.io";
 import Redis from "ioredis";
 import { createAdapter } from "@socket.io/redis-adapter";
-import { UserIO } from "./entities/user/user.io";
 import { apiRouter } from "./api";
 
 const app = express();
@@ -68,10 +65,6 @@ io.on("connection", (socket) => {
 	try {
 		const { userId } = AuthService.verifyUser(access_token);
 		AuthState.storeUserIdSocket(socket, userId);
-
-		RoomIO(socket);
-		InstanceIO(socket);
-		UserIO(socket);
 	} catch (error) {
 		socket.disconnect();
 		console.log("Disconnected socket for unauthenticated user", socket.id);

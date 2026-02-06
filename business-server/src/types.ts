@@ -4,6 +4,7 @@ export type ref_uuid = object | uuid;
 export type Data = object | string | number;
 
 type PluginLocationType = "internal" | "external";
+type InstanceType = "user" | "direct" | "space" | "room";
 interface PluginI {
 	id: uuid;
 	name: string;
@@ -11,12 +12,10 @@ interface PluginI {
 	location: PluginLocationType;
 }
 
-type InstanceType = "room" | "space" | "direct" | "personal";
-interface InstanceI {
+interface SpaceI {
 	id: uuid;
 	name: string; // unique in a room
 	room: ref_uuid;
-	type: InstanceType;
 	members: ref_uuid[];
 	state: object;
 	creator: ref_uuid;
@@ -36,11 +35,4 @@ interface RoomI {
 	members: { user: ref_uuid }[];
 }
 
-export type {
-	PluginI,
-	UserI,
-	RoomI,
-	InstanceI,
-	InstanceType,
-	PluginLocationType,
-};
+export type { PluginI, UserI, RoomI, SpaceI, PluginLocationType, InstanceType };
