@@ -24,28 +24,33 @@ export const RoomsBar = () => {
 					<RoomForm />
 				</ModalWrapper>
 			</div>
-			<p>Your Room Paritipations:</p>
+			<p>Your Rooms:</p>
 			{rooms.map(({ id, name, members }) => {
 				return (
 					<Link
 						key={id}
-						className="flex items-center gap-2 p-2 border rounded-2xl w-fit text-wrap"
-						href={`/direct/${id}`}
+						className="flex flex-col items-center gap-2 p-2 border rounded-2xl text-wrap"
+						href={`/room/${id}`}
 					>
-						{members.slice(0, 3).map((member) => {
-							return (
-								<div key={member.user.id} className="flex">
-									<Image
-										src={member.user.pictureUrl}
-										alt={name}
-										height={15}
-										width={15}
-										className="rounded-full"
-									/>
-								</div>
-							);
-						})}
-						<p className="text-sm w-20">{name}</p>
+						<p className="">{name}</p>
+						<div className="flex">
+							{members.slice(0, 3).map((member) => {
+								return (
+									<div
+										key={member.user.id}
+										className="flex flex-col max-h-full"
+									>
+										<Image
+											src={member.user.pictureUrl}
+											alt={name}
+											height={25}
+											width={25}
+											className="rounded-full"
+										/>
+									</div>
+								);
+							})}
+						</div>
 					</Link>
 				);
 			})}

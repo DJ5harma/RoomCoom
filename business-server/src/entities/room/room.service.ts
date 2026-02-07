@@ -1,16 +1,18 @@
 import { AppError } from "../../error/AppError";
 import type { RoomI, uuid } from "../../types";
-import { UserService } from "../user/user.service";
 import { ROOM } from "./room.model";
 
 const roomPopulateOptions = {
-	path: "members spaces",
+	path: "members clubs",
 	populate: { path: "user" },
 };
 
 class RoomServiceImpl {
-	createRoom = async (name: string, creatorId: uuid) =>
-		await ROOM.create({ name, creator: creatorId });
+	createRoom = async (
+		name: string,
+		creatorId: uuid,
+		members: RoomI["members"],
+	) => await ROOM.create({ name, creator: creatorId, members });
 
 	getRoomById = async (roomId: uuid) =>
 		await ROOM.findById(roomId).populate(roomPopulateOptions);
@@ -22,7 +24,7 @@ class RoomServiceImpl {
 	};
 
 	getUserRooms = async (userId: uuid) =>
-		await ROOM.find({ "members.user": userId }).select("-members");
+		await ROOM.find({ "members.user": userId }).populate(roomPopulateOptions);
 
 	addUserToRoom = async (roomId: uuid, userId: uuid) => {
 		await ROOM.findByIdAndUpdate(roomId, {

@@ -50,7 +50,7 @@ export const DirectsBar = () => {
 				return (
 					<Link
 						key={id}
-						className="flex items-center gap-2 p-2 border rounded-2xl w-fit text-wrap"
+						className="flex items-center gap-2 p-2 border rounded-2xl text-wrap"
 						href={`/direct/${id}`}
 					>
 						<Image

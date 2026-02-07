@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import { AuthState } from "../../auth/auth.state";
-import type { uuid } from "../../types";
+import type { RoomI, uuid } from "../../types";
 import { AppError } from "../../error/AppError";
 import { RoomService } from "./room.service";
 import { UserInvitation } from "../user/user.invitation";
@@ -17,8 +17,6 @@ class RoomControllerImpl {
 			next();
 			return;
 		}
-
-		console.log("CHECKING ROOM");
 		const existsInRoom = await RoomService.userExistsInRoom(userId, roomId);
 		if (!existsInRoom) {
 			throw new AppError(403, "Access to room is forbidden");
@@ -27,9 +25,13 @@ class RoomControllerImpl {
 	}
 	async create(req: Request, res: Response) {
 		const creatorId = AuthState.getUserId(req);
-		const { name } = req.body;
-		const room = await RoomService.createRoom(name, creatorId);
-		await RoomService.addUserToRoom(room.id, creatorId);
+		const { name, members } = req.body as {
+			name: string;
+			members: RoomI["members"];
+		};
+		members.push({ user: creatorId });
+		const newRoom = await RoomService.createRoom(name, creatorId, members);
+		const room = await RoomService.getRoomById(newRoom.id);
 		res.json({ room });
 	}
 	async get(req: Request, res: Response) {

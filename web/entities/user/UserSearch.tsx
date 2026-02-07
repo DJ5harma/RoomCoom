@@ -37,19 +37,18 @@ export const UserSearch = ({
 	function handleClick(user: UserI) {
 		let newChosenUsers = [...chosenUsers];
 		if (chosenUsers.includes(user)) {
-			newChosenUsers = newChosenUsers.filter(c => c.id !== user.id);
+			newChosenUsers = newChosenUsers.filter((c) => c.id !== user.id);
 		} else {
 			newChosenUsers.push(user);
 		}
 		setChosenUsers(newChosenUsers);
+		onSelected(newChosenUsers);
 		if (selectLimit && newChosenUsers.length >= selectLimit) {
-			onSelected(newChosenUsers);
 			close();
 			return;
 		}
-
 	}
-	
+
 	const { user: myself } = useUser();
 	return (
 		<div className="flex flex-col gap-4">
