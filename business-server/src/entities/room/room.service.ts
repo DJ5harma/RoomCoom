@@ -43,7 +43,7 @@ class RoomServiceImpl {
 	};
 
 	userExistsInRoom = async (userId: uuid, roomId: uuid) =>
-		await ROOM.exists({ _id: roomId, "members.userId": userId });
+		await ROOM.exists({ _id: roomId, "members.user": userId });
 
 	getRoomsByIds = async (roomIds: uuid[]) =>
 		await ROOM.find({ _id: { $in: roomIds } });

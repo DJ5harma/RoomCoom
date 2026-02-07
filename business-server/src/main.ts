@@ -26,7 +26,7 @@ app.use(
 );
 app.use(cookieParser());
 app.use(express.json());
-app.use(morgan("common"));
+app.use(morgan("tiny"));
 
 app.get("/", (_req, res) => res.send("hello"));
 app.get("/err", () => {

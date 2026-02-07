@@ -11,8 +11,6 @@ class RoomControllerImpl {
 	async authorizeUser(req: Request, _res: Response, next: NextFunction) {
 		const userId = AuthState.getUserId(req);
 		const roomId = req.body?.roomId || req.params.roomId || req.query.roomId;
-		console.log({ roomId });
-
 		if (!roomId) {
 			next();
 			return;

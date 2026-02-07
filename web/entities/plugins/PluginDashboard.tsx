@@ -21,7 +21,7 @@ export const PluginDashboard = () => {
 				mounted.has(name) ? (
 					<div
 						key={name}
-						className={active === name ? "block h-full w-full" : "hidden"}
+						className={active === name ? "block h-full w-full border-r-2" : "hidden"}
 					>
 						<Comp.node />
 					</div>
