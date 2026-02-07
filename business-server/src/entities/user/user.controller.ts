@@ -18,6 +18,11 @@ class UserControllerImpl {
 		const rooms = await RoomService.getUserRooms(userId);
 		res.json({ rooms });
 	}
+	async getDirectSpaces(req: Request, res: Response) {
+		const userId = AuthState.getUserId(req);
+		const spaces = await SpaceService.findDirectSpacesForUser(userId);
+		res.json({ spaces });
+	}
 	async searchUsers(req: Request, res: Response) {
 		const { q } = req.query as { q: string };
 		const users = await UserService.search(q);

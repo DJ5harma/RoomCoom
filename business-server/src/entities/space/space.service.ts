@@ -12,6 +12,13 @@ class SpaceServiceImpl {
 			members: memberIds,
 		});
 	};
+	findDirectSpacesForUser = async (userId: uuid) => {
+		const space = await SPACE.find({
+			name: "DIRECT",
+			members: { $in: userId },
+		});
+		return space;
+	};
 	addUserToSpace = async (spaceId: uuid, userId: uuid) => {
 		await SPACE.findByIdAndUpdate(spaceId, {
 			$addToSet: { members: userId },

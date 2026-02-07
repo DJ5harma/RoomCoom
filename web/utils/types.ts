@@ -14,8 +14,7 @@ interface PluginI {
 
 interface SpaceI {
 	id: uuid;
-	name: string; // unique in a room
-	room: ref_uuid;
+	name: string;
 	members: UserI[];
 	state: object;
 	creator: UserI;

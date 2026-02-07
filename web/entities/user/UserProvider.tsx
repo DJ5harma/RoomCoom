@@ -10,7 +10,7 @@ import {
 import { Api } from "@/utils/Api";
 import { Auth } from "@/components/Auth";
 import { Loading } from "@/components/Loading";
-import { RoomI, UserI } from "@/utils/types";
+import { RoomI, SpaceI, UserI } from "@/utils/types";
 
 const context = createContext<{
 	user: UserI;
@@ -53,4 +53,19 @@ export const useUser = () => {
 	const x = useContext(context);
 	if (!x) throw new Error("Use context inside the provider only");
 	return x;
+};
+
+export const useUserDirectSpaces = () => {
+	const [directSpaces, setDirectSpaces] = useState<SpaceI[]>([]);
+	const [loading, setLoading] = useState(true);
+	useEffect(() => {
+		Api.get("/user/direct/spaces")
+			.then(({ data: { spaces } }) => {
+				setDirectSpaces(spaces);
+				console.log({spaces});
+				
+			})
+			.finally(() => setLoading(false));
+	}, []);
+	return { directSpaces, loading };
 };
