@@ -8,13 +8,13 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { RoomI, SpaceI, uuid } from "@/utils/types";
+import { RoomI, UserI, uuid } from "@/utils/types";
 import { Loading } from "@/components/Loading";
 import { NotFound } from "@/components/NotFound";
 
 const context = createContext<{
 	room: RoomI;
-	clubs: SpaceI[];
+	getUserById: (userId: uuid) => UserI;
 } | null>(null);
 
 export const RoomProvider = ({
@@ -25,7 +25,6 @@ export const RoomProvider = ({
 	children: ReactNode;
 }) => {
 	const [room, setRoom] = useState<RoomI | null>(null);
-	const [clubs, setClubs] = useState<SpaceI[]>([]);
 
 	const [loading, setLoading] = useState(true);
 
@@ -33,16 +32,24 @@ export const RoomProvider = ({
 		(async () => {
 			const [roomData] = await Promise.all([Api.get(`/room/${roomId}`)]);
 			setRoom(roomData.data.room);
-			setClubs(roomData.data.clubs);
-
 			setLoading(false);
 		})();
 	}, [roomId]);
 
 	if (loading) return <Loading />;
 	if (!room) return <NotFound />;
+
+	function getUserById(userId: uuid) {
+		for (const member of room!.members) {
+			if (userId === member.user.id) return member.user;
+		}
+		return {} as UserI;
+	}
+
 	return (
-		<context.Provider value={{ room, clubs }}>{children}</context.Provider>
+		<context.Provider value={{ room, getUserById }}>
+			{children}
+		</context.Provider>
 	);
 };
 

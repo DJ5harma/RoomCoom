@@ -9,6 +9,7 @@ import { BiPlus } from "react-icons/bi";
 export const ClubsBar = () => {
 	const {
 		room: { clubs },
+		getUserById,
 	} = useRoom();
 
 	return (
@@ -36,11 +37,12 @@ export const ClubsBar = () => {
 					>
 						<p className="">{name}</p>
 						<div className="flex">
-							{members.slice(0, 4).map((member) => {
+							{members.slice(0, 4).map((memberId) => {
+								const clubMember = getUserById(memberId);
 								return (
 									<Image
-										key={member.id}
-										src={member.pictureUrl}
+										key={clubMember.id}
+										src={clubMember.pictureUrl}
 										alt={name}
 										height={25}
 										width={25}

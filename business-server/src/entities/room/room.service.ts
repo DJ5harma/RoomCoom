@@ -10,13 +10,6 @@ const roomPopulateOptions = [
 	"creator",
 	"clubs",
 ];
-const roomPopulateWithClubsOptions = [
-	{
-		path: "members",
-		populate: { path: "user" },
-	},
-	"creator",
-];
 
 class RoomServiceImpl {
 	createRoom = async (

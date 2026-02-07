@@ -3,6 +3,14 @@ export type ref_uuid = object | uuid;
 
 export type Data = object | string | number;
 
+
+interface UserI {
+	id: uuid;
+	name: string;
+	email: string;
+	pictureUrl: string;
+}
+
 type PluginLocationType = "internal" | "external";
 type InstanceType = "personal" | "direct" | "club" | "room";
 interface PluginI {
@@ -19,12 +27,12 @@ interface SpaceI {
 	state: object;
 	creator: UserI;
 }
-
-interface UserI {
+interface ClubI {
 	id: uuid;
 	name: string;
-	email: string;
-	pictureUrl: string;
+	members: uuid[];
+	state: object;
+	creator: UserI;
 }
 
 interface RoomI {
@@ -32,7 +40,7 @@ interface RoomI {
 	name: string;
 	creator: UserI;
 	members: { user: UserI }[];
-	clubs: { club: SpaceI }[];
+	clubs: { club: ClubI }[];
 }
 
 export type { PluginI, UserI, RoomI, SpaceI, PluginLocationType, InstanceType };
