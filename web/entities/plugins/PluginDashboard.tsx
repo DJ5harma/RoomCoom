@@ -16,19 +16,17 @@ export const PluginDashboard = () => {
 	}
 
 	return (
-		<div className="w-full flex justify-between h-screen">
-			<div className="flex-1 h-full">
-				{Object.entries(PLUGIN_MAP).map(([name, Comp]) =>
-					mounted.has(name) ? (
-						<div
-							key={name}
-							className={active === name ? "block h-full" : "hidden"}
-						>
-							<Comp.node />
-						</div>
-					) : null,
-				)}
-			</div>
+		<div className="w-full flex justify-between h-full">
+			{Object.entries(PLUGIN_MAP).map(([name, Comp]) =>
+				mounted.has(name) ? (
+					<div
+						key={name}
+						className={active === name ? "block h-full w-full" : "hidden"}
+					>
+						<Comp.node />
+					</div>
+				) : null,
+			)}
 
 			<PluginSidebar activePlugin={active} />
 		</div>
