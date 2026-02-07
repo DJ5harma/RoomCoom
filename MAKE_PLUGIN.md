@@ -7,6 +7,7 @@ There are 4 concepts for which your plugins will automatically using my helpers:
 
 
 Don't worry! your plugin does not even have to think about them, it will automatically work with all of them when it uses my simple helper abstraction.
+Things like internal routing, auth etc. are handeled automatically for any kind of Concept (`Personal, Direct, Room, Club`)
 
 
 ## Start making your plugin:
