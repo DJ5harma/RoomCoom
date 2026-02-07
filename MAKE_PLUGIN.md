@@ -43,8 +43,8 @@ so don't worry about it, just pass it
 `{
 	members,
 	easyApi,
-	subscribeSignal: (stream, listener) => Socket;
-	unsubscribeSignal: (stream: string) => Socket;
+	subscribeSignal,
+	unsubscribeSignal,
 	sourceId
 }`
 
