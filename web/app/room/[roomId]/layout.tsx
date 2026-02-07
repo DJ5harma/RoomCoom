@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import { RoomProvider } from "@/entities/room/RoomProvider";
 import { useParams } from "next/navigation";
 import { uuid } from "@/utils/types";
-import { PluginProvider } from "@/entities/plugins/PluginProvider";
+import { PluginProvider } from "@/plugins/PluginProvider";
 
 export default function Layout({ children }: { children: ReactNode }) {
 	const { roomId } = useParams() as { roomId: uuid };

@@ -1,5 +1,5 @@
 "use client";
-import { PluginDashboard } from "@/entities/plugins/PluginDashboard";
+import { PluginDashboard } from "@/plugins/PluginDashboard";
 import { RoomStrip } from "./RoomStrip";
 import { ClubsBar } from "./ClubsBar";
 

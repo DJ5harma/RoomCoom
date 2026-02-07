@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { chatyyRouter } from "./entities/plugins/chatyy/routes";
-import { meetyyRouter } from "./entities/plugins/meetyy/routes";
+import { chatyyRouter } from "./plugins/chatyy/routes";
+import { meetyyRouter } from "./plugins/meetyy/routes";
 
 export const pluginRouter = Router();
 

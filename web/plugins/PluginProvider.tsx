@@ -2,9 +2,9 @@
 
 import { InstanceType, UserI, uuid } from "@/utils/types";
 import { createContext, ReactNode, useContext, useEffect } from "react";
-import { useUser } from "../user/UserProvider";
-import { useRoom } from "../room/RoomProvider";
-import { useSpace } from "../space/SpaceProvider";
+import { useUser } from "../entities/user/UserProvider";
+import { useRoom } from "../entities/room/RoomProvider";
+import { useSpace } from "../entities/space/SpaceProvider";
 import axios, { AxiosInstance } from "axios";
 import { API_URL } from "@/utils/Api";
 import { socket } from "@/utils/SocketConnector";

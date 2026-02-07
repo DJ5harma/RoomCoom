@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
-import { AuthState } from "../../../auth/auth.state";
+import { AuthState } from "../../auth/auth.state";
 import { MESSAGE } from "./message.model";
-import { io } from "../../../main";
+import { io } from "../../main";
 
 class MessageControllerImpl {
 	async storeMessage(req: Request, res: Response) {

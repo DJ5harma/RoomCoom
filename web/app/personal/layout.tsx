@@ -1,6 +1,6 @@
 "use client";
 
-import { PluginProvider } from "@/entities/plugins/PluginProvider";
+import { PluginProvider } from "@/plugins/PluginProvider";
 import { ReactNode } from "react";
 
 export default function Layout({ children }: { children: ReactNode }) {
