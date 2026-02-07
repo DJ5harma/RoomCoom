@@ -32,6 +32,7 @@ interface RoomI {
 	name: string;
 	creator: UserI;
 	members: { user: UserI }[];
+	clubs: { club: SpaceI }[];
 }
 
 export type { PluginI, UserI, RoomI, SpaceI, PluginLocationType, InstanceType };
