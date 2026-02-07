@@ -29,9 +29,6 @@ class SpaceServiceImpl {
 	getSpaceById = async (spaceId: uuid) =>
 		await SPACE.findById(spaceId).populate(populateOptions);
 
-	getSpacesInRoom = async (roomId: uuid) =>
-		await SPACE.find({ room: roomId }).populate(populateOptions);
-
 	getUserSpaces = async (userId: uuid) =>
 		await SPACE.find({ members: userId }).populate(populateOptions);
 
@@ -57,6 +54,11 @@ class SpaceServiceImpl {
 			members: { $all: memberIds, $size: memberIds.length },
 		});
 		return !!exists;
+	};
+
+	getSpacesBySpaceIds = async (spaceIds: uuid[]) => {
+		const spaces = await SPACE.find({ _id: { $in: spaceIds } });
+		return spaces;
 	};
 }
 

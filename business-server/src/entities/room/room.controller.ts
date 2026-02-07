@@ -35,8 +35,10 @@ class RoomControllerImpl {
 	async get(req: Request, res: Response) {
 		const { roomId } = req.params as { roomId: uuid };
 		const room = await RoomService.getRoomById(roomId);
-		const spaces = await SpaceService.getSpacesInRoom(roomId);
-		res.json({ room, spaces });
+		const clubs = await SpaceService.getSpacesBySpaceIds(
+			room!.clubs.map(({ club }) => club) as uuid[],
+		);
+		res.json({ room, clubs });
 	}
 	async addClub(req: Request, res: Response) {
 		const { roomId } = req.params as { roomId: uuid };
