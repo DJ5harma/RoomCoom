@@ -1,6 +1,7 @@
 "use client";
 import { ModalWrapper } from "@/components/ModalWrapper";
 import { Button } from "@/components/ui/Button";
+import { ClubForm } from "@/entities/room/ClubForm";
 import { useRoom } from "@/entities/room/RoomProvider";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,8 +24,7 @@ export const ClubsBar = () => {
 						</Button>
 					}
 				>
-					{/* <RoomForm /> */}
-					CLUB FORM
+					<ClubForm />
 				</ModalWrapper>
 			</div>
 			<p>Clubs:</p>
