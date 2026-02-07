@@ -8,7 +8,7 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { RoomI, UserI, uuid } from "@/utils/types";
+import { RoomI, SpaceI, UserI, uuid } from "@/utils/types";
 import { Loading } from "@/components/Loading";
 import { NotFound } from "@/components/NotFound";
 import { socket } from "@/utils/SocketConnector";
@@ -29,6 +29,8 @@ export const RoomProvider = ({
 
 	const [loading, setLoading] = useState(true);
 
+	console.log({ room });
+
 	useEffect(() => {
 		(async () => {
 			const [roomData] = await Promise.all([Api.get(`/room/${roomId}`)]);
@@ -39,10 +41,9 @@ export const RoomProvider = ({
 
 	useEffect(() => {
 		if (!room) return;
-		socket.on(`room:${room.id}:add:club`, (club) => {
-			console.log({ socketClub: club });
+		socket.on(`room:${room.id}:add:club`, (club: SpaceI) => {
 			if (!room) return;
-			setRoom({ ...room, clubs: [...room!.clubs, club] });
+			setRoom({ ...room, clubs: [...room!.clubs, { club }] });
 		});
 	}, [room]);
 
