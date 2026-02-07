@@ -40,13 +40,13 @@ I've made helpers to make your life better.
 so don't worry about it, just pass it
 
 ### Frontend: `web\plugins\useHelper.ts` gives you things like: 
-{
+`{
 	members,
 	easyApi,
 	subscribeSignal: (stream, listener) => Socket;
 	unsubscribeSignal: (stream: string) => Socket;
 	sourceId
-}
+}`
 
 (i) `members`: are the members of the place where your plugin is running (`Personal / Direct / Room / Club`) but your plugin doesn't even need to know where its running... just members of any place it may be, are available to you.
 
