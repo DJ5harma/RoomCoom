@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import { AuthState } from "../../auth/auth.state";
 import { MESSAGE } from "./message.model";
-import { io } from "../../main";
+import { helper } from "../../helper";
 
 class MessageControllerImpl {
 	async storeMessage(req: Request, res: Response) {
@@ -15,7 +15,7 @@ class MessageControllerImpl {
 			from: userId,
 		});
 		const message = await MESSAGE.findById(messageId).populate("from");
-		io.to(sourceId).emit("chatyy:message", message);
+		helper.sendSignal(req, "chatyy:message", message);
 		res.json({ message });
 	}
 	async get(req: Request, res: Response) {

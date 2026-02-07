@@ -11,7 +11,7 @@ import {
 import { Loading } from "@/components/Loading";
 import { NotFound } from "@/components/NotFound";
 import { Meetyy } from "./Meetyy";
-import { usePlugin } from "../PluginProvider";
+import { useHelper } from "../useHelper";
 
 const context = createContext<{
 	liveToken: string;
@@ -22,7 +22,7 @@ const context = createContext<{
 export const MeetyyPlugin = () => {
 	const [liveToken, setLiveToken] = useState<string | null>(null);
 	const [loadingLiveToken, setLoadingLiveToken] = useState(true);
-	const { easyApi } = usePlugin();
+	const { easyApi } = useHelper();
 
 	const [isJoined, setIsJoined] = useState(false);
 

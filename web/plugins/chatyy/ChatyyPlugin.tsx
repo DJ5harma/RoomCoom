@@ -10,8 +10,7 @@ import {
 import { MessageI } from "./types";
 import { Loading } from "@/components/Loading";
 import { Chatyy } from "./Chatyy";
-import { usePlugin } from "../PluginProvider";
-import { socket } from "@/utils/SocketConnector";
+import { useHelper } from "../useHelper";
 
 const context = createContext<{
 	messages: MessageI[];
@@ -19,7 +18,7 @@ const context = createContext<{
 } | null>(null);
 
 export const ChatyyPlugin = () => {
-	const { easyApi } = usePlugin();
+	const { easyApi, subscribeSignal, unsubscribeSignal } = useHelper();
 	const [messages, setMessages] = useState<MessageI[]>([]);
 	const [loadingMessages, setLoadingMessages] = useState(true);
 
@@ -32,12 +31,11 @@ export const ChatyyPlugin = () => {
 			.finally(() => {
 				setLoadingMessages(false);
 			});
-
-		socket.on("chatyy:message", (message) => {
+		subscribeSignal("chatyy:message", (message) => {
 			setMessages((p) => [...p, message]);
 		});
 		return () => {
-			socket.off("chatyy:message");
+			unsubscribeSignal("chatyy:message");
 		};
 	}, []);
 

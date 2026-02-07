@@ -8,11 +8,18 @@ import { useSpace } from "../entities/space/SpaceProvider";
 import axios, { AxiosInstance } from "axios";
 import { API_URL } from "@/utils/Api";
 import { socket } from "@/utils/SocketConnector";
+import { Socket } from "socket.io-client";
 
 type PluginContextType = {
 	members: UserI[];
 	easyApi: AxiosInstance;
 	sourceId: uuid;
+	subscribeSignal: (
+		stream: string,
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		listener: (...args: any[]) => void,
+	) => Socket;
+	unsubscribeSignal: (stream: string) => Socket;
 };
 
 const context = createContext<PluginContextType | null>(null);
@@ -57,7 +64,19 @@ const PersonalPluginProvider = ({ children }: { children: ReactNode }) => {
 	const sourceId = user.id;
 
 	return (
-		<context.Provider value={{ members, easyApi, sourceId }}>
+		<context.Provider
+			value={{
+				members,
+				easyApi,
+				sourceId,
+				subscribeSignal(stream, listener) {
+					return socket.on(`${sourceId}:${stream}`, listener);
+				},
+				unsubscribeSignal(stream) {
+					return socket.off(`${sourceId}:${stream}`);
+				},
+			}}
+		>
 			{children}
 		</context.Provider>
 	);
@@ -82,7 +101,19 @@ const DirectPluginProvider = ({ children }: { children: ReactNode }) => {
 	const sourceId = space.id;
 
 	return (
-		<context.Provider value={{ members, easyApi, sourceId }}>
+		<context.Provider
+			value={{
+				members,
+				easyApi,
+				sourceId,
+				subscribeSignal(stream, listener) {
+					return socket.on(`${sourceId}:${stream}`, listener);
+				},
+				unsubscribeSignal(stream) {
+					return socket.off(`${sourceId}:${stream}`);
+				},
+			}}
+		>
 			{children}
 		</context.Provider>
 	);
@@ -106,7 +137,19 @@ const ClubPluginProvider = ({ children }: { children: ReactNode }) => {
 	const sourceId = clubId;
 
 	return (
-		<context.Provider value={{ members, easyApi, sourceId }}>
+		<context.Provider
+			value={{
+				members,
+				easyApi,
+				sourceId,
+				subscribeSignal(stream, listener) {
+					return socket.on(`${sourceId}:${stream}`, listener);
+				},
+				unsubscribeSignal(stream) {
+					return socket.off(`${sourceId}:${stream}`);
+				},
+			}}
+		>
 			{children}
 		</context.Provider>
 	);
@@ -129,7 +172,19 @@ const RoomPluginProvider = ({ children }: { children: ReactNode }) => {
 		};
 	}, []);
 	return (
-		<context.Provider value={{ members, easyApi, sourceId }}>
+		<context.Provider
+			value={{
+				members,
+				easyApi,
+				sourceId,
+				subscribeSignal(stream, listener) {
+					return socket.on(`${sourceId}:${stream}`, listener);
+				},
+				unsubscribeSignal(stream) {
+					return socket.off(`${sourceId}:${stream}`);
+				},
+			}}
+		>
 			{children}
 		</context.Provider>
 	);
