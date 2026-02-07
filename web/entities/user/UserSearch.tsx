@@ -6,9 +6,11 @@ import { useUser } from "./UserProvider";
 
 export const UserSearch = ({
 	onSelected,
+	selectLimit,
 	localUsers,
 }: {
 	onSelected: (users: UserI[]) => void;
+	selectLimit?: number;
 	localUsers?: UserI[];
 }) => {
 	const [foundUsers, setFoundUsers] = useState<UserI[]>(
@@ -33,16 +35,21 @@ export const UserSearch = ({
 	}, [query, localUsers]);
 
 	function handleClick(user: UserI) {
+		let newChosenUsers = [...chosenUsers];
 		if (chosenUsers.includes(user)) {
-			setChosenUsers((p) => p.filter((c) => c.id !== user.id));
+			newChosenUsers = newChosenUsers.filter(c => c.id !== user.id);
 		} else {
-			setChosenUsers((p) => [...p, user]);
+			newChosenUsers.push(user);
 		}
-	}
-	useEffect(() => {
-		onSelected(chosenUsers);
-	}, [onSelected, chosenUsers]);
+		setChosenUsers(newChosenUsers);
+		if (selectLimit && newChosenUsers.length >= selectLimit) {
+			onSelected(newChosenUsers);
+			close();
+			return;
+		}
 
+	}
+	
 	const { user: myself } = useUser();
 	return (
 		<div className="flex flex-col gap-4">
