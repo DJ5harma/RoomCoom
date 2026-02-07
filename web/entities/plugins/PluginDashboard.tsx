@@ -1,33 +1,33 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import { ChatyyPlugin } from "./chatyy/ChatyyPlugin";
-import { MeetyyPlugin } from "./meetyy/MeetyyPlugin";
-import { DefaultyyPlugin } from "./_defaultyy/DefaultyyPlugin";
+import { useState } from "react";
+
 import { PluginSidebar } from "./PluginSidebar";
+import { PLUGIN_MAP } from "./PLUGIN_MAP";
 
 export const PluginDashboard = () => {
 	const searchParams = useSearchParams();
 	const active = searchParams.get("plugin") ?? "defaultyy";
 
-	const arr = [
-		{ name: "defaultyy", node: <DefaultyyPlugin /> },
-		{ name: "chatyy", node: <ChatyyPlugin /> },
-		{ name: "meetyy", node: <MeetyyPlugin /> },
-	];
+	const [mounted, setMounted] = useState(() => new Set(["defaultyy"]));
+
+	if (!mounted.has(active)) {
+		setMounted((prev) => new Set(prev).add(active));
+	}
 
 	return (
 		<div className="w-full flex justify-between h-screen">
 			<div className="flex-1 h-full">
-				{arr.map(({ name, node }, i) => {
-					return (
+				{Object.entries(PLUGIN_MAP).map(([name, Comp]) =>
+					mounted.has(name) ? (
 						<div
-							key={i}
-							className={"h-full " + (active === name ? "block" : "hidden")}
+							key={name}
+							className={active === name ? "block h-full" : "hidden"}
 						>
-							{node}
+							<Comp />
 						</div>
-					);
-				})}
+					) : null,
+				)}
 			</div>
 
 			<PluginSidebar activePlugin={active} />

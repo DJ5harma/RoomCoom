@@ -1,14 +1,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-const plugins = ["defaultyy", "chatyy", "meetyy"];
+import { PLUGIN_MAP } from "./PLUGIN_MAP";
 
 export const PluginSidebar = ({ activePlugin }: { activePlugin: string }) => {
 	const pathname = usePathname();
 
 	return (
 		<aside className="flex flex-col gap-2">
-			{plugins.map((plugin) => {
+			{Object.keys(PLUGIN_MAP).map((plugin) => {
 				const isActive = activePlugin === plugin;
 				return (
 					<Link
