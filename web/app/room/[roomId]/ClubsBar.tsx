@@ -9,7 +9,7 @@ import { BiPlus } from "react-icons/bi";
 
 export const ClubsBar = () => {
 	const {
-		room: { clubs },
+		room: { clubs, id: roomId },
 		getUserById,
 	} = useRoom();
 
@@ -33,7 +33,7 @@ export const ClubsBar = () => {
 					<Link
 						key={id}
 						className="flex flex-col items-center gap-2 p-2 border rounded-2xl text-wrap"
-						href={`/room/${id}`}
+						href={`/room/${roomId}/club/${id}`}
 					>
 						<p className="">{name}</p>
 						<div className="flex">
