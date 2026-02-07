@@ -21,7 +21,7 @@ export const ClubForm = () => {
 		const roomName = data.get("club-name");
 		const members = chosenMembers.map(({ id }) => ({ user: id }));
 
-		Api.post("/room/club", { name: roomName, members }).then(() => {
+		Api.post(`/room/${room.id}/club`, { name: roomName, members }).then(() => {
 			close();
 		});
 	}

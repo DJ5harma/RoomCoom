@@ -8,7 +8,10 @@ const roomPopulateOptions = [
 		populate: { path: "user" },
 	},
 	"creator",
-	"clubs",
+	{
+		path: "clubs",
+		populate: {path: "club"}
+	},
 ];
 
 class RoomServiceImpl {
@@ -24,7 +27,7 @@ class RoomServiceImpl {
 	getRoomMemberIds = async (roomId: uuid) => {
 		const room = await ROOM.findById(roomId).select("members");
 		if (!room) throw new AppError(404, "Room Not Found");
-		return room.members.map(({ user: userId }) => userId) as uuid[];
+		return room.members.map(({ user: userId }) => userId.toString()) as uuid[];
 	};
 
 	getUserRooms = async (userId: uuid) =>

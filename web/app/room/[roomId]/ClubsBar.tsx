@@ -12,6 +12,7 @@ export const ClubsBar = () => {
 		room: { clubs, id: roomId },
 		getUserById,
 	} = useRoom();
+	console.log({clubs});
 
 	return (
 		<div className="h-full p-2 flex flex-col gap-2 bg-red-950">
@@ -29,6 +30,7 @@ export const ClubsBar = () => {
 			</div>
 			<p>Clubs:</p>
 			{clubs.map(({ club: { id, name, members } }) => {
+				
 				return (
 					<Link
 						key={id}
