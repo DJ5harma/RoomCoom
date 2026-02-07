@@ -34,22 +34,19 @@ export const RoomsBar = () => {
 					>
 						<p className="">{name}</p>
 						<div className="flex">
-							{members.slice(0, 3).map((member) => {
+							{members.slice(0, 4).map((member) => {
 								return (
-									<div
+									<Image
 										key={member.user.id}
-										className="flex flex-col max-h-full"
-									>
-										<Image
-											src={member.user.pictureUrl}
-											alt={name}
-											height={25}
-											width={25}
-											className="rounded-full"
-										/>
-									</div>
+										src={member.user.pictureUrl}
+										alt={name}
+										height={25}
+										width={25}
+										className="rounded-full"
+									/>
 								);
 							})}
+							<p className="pl-1">{members.length > 4 && " ..."}</p>
 						</div>
 					</Link>
 				);
