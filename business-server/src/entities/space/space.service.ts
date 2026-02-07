@@ -16,7 +16,7 @@ class SpaceServiceImpl {
 		const space = await SPACE.find({
 			name: "DIRECT",
 			members: { $in: userId },
-		});
+		}).populate(populateOptions);
 		return space;
 	};
 	addUserToSpace = async (spaceId: uuid, userId: uuid) => {
