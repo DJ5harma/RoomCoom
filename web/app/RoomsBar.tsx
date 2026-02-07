@@ -29,7 +29,7 @@ export const RoomsBar = () => {
 				return (
 					<Link
 						key={id}
-						className="flex flex-col items-center gap-2 p-2 border rounded-2xl text-wrap"
+						className="flex flex-col items-center gap-2 p-2 border rounded-2xl text-wrap bg-red-900"
 						href={`/room/${id}`}
 					>
 						<p className="">{name}</p>
