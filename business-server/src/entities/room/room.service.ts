@@ -2,10 +2,14 @@ import { AppError } from "../../error/AppError";
 import type { RoomI, uuid } from "../../types";
 import { ROOM } from "./room.model";
 
-const roomPopulateOptions = {
-	path: "members clubs",
-	populate: { path: "user" },
-};
+const roomPopulateOptions = [
+	{
+		path: "members",
+		populate: { path: "user" },
+	},
+	"creator",
+	"clubs",
+];
 
 class RoomServiceImpl {
 	createRoom = async (

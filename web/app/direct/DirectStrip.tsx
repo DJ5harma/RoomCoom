@@ -1,10 +1,10 @@
-import { useRoom } from "@/entities/room/RoomProvider";
+import { useSpace } from "@/entities/space/SpaceProvider";
 import Image from "next/image";
 
-export const RoomStrip = () => {
+export const DirectStrip = () => {
 	const {
-		room: { id, name, creator, members },
-	} = useRoom();
+		space: { id, name, members, creator },
+	} = useSpace();
 
 	return (
 		<div className="w-full flex items-center bg-red-900 p-1 gap-5">
@@ -13,7 +13,7 @@ export const RoomStrip = () => {
 				<p>{name}</p>
 			</div>
 			<div className="flex gap-1 bg-black rounded-xl p-1">
-				{members.map(({ user }) => {
+				{members.map((user) => {
 					return (
 						<div key={user.id}>
 							<Image

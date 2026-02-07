@@ -30,7 +30,7 @@ interface UserI {
 interface RoomI {
 	id: uuid;
 	name: string;
-	creator: ref_uuid;
+	creator: UserI;
 	members: { user: UserI }[];
 }
 

@@ -2,7 +2,7 @@ import { io } from "../../main";
 import type { uuid } from "../../types";
 import { SPACE } from "./space.model";
 
-const populateOptions = "members";
+const populateOptions = "members creator";
 
 class SpaceServiceImpl {
 	createSpace = async (name: string, creatorId: uuid, memberIds: uuid[]) => {
