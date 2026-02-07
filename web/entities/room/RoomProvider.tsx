@@ -11,6 +11,7 @@ import {
 import { RoomI, UserI, uuid } from "@/utils/types";
 import { Loading } from "@/components/Loading";
 import { NotFound } from "@/components/NotFound";
+import { socket } from "@/utils/SocketConnector";
 
 const context = createContext<{
 	room: RoomI;
@@ -36,11 +37,20 @@ export const RoomProvider = ({
 		})();
 	}, [roomId]);
 
+	useEffect(() => {
+		if (!room) return;
+		socket.on(`room:${room.id}:add:club`, (club) => {
+			console.log({ socketClub: club });
+			if (!room) return;
+			setRoom({ ...room, clubs: [...room!.clubs, club] });
+		});
+	}, [room]);
+
 	if (loading) return <Loading />;
 	if (!room) return <NotFound />;
 
 	function getUserById(userId: uuid | UserI) {
-		if(typeof userId !== 'string') return userId;
+		if (typeof userId !== "string") return userId;
 		for (const member of room!.members) {
 			if (userId === member.user.id) return member.user;
 		}
