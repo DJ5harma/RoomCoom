@@ -7,24 +7,25 @@ import { UserI } from "@/utils/types";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { BiSearch } from "react-icons/bi";
 
 export const DirectSidebar = () => {
 	const { directSpaces } = useUserDirectSpaces();
 	const { user } = useUser();
 
 	function handleUserSearchSelection(users: UserI[]) {
-        console.log("logged:",{users});
-        
-        if(users.length !== 1) return;
+		console.log("logged:", { users });
+
+		if (users.length !== 1) return;
 		const peer = users[0];
-        for(const ds of directSpaces){
-            for(const member of ds.members){
-                if(member.id === peer.id){
-                    router.push(`/direct/${ds.id}`);
-                    return;
-                }
-            }
-        }
+		for (const ds of directSpaces) {
+			for (const member of ds.members) {
+				if (member.id === peer.id) {
+					router.push(`/direct/${ds.id}`);
+					return;
+				}
+			}
+		}
 		router.push(`/direct/connect/${peer.id}`);
 	}
 
@@ -34,7 +35,12 @@ export const DirectSidebar = () => {
 			<p>Your Direct Connections:</p>
 			<div>
 				<ModalWrapper
-					Opener={<Button className="bg-blue-800">Search User +</Button>}
+					Opener={
+						<Button className="bg-blue-800 flex items-center">
+							<BiSearch size={25} />
+							<p>Connect user +</p>
+						</Button>
+					}
 				>
 					<UserSearch onSelected={handleUserSearchSelection} selectLimit={1} />
 				</ModalWrapper>
