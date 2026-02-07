@@ -1,4 +1,4 @@
-There are 4 concepts for which your plugins will automatically using my helpers: 
+There are 4 concepts for which your plugin will automatically work: 
 
 `Personal`: user's everything personal, nobody else has access : the only member is user itself only.
 `Direct`: user and a single other user have access (1 to 1): the 2 members are [user, otherUser] only.
