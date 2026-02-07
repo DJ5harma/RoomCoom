@@ -14,7 +14,7 @@ import { NotFound } from "@/components/NotFound";
 
 const context = createContext<{
 	room: RoomI;
-	getUserById: (userId: uuid) => UserI;
+	getUserById: (userId: uuid | UserI) => UserI;
 } | null>(null);
 
 export const RoomProvider = ({
@@ -39,7 +39,8 @@ export const RoomProvider = ({
 	if (loading) return <Loading />;
 	if (!room) return <NotFound />;
 
-	function getUserById(userId: uuid) {
+	function getUserById(userId: uuid | UserI) {
+		if(typeof userId !== 'string') return userId;
 		for (const member of room!.members) {
 			if (userId === member.user.id) return member.user;
 		}

@@ -46,8 +46,6 @@ class RoomControllerImpl {
 		if (!memberIds.includes(creatorId)) memberIds.push(creatorId);
 
 		const existingMemberIds = await RoomService.getRoomMemberIds(roomId);
-		console.log({existingMemberIds});
-		
 
 		for (const tid of memberIds) {
 			if (!existingMemberIds.includes(tid)) {

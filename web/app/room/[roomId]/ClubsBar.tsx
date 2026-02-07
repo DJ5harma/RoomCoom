@@ -12,7 +12,6 @@ export const ClubsBar = () => {
 		room: { clubs, id: roomId },
 		getUserById,
 	} = useRoom();
-	console.log({clubs});
 
 	return (
 		<div className="h-full p-2 flex flex-col gap-2 bg-red-950">
@@ -34,7 +33,7 @@ export const ClubsBar = () => {
 				return (
 					<Link
 						key={id}
-						className="flex flex-col items-center gap-2 p-2 border rounded-2xl text-wrap"
+						className="flex flex-col items-center gap-2 p-2 border rounded-2xl text-wrap bg-green-900"
 						href={`/room/${roomId}/club/${id}`}
 					>
 						<p className="">{name}</p>

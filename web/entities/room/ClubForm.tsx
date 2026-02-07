@@ -19,11 +19,13 @@ export const ClubForm = () => {
 		e.preventDefault();
 		const data = new FormData(e.currentTarget);
 		const roomName = data.get("club-name");
-		const members = chosenMembers.map(({ id }) => ({ user: id }));
+		const memberIds = chosenMembers.map(({ id }) => id);
 
-		Api.post(`/room/${room.id}/club`, { name: roomName, members }).then(() => {
-			close();
-		});
+		Api.post(`/room/${room.id}/club`, { name: roomName, memberIds }).then(
+			() => {
+				close();
+			},
+		);
 	}
 	return (
 		<form onSubmit={createRoom} className="flex flex-col gap-4">

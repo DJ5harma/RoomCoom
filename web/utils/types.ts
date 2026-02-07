@@ -3,7 +3,6 @@ export type ref_uuid = object | uuid;
 
 export type Data = object | string | number;
 
-
 interface UserI {
 	id: uuid;
 	name: string;
@@ -27,20 +26,13 @@ interface SpaceI {
 	state: object;
 	creator: UserI;
 }
-interface ClubI {
-	id: uuid;
-	name: string;
-	members: uuid[];
-	state: object;
-	creator: UserI;
-}
 
 interface RoomI {
 	id: uuid;
 	name: string;
 	creator: UserI;
 	members: { user: UserI }[];
-	clubs: { club: ClubI }[];
+	clubs: { club: SpaceI }[];
 }
 
 export type { PluginI, UserI, RoomI, SpaceI, PluginLocationType, InstanceType };

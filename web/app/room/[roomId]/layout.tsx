@@ -4,22 +4,12 @@ import { RoomProvider } from "@/entities/room/RoomProvider";
 import { useParams } from "next/navigation";
 import { uuid } from "@/utils/types";
 import { PluginProvider } from "@/entities/plugins/PluginProvider";
-import { RoomStrip } from "./RoomStrip";
-import { ClubsBar } from "./ClubsBar";
 
 export default function Layout({ children }: { children: ReactNode }) {
 	const { roomId } = useParams() as { roomId: uuid };
 	return (
 		<RoomProvider roomId={roomId}>
-			<PluginProvider instanceType="room">
-				<div className="w-full flex flex-col">
-					<RoomStrip />
-					<div className="h-full flex">
-						<ClubsBar />
-						{children}
-					</div>
-				</div>
-			</PluginProvider>
+			<PluginProvider instanceType="room">{children}</PluginProvider>
 		</RoomProvider>
 	);
 }
