@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { BiSearch } from "react-icons/bi";
 
-export const DirectSidebar = () => {
+export const DirectsBar = () => {
 	const { directSpaces } = useUserDirectSpaces();
 	const { user } = useUser();
 
@@ -31,8 +31,7 @@ export const DirectSidebar = () => {
 
 	const router = useRouter();
 	return (
-		<div className="h-full p-2 flex flex-col gap-2">
-			<p>Your Direct Connections:</p>
+		<div className="h-full p-2 flex flex-col gap-2 bg-blue-950">
 			<div>
 				<ModalWrapper
 					Opener={
@@ -45,6 +44,7 @@ export const DirectSidebar = () => {
 					<UserSearch onSelected={handleUserSearchSelection} selectLimit={1} />
 				</ModalWrapper>
 			</div>
+			<p>Your Direct Connections:</p>
 			{directSpaces.map(({ id, name, members }) => {
 				const peer = members.filter(({ id }) => id !== user.id)[0];
 				return (

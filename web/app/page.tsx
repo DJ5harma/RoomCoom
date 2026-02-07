@@ -1,12 +1,16 @@
 "use client";
 import Link from "next/link";
-import { DirectSidebar } from "./DirectSidebar";
+import { DirectsBar } from "./DirectsBar";
+import { RoomsBar } from "./RoomsBar";
 
 export default function Page() {
 	return (
 		<div className="w-full h-screen flex items-center justify-around">
 			<div className="h-full">
-				<DirectSidebar />
+				<DirectsBar />
+			</div>
+			<div className="h-full">
+				<RoomsBar />
 			</div>
 			<div className="flex-1">
 				<Link
