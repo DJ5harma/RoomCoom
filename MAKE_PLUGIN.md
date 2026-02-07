@@ -1,9 +1,9 @@
 There are 4 concepts for which your plugin will automatically work: 
 
-`Personal`: user's everything personal, nobody else has access : the only member is user itself only.
-`Direct`: user and a single other user have access (1 to 1): the 2 members are [user, otherUser] only.
-`Room`: room has many members (think of like a big company) (1 room -> many member users)
-`Club`: a club comes under a room (think of clubs like different departments in the company), so a room can have multiple clubs, and each club has members that are a subset of its room's members.
+- `Personal`: user's everything personal, nobody else has access : the only member is user itself only.
+- `Direct`: user and a single other user have access (1 to 1): the 2 members are [user, otherUser] only.
+- `Room`: room has many members (think of like a big company) (1 room -> many member users)
+- `Club`: a club comes under a room (think of clubs like different departments in the company), so a room can have multiple clubs, and each club has members that are a subset of its room's members.
 
 
 Don't worry! your plugin does not even have to think about them, it will automatically work with all of them when it uses my simple helper abstraction.
