@@ -24,7 +24,7 @@ export const PluginDashboard = () => {
 							key={name}
 							className={active === name ? "block h-full" : "hidden"}
 						>
-							<Comp />
+							<Comp.node />
 						</div>
 					) : null,
 				)}
