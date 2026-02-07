@@ -7,25 +7,27 @@ export const RoomStrip = () => {
 	} = useRoom();
 
 	return (
-		<div className="w-full flex items-center bg-red-900 p-1 gap-5">
-			<div className="flex">
-				<p className="font-semibold">ROOM: </p>
-				<p>{name}</p>
-			</div>
-			<div className="flex gap-1 bg-black rounded-xl p-1">
-				{members.map(({ user }) => {
-					return (
-						<div key={user.id}>
-							<Image
-								src={user.pictureUrl}
-								width={25}
-								height={25}
-								alt={user.name}
-								className="rounded-full"
-							/>
-						</div>
-					);
-				})}
+		<div className="w-full flex items-center bg-red-900 p-1 gap-5 justify-between">
+			<div className="flex items-center gap-2">
+				<div className="flex">
+					<p className="font-semibold">ROOM: </p>
+					<p>{name}</p>
+				</div>
+				<div className="flex gap-1 bg-black rounded-xl p-1">
+					{members.map(({ user }) => {
+						return (
+							<div key={user.id}>
+								<Image
+									src={user.pictureUrl}
+									width={25}
+									height={25}
+									alt={user.name}
+									className="rounded-full"
+								/>
+							</div>
+						);
+					})}
+				</div>
 			</div>
 			<div className="flex bg-black rounded-xl py-1 px-2 gap-1 items-center">
 				<p className="text-sm">Created By:</p>
