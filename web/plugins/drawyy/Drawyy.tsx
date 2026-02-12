@@ -7,7 +7,10 @@ export const Drawyy = () => {
 	return (
 		<Stage width={containerSize.width} height={containerSize.height}>
 			<Layer>
-				<Circle radius={50} fill="red" x={100} y={100} />
+				<Circle radius={50} fill="red" x={100} y={100}
+				
+				draggable
+				/>
 			</Layer>
 		</Stage>
 	);

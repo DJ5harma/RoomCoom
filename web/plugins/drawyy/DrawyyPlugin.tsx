@@ -3,6 +3,7 @@ import { ContainerProvider } from "./providers/ContainerProvider";
 import { Drawyy } from "./Drawyy";
 import { ToolSelectionProvider } from "./providers/ToolSelectionProvider";
 import { ToolSelector } from "./components/ToolSelector";
+import { ElementsProvider } from "./providers/ElementsProvider";
 
 export const DrawyyPlugin = () => {
 	return (
@@ -11,7 +12,9 @@ export const DrawyyPlugin = () => {
 				<div className="absolute bottom-4 w-full justify-center flex z-50">
 					<ToolSelector />
 				</div>
-				<Drawyy />
+				<ElementsProvider>
+					<Drawyy />
+				</ElementsProvider>
 			</ToolSelectionProvider>
 		</ContainerProvider>
 	);
