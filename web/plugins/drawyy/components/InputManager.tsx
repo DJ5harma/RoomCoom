@@ -1,26 +1,14 @@
-import React from "react";
 import { useToolSelection } from "../providers/ToolSelectionProvider";
 import { CircleMaker } from "../makers/CircleMaker";
+import { useUser } from "@/entities/user/UserProvider";
 
 export const InputManager = () => {
 	const { selectedTool } = useToolSelection();
-
-	// switch (selectedTool) {
-	// 	case "Circle":
-	// 		return <CircleMaker myKey={45} />
-	// 	case "Rectangle":
-	// 		break;
-	// 	case "Pencil":
-	// 		break;
-
-	// 	default:
-	// 		break;
-	// }
-	// return <div className="">InputManager</div>;
+	const { user } = useUser();
 
 	return (
-		<div className="w-full h-full border z-50 absolute top-0">
-			<CircleMaker myKey={45} />
+		<div className="w-full h-full border z-50 absolute top-0 left-0">
+			<CircleMaker myKey={`${user.id}:circle:maker`} />
 		</div>
 	);
 };

@@ -11,21 +11,19 @@ export const Drawyy = () => {
 	return (
 		<Stage width={containerSize.width} height={containerSize.height}>
 			<Layer>
-				<Circle radius={50} fill="red" x={100} y={100} draggable />
-				{Object.entries(elements).map(([k, { element }]) => {
+				{Object.entries(elements).map(([key, { element }]) => {
 					switch (element.name) {
 						case "circle":
 							const circle = element as CircleI;
-							<Circle
-								radius={circle.radius}
-								fill="red"
-								x={circle.position.x}
-								y={circle.position.y}
-								draggable
-							/>;
-
-							break;
-
+							return (
+								<Circle
+									key={key}
+									radius={circle.radius}
+									fill="red"
+									x={circle.position.x}
+									y={circle.position.y}
+								/>
+							);
 						default:
 							break;
 					}

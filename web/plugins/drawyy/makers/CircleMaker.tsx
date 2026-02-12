@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useElements } from "../providers/ElementsProvider";
 import { CircleI, ElementI } from "../types";
 
-export const CircleMaker = ({ myKey }: { myKey: number }) => {
-	const { getElement, updateElement } = useElements();
+export const CircleMaker = ({ myKey }: { myKey: string }) => {
+	const { getElement, updateElement, completeElement } = useElements();
 
 	const name: ElementI["name"] = "circle";
 
@@ -12,8 +12,12 @@ export const CircleMaker = ({ myKey }: { myKey: number }) => {
 	function updateMe(circle: Omit<CircleI, "name">) {
 		updateElement(myKey, { name, ...circle });
 	}
+	function completeMe() {
+		completeElement(myKey);
+	}
+
 	function getMe() {
-		return getElement(myKey) as CircleI;
+		return getElement(myKey)! as CircleI;
 	}
 
 	return (
@@ -25,7 +29,7 @@ export const CircleMaker = ({ myKey }: { myKey: number }) => {
 				setIsMaking(true);
 			}}
 			onMouseMove={(e) => {
-				if (isMaking) return;
+				if (!isMaking) return;
 				const position = { x: e.clientX, y: e.clientY };
 				const me = getMe();
 				const radius = Math.sqrt(
@@ -35,6 +39,7 @@ export const CircleMaker = ({ myKey }: { myKey: number }) => {
 				updateMe({ ...me, radius });
 			}}
 			onMouseUp={() => {
+				completeMe();
 				setIsMaking(false);
 			}}
 		/>
