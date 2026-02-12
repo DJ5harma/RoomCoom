@@ -6,12 +6,12 @@ export const PluginSidebar = ({ activePlugin }: { activePlugin: string }) => {
 	const pathname = usePathname();
 
 	return (
-		<aside className="flex flex-col gap-2">
+		<aside className="flex flex-col gap-2 p-2">
 			{Object.keys(PLUGIN_MAP).map((plugin) => {
 				const isActive = activePlugin === plugin;
 				return (
 					<Link
-						className={`p-2 ${isActive ? "bg-green-500" : "bg-white"} text-black`}
+						className={`p-2 ${isActive ? "bg-green-500" : "bg-white"} text-black capitalize`}
 						href={`${pathname}?plugin=${plugin}`}
 						key={plugin}
 					>
