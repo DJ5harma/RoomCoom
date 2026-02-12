@@ -9,7 +9,7 @@ export const Drawyy = () => {
 	const { elements } = useElements();
 
 	return (
-		<Stage width={containerSize.width} height={containerSize.height}>
+		<Stage width={containerSize.width} height={containerSize.height} className="absolute inset-0">
 			<Layer>
 				{Object.entries(elements).map(([key, { element }]) => {
 					switch (element.name) {

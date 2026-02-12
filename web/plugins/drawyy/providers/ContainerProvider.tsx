@@ -22,8 +22,8 @@ export const ContainerProvider = ({ children }: { children: ReactNode }) => {
 			if (!containerRef.current) return;
 
 			setContainerSize({
-				width: containerRef.current.offsetWidth,
-				height: containerRef.current.offsetHeight,
+				width: containerRef.current.clientWidth,
+				height: containerRef.current.clientHeight,
 			});
 		};
 
@@ -44,5 +44,5 @@ export const ContainerProvider = ({ children }: { children: ReactNode }) => {
 export const useContainer = () => {
 	const x = useContext(context);
 	if (!x) throw new Error("useContainer should be used inside a Container");
-    return x;
+	return x;
 };
