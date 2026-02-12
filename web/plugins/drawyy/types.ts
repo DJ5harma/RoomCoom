@@ -17,5 +17,4 @@ export interface ElementI {
 }
 export interface CircleI extends ElementI {
 	radius: number;
-	center: Vec2;
 }
