@@ -35,7 +35,7 @@ export const ContainerProvider = ({ children }: { children: ReactNode }) => {
 		return () => observer.disconnect();
 	}, []);
 	return (
-		<div ref={containerRef} className="h-full">
+		<div ref={containerRef} className="h-full relative">
 			<context.Provider value={{ containerSize }}>{children}</context.Provider>
 		</div>
 	);
