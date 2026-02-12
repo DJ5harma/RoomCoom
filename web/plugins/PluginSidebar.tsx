@@ -11,7 +11,7 @@ export const PluginSidebar = ({ activePlugin }: { activePlugin: string }) => {
 				const isActive = activePlugin === plugin;
 				return (
 					<Link
-						className={`p-2 ${isActive ? "bg-green-500" : "bg-white"} text-black capitalize`}
+						className={`p-2 ${isActive ? "bg-green-500" : "bg-white"} text-black capitalize rounded-xl`}
 						href={`${pathname}?plugin=${plugin}`}
 						key={plugin}
 					>
