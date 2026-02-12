@@ -1,5 +1,6 @@
 "use client";
 import { DirectsBar } from "./DirectsBar";
+import { PersonalBar } from "./PersonalBar";
 import { RoomsBar } from "./RoomsBar";
 
 export default function Page() {
@@ -10,6 +11,9 @@ export default function Page() {
 			</div>
 			<div className="h-full">
 				<RoomsBar />
+			</div>
+			<div className="h-full">
+				<PersonalBar />
 			</div>
 		</div>
 	);
