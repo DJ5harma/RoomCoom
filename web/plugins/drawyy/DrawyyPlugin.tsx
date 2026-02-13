@@ -8,16 +8,16 @@ import { InputManager } from "./components/InputManager";
 
 export const DrawyyPlugin = () => {
 	return (
-		<ToolSelectionProvider>
-			<ContainerProvider>
-				<div className="absolute bottom-4 w-full justify-center flex z-50">
+		<ContainerProvider>
+			<ToolSelectionProvider>
+				<div className="fixed bottom-4 justify-center flex">
 					<ToolSelector />
 				</div>
 				<ElementsProvider>
 					<InputManager />
 					<Drawyy />
 				</ElementsProvider>
-			</ContainerProvider>
-		</ToolSelectionProvider>
+			</ToolSelectionProvider>
+		</ContainerProvider>
 	);
 };
