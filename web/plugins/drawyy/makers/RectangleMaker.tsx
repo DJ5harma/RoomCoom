@@ -3,7 +3,7 @@ import { useElements } from "../providers/ElementsProvider";
 import { RectangleI, ElementI, Dims } from "../types";
 import { useContainer } from "../providers/ContainerProvider";
 
-export const CircleMaker = ({ myKey }: { myKey: string }) => {
+export const RectangleMaker = ({ myKey }: { myKey: string }) => {
 	const { getElement, updateElement, completeElement } = useElements();
 	const { correctElementPosition } = useContainer();
 

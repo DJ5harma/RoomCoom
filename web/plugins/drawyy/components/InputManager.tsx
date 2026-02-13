@@ -1,16 +1,28 @@
 import { useToolSelection } from "../providers/ToolSelectionProvider";
 import { CircleMaker } from "../makers/CircleMaker";
 import { useUser } from "@/entities/user/UserProvider";
+import { RectangleMaker } from "../makers/RectangleMaker";
 
 const now = () => Date.now();
 
 export const InputManager = () => {
-	const { selectedTool } = useToolSelection();
-	const { user } = useUser();
+	return <div className="w-full h-full z-10 fixed top-0 left-0">
+		<CorrectMaker />
+	</div>;
+};
 
-	return (
-		<div className="w-full h-full z-10 fixed top-0 left-0">
-			<CircleMaker myKey={`${user.id}:circle:maker:${now()}`} />
-		</div>
-	);
+const CorrectMaker = () => {
+	const { user } = useUser();
+	const { selectedTool } = useToolSelection();
+
+	const myKey = `${user.id}:${selectedTool}:maker:${now()}`;
+
+	switch (selectedTool) {
+		case "Circle":
+			return <CircleMaker myKey={myKey} />;
+		case "Rectangle":
+			return <RectangleMaker myKey={myKey} />;
+		default:
+			return <></>;
+	}
 };

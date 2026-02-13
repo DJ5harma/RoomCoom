@@ -1,6 +1,6 @@
 import { RectangleI } from "../types";
 
-export const CircleRenderer = ({ rectangle }: { rectangle: RectangleI }) => {
+export const RectangleRenderer = ({ rectangle }: { rectangle: RectangleI }) => {
 	const {
 		position: { x, y },
 		dims: { w, h },
@@ -12,7 +12,7 @@ export const CircleRenderer = ({ rectangle }: { rectangle: RectangleI }) => {
 			width={w}
 			height={h}
 			stroke="red"
-			stroke-width="6"
+			strokeWidth="6"
 			fill="blue"
 		/>
 	);

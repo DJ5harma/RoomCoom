@@ -1,7 +1,8 @@
 import { useElements } from "./providers/ElementsProvider";
 import { CircleRenderer } from "./renderers/CircleRenderer";
-import { CircleI } from "./types";
+import { CircleI, RectangleI } from "./types";
 import { useContainer } from "./providers/ContainerProvider";
+import { RectangleRenderer } from "./renderers/RectangleRenderer";
 
 export const Drawyy = () => {
 	const { elements } = useElements();
@@ -13,6 +14,8 @@ export const Drawyy = () => {
 					switch (element.name) {
 						case "circle":
 							return <CircleRenderer key={key} circle={element as CircleI} />;
+						case "rectangle":
+							return <RectangleRenderer key={key} rectangle={element as RectangleI} />;
 						default:
 							break;
 					}
