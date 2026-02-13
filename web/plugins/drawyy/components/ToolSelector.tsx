@@ -3,9 +3,14 @@ import { ToolType } from "../types";
 import { useToolSelection } from "../providers/ToolSelectionProvider";
 import { PiPencil } from "react-icons/pi";
 import { TfiLayoutLineSolid } from "react-icons/tfi";
+import { FaHand } from "react-icons/fa6";
 
 export const ToolSelector = () => {
 	const tools: ToolType[] = [
+		{
+			name: "Pan",
+			icon: <FaHand size={24} />,
+		},
 		{
 			name: "Circle",
 			icon: <BiCircle size={24} />,

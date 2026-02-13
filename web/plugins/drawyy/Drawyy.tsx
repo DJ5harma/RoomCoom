@@ -1,16 +1,18 @@
 import { useElements } from "./providers/ElementsProvider";
 import { CircleRenderer } from "./renderers/CircleRenderer";
-import { CircleI, LineI, RectangleI } from "./types";
+import { CircleI, LineI, PencilI, RectangleI } from "./types";
 import { useContainer } from "./providers/ContainerProvider";
 import { RectangleRenderer } from "./renderers/RectangleRenderer";
 import { LineRenderer } from "./renderers/LineRenderer";
+import { PencilRenderer } from "./renderers/PencilRenderer";
 
 export const Drawyy = () => {
 	const { elements } = useElements();
-	const { containerRef } = useContainer();
+	const { containerRef, offset } = useContainer();
+
 	return (
-		<>
-			<svg className="border w-full h-full relative" ref={containerRef}>
+		<svg className="border w-full h-full relative" ref={containerRef}>
+			<g transform={`translate(${offset[0]} ${offset[1]})`}>
 				{Object.entries(elements).map(([key, { element }]) => {
 					switch (element.name) {
 						case "circle":
@@ -24,11 +26,11 @@ export const Drawyy = () => {
 							);
 						case "line":
 							return <LineRenderer key={key} line={element as LineI} />;
-						default:
-							break;
+						case "pencil":
+							return <PencilRenderer key={key} pencil={element as PencilI} />;
 					}
 				})}
-			</svg>
-		</>
+			</g>
+		</svg>
 	);
 };

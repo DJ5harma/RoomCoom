@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 export type ToolType = {
-	name: "Circle" | "Pencil" | "Rectangle" | "Line";
+	name: "Circle" | "Pencil" | "Rectangle" | "Line" | "Pan";
 	icon: ReactNode;
 };
 
@@ -22,4 +22,7 @@ export interface RectangleI extends ElementI {
 }
 export interface LineI extends ElementI {
 	end: Vec2;
+}
+export interface PencilI extends ElementI {
+	points: Vec2[];
 }

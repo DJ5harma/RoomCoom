@@ -3,6 +3,8 @@ import { CircleMaker } from "../makers/CircleMaker";
 import { useUser } from "@/entities/user/UserProvider";
 import { RectangleMaker } from "../makers/RectangleMaker";
 import { LineMaker } from "../makers/LineMaker";
+import { PencilMaker } from "../makers/PencilMaker";
+import { PannerTool } from "../tools/PannerTool";
 
 const now = () => Date.now();
 
@@ -27,6 +29,10 @@ const CorrectMaker = () => {
 			return <RectangleMaker myKey={myKey} />;
 		case "Line":
 			return <LineMaker myKey={myKey} />;
+		case "Pencil":
+			return <PencilMaker myKey={myKey} />;
+		case "Pan":
+			return <PannerTool />;
 		default:
 			return <></>;
 	}
