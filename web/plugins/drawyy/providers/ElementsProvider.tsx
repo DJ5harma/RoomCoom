@@ -47,11 +47,11 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 			return { ...p, [localKeyRef.current]: { element } };
 		});
 
-		if (networkGapRef.current < NETWORK_TRANSFER_GAP) {
+		if (
+			networkGapRef.current < NETWORK_TRANSFER_GAP &&
+			!options?.forceNetwork
+		) {
 			networkGapRef.current++;
-			if (options?.forceNetwork) {
-				sendSignalSocket("drawyy:element", { key: localKeyRef.current, element });
-			}
 		} else {
 			sendSignalSocket("drawyy:element", { key: localKeyRef.current, element });
 			networkGapRef.current = 0;
