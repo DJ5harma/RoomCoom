@@ -3,35 +3,31 @@ import { Vec2 } from "../types";
 import { useContainer } from "../providers/ContainerProvider";
 
 export const PannerTool = () => {
-	const { offset, setOffset } = useContainer();
-	const { correctElementPosition } = useContainer();
+	const { setOffset } = useContainer();
 
 	const [isMaking, setIsMaking] = useState(false);
-	const displaceStartRef = useRef<Vec2>([0,0]);
+	const displaceStartRef = useRef<Vec2>([0, 0]);
 
 	return (
 		<div
 			className="w-full h-full"
 			onMouseDown={(e) => {
-				let position = [e.clientX, e.clientY] as Vec2;
-				position = correctElementPosition(position);
+				const position = [e.clientX, e.clientY] as Vec2;
 				displaceStartRef.current = position;
 				setIsMaking(true);
 			}}
 			onMouseMove={(e) => {
 				if (!isMaking) return;
-				let position = [e.clientX, e.clientY] as Vec2;
-				position = correctElementPosition(position);
+				const position = [e.clientX, e.clientY] as Vec2;
 
 				const diff = [
 					position[0] - displaceStartRef.current[0],
 					position[1] - displaceStartRef.current[1],
 				];
 
-                displaceStartRef.current = position;
+				displaceStartRef.current = position;
 
-				const newOffset = [offset[0] + diff[0], offset[1] + diff[1]] as Vec2;
-				setOffset(newOffset);
+				setOffset((offset) => [offset[0] + diff[0], offset[1] + diff[1]]);
 			}}
 			onMouseUp={() => {
 				setIsMaking(false);
