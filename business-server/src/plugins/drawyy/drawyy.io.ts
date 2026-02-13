@@ -1,11 +1,9 @@
 import type { Socket } from "socket.io";
 import type { uuid } from "../../types";
-import { io } from "../../main";
+import { helper } from "../../helper";
 
-export function DrawyyIO(sourceId: uuid, socket: Socket) {
-	socket.on("drawyy:element", (data) => {
-        // console.log({data});
-        
-		io.to(sourceId).emit("drawyy:element", data);
+export function DrawyyIO(socket: Socket, sourceId: uuid) {
+	helper.listenSignalSocket(socket, sourceId, "drawyy:element", (data) => {
+		helper.sendSignalSocket(sourceId, "drawyy:element", data);
 	});
 }

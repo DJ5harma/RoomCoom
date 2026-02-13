@@ -7,7 +7,7 @@ import {
 	useState,
 } from "react";
 import { ElementI } from "../types";
-import { socket } from "@/utils/SocketConnector";
+import { useHelper } from "@/plugins/useHelper";
 
 type ElementsMapType = { [key: string]: { element: ElementI } };
 
@@ -21,9 +21,11 @@ type ContextType = {
 
 const context = createContext<ContextType | null>(null);
 
-const NETWORK_TRANSFER_GAP = 10;
+const NETWORK_TRANSFER_GAP = 40;
 
 export const ElementsProvider = ({ children }: { children: ReactNode }) => {
+	const { sendSignalSocket, subscribeSignal, unsubscribeSignal } = useHelper();
+
 	const [elements, setElements] = useState<ElementsMapType>({});
 
 	// eslint-disable-next-line react-hooks/purity
@@ -36,6 +38,7 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 			? elements[localKeyRef.current].element
 			: null;
 	}
+
 	function updateElement(
 		element: ElementI,
 		options?: { forceNetwork?: boolean },
@@ -47,10 +50,10 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 		if (networkGapRef.current < NETWORK_TRANSFER_GAP) {
 			networkGapRef.current++;
 			if (options?.forceNetwork) {
-				socket.emit("drawyy:element", { key: localKeyRef.current, element });
+				sendSignalSocket("drawyy:element", { key: localKeyRef.current, element });
 			}
 		} else {
-			socket.emit("drawyy:element", { key: localKeyRef.current, element });
+			sendSignalSocket("drawyy:element", { key: localKeyRef.current, element });
 			networkGapRef.current = 0;
 		}
 	}
@@ -62,7 +65,7 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 	}
 
 	useEffect(() => {
-		socket.on(
+		subscribeSignal(
 			"drawyy:element",
 			({ key, element }: { key: string; element: ElementI }) => {
 				setElements((p) => {
@@ -71,7 +74,7 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 			},
 		);
 		return () => {
-			socket.off("drawyy:element");
+			unsubscribeSignal("drawyy:element");
 		};
 	}, []);
 

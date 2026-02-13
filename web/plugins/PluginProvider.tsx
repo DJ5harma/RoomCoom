@@ -1,6 +1,6 @@
 "use client";
 
-import { InstanceType, UserI, uuid } from "@/utils/types";
+import { Data, InstanceType, UserI, uuid } from "@/utils/types";
 import { createContext, ReactNode, useContext, useEffect } from "react";
 import { useUser } from "../entities/user/UserProvider";
 import { useRoom } from "../entities/room/RoomProvider";
@@ -14,6 +14,7 @@ type PluginContextType = {
 	members: UserI[];
 	easyApi: AxiosInstance;
 	sourceId: uuid;
+	sendSignalSocket: (stream: string, data: Data) => void;
 	subscribeSignal: (
 		stream: string,
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -62,13 +63,15 @@ const PersonalPluginProvider = ({ children }: { children: ReactNode }) => {
 	}, []);
 
 	const sourceId = user.id;
-
 	return (
 		<context.Provider
 			value={{
 				members,
 				easyApi,
 				sourceId,
+				sendSignalSocket(stream, data) {
+					return socket.emit(`${sourceId}:${stream}`, data);
+				},
 				subscribeSignal(stream, listener) {
 					return socket.on(`${sourceId}:${stream}`, listener);
 				},
@@ -106,6 +109,9 @@ const DirectPluginProvider = ({ children }: { children: ReactNode }) => {
 				members,
 				easyApi,
 				sourceId,
+				sendSignalSocket(stream, data) {
+					return socket.emit(`${sourceId}:${stream}`, data);
+				},
 				subscribeSignal(stream, listener) {
 					return socket.on(`${sourceId}:${stream}`, listener);
 				},
@@ -142,6 +148,9 @@ const ClubPluginProvider = ({ children }: { children: ReactNode }) => {
 				members,
 				easyApi,
 				sourceId,
+				sendSignalSocket(stream, data) {
+					return socket.emit(`${sourceId}:${stream}`, data);
+				},
 				subscribeSignal(stream, listener) {
 					return socket.on(`${sourceId}:${stream}`, listener);
 				},
@@ -177,6 +186,9 @@ const RoomPluginProvider = ({ children }: { children: ReactNode }) => {
 				members,
 				easyApi,
 				sourceId,
+				sendSignalSocket(stream, data) {
+					return socket.emit(`${sourceId}:${stream}`, data);
+				},
 				subscribeSignal(stream, listener) {
 					return socket.on(`${sourceId}:${stream}`, listener);
 				},
