@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useElements } from "../providers/ElementsProvider";
-import { RectangleI, ElementI, Dims, Vec2 } from "../types";
+import { RectangleI, ElementI, Vec2 } from "../types";
 import { useContainer } from "../providers/ContainerProvider";
 
-export const RectangleMaker = ({ myKey }: { myKey: string }) => {
+export const RectangleMaker = () => {
 	const { getElement, updateElement, completeElement } = useElements();
 	const { correctElementPosition } = useContainer();
 
@@ -12,14 +12,14 @@ export const RectangleMaker = ({ myKey }: { myKey: string }) => {
 	const [isMaking, setIsMaking] = useState(false);
 
 	function updateMe(circle: Omit<RectangleI, "name">) {
-		updateElement(myKey, { name, ...circle });
+		updateElement({ name, ...circle });
 	}
 	function completeMe() {
-		completeElement(myKey);
+		completeElement();
 	}
 
 	function getMe() {
-		return getElement(myKey)! as RectangleI;
+		return getElement()! as RectangleI;
 	}
 
 	return (

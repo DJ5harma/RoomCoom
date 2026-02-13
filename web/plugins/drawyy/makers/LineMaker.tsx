@@ -3,7 +3,7 @@ import { useElements } from "../providers/ElementsProvider";
 import { ElementI, LineI, Vec2 } from "../types";
 import { useContainer } from "../providers/ContainerProvider";
 
-export const LineMaker = ({ myKey }: { myKey: string }) => {
+export const LineMaker = () => {
 	const { getElement, updateElement, completeElement } = useElements();
 	const { correctElementPosition } = useContainer();
 
@@ -12,14 +12,14 @@ export const LineMaker = ({ myKey }: { myKey: string }) => {
 	const [isMaking, setIsMaking] = useState(false);
 
 	function updateMe(line: Omit<LineI, "name">) {
-		updateElement(myKey, { name, ...line });
+		updateElement({ name, ...line });
 	}
 	function completeMe() {
-		completeElement(myKey);
+		completeElement();
 	}
 
 	function getMe() {
-		return getElement(myKey)! as LineI;
+		return getElement()! as LineI;
 	}
 
 	return (

@@ -1,12 +1,9 @@
 import { useToolSelection } from "../providers/ToolSelectionProvider";
 import { CircleMaker } from "../makers/CircleMaker";
-import { useUser } from "@/entities/user/UserProvider";
 import { RectangleMaker } from "../makers/RectangleMaker";
 import { LineMaker } from "../makers/LineMaker";
 import { PencilMaker } from "../makers/PencilMaker";
 import { PannerTool } from "../tools/PannerTool";
-
-const now = () => Date.now();
 
 export const InputManager = () => {
 	return (
@@ -17,20 +14,17 @@ export const InputManager = () => {
 };
 
 const CorrectMaker = () => {
-	const { user } = useUser();
 	const { selectedTool } = useToolSelection();
-
-	const myKey = `${user.id}:${selectedTool}:maker:${now()}`;
 
 	switch (selectedTool) {
 		case "Circle":
-			return <CircleMaker myKey={myKey} />;
+			return <CircleMaker />;
 		case "Rectangle":
-			return <RectangleMaker myKey={myKey} />;
+			return <RectangleMaker />;
 		case "Line":
-			return <LineMaker myKey={myKey} />;
+			return <LineMaker />;
 		case "Pencil":
-			return <PencilMaker myKey={myKey} />;
+			return <PencilMaker />;
 		case "Pan":
 			return <PannerTool />;
 		default:

@@ -3,6 +3,7 @@ import {
 	ReactNode,
 	useContext,
 	useEffect,
+	useRef,
 	useState,
 } from "react";
 import { ElementI } from "../types";
@@ -13,40 +14,37 @@ type ElementsMapType = { [key: string]: { element: ElementI } };
 type ContextType = {
 	elements: ElementsMapType;
 	// setElements: Dispatch<SetStateAction<ElementsMapType>>;
-	getElement: (key: string) => ElementI | null;
-	updateElement: (key: string, element: ElementI) => void;
-	completeElement: (key: string) => void;
+	getElement: () => ElementI | null;
+	updateElement: (element: ElementI) => void;
+	completeElement: () => void;
 };
 
 const context = createContext<ContextType | null>(null);
 
 export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 	const [elements, setElements] = useState<ElementsMapType>({});
+	
+	// eslint-disable-next-line react-hooks/purity
+	const localKeyRef = useRef(Date.now() + Math.random());
 
-	function completeElement(key: string) {
-		const element = getElement(key);
+	function getElement() {
+		return elements[localKeyRef.current]
+			? elements[localKeyRef.current].element
+			: null;
+	}
+	function updateElement(element: ElementI) {
+		setElements((p) => {
+			return { ...p, [localKeyRef.current]: { element } };
+		});
+		socket.emit("drawyy:element", { key: localKeyRef.current, element });
+	}
+	function completeElement() {
+		const element = getElement();
 		if (!element) return;
-
-		const newKey = () => Date.now() + Math.random();
-
-		setElements((p) => {
-			delete p[key];
-			return { ...p, [newKey()]: { element } };
-		});
+		updateElement(element);
+		localKeyRef.current = Date.now() + Math.random();
 	}
-
-	function getElement(key: string) {
-		return elements[key] ? elements[key].element : null;
-	}
-
-	function updateElement(key: string, element: ElementI) {
-		setElements((p) => {
-			return { ...p, [key]: { element } };
-		});
-		console.log("emitting....", element);
-
-		socket.emit("drawyy:element", { key, element });
-	}
+	
 	useEffect(() => {
 		socket.on(
 			"drawyy:element",

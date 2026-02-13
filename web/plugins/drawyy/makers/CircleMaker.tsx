@@ -3,7 +3,7 @@ import { useElements } from "../providers/ElementsProvider";
 import { CircleI, ElementI, Vec2 } from "../types";
 import { useContainer } from "../providers/ContainerProvider";
 
-export const CircleMaker = ({ myKey }: { myKey: string }) => {
+export const CircleMaker = () => {
 	const { getElement, updateElement, completeElement } = useElements();
 	const { correctElementPosition } = useContainer();
 
@@ -12,14 +12,14 @@ export const CircleMaker = ({ myKey }: { myKey: string }) => {
 	const [isMaking, setIsMaking] = useState(false);
 
 	function updateMe(circle: Omit<CircleI, "name">) {
-		updateElement(myKey, { name, ...circle });
+		updateElement({ name, ...circle });
 	}
 	function completeMe() {
-		completeElement(myKey);
+		completeElement();
 	}
 
 	function getMe() {
-		return getElement(myKey)! as CircleI;
+		return getElement()! as CircleI;
 	}
 
 	return (

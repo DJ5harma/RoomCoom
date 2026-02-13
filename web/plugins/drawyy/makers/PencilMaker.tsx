@@ -5,7 +5,7 @@ import { useContainer } from "../providers/ContainerProvider";
 
 const MIN_DIST = 10; // px - controls density (bigger = fewer points)
 
-export const PencilMaker = ({ myKey }: { myKey: string }) => {
+export const PencilMaker = () => {
 	const { getElement, updateElement, completeElement } = useElements();
 	const { correctElementPosition } = useContainer();
 
@@ -14,15 +14,15 @@ export const PencilMaker = ({ myKey }: { myKey: string }) => {
 	const [isMaking, setIsMaking] = useState(false);
 
 	function updateMe(pencil: Omit<PencilI, "name">) {
-		updateElement(myKey, { name, ...pencil });
+		updateElement({ name, ...pencil });
 	}
 
 	function completeMe() {
-		completeElement(myKey);
+		completeElement();
 	}
 
 	function getMe() {
-		return getElement(myKey)! as PencilI;
+		return getElement()! as PencilI;
 	}
 
 	function dist(a: Vec2, b: Vec2) {
