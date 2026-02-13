@@ -10,7 +10,7 @@ import { AuthController } from "./auth/auth.controller";
 import { userRouter } from "./entities/user/user.routes";
 import { roomRouter } from "./entities/room/room.routes";
 import { spaceRouter } from "./entities/space/space.routes";
-import { pluginRouter } from "./plugin.routes";
+import { pluginRouter } from "./plugins/plugin.routes";
 import { RoomController } from "./entities/room/room.controller";
 import { SpaceController } from "./entities/space/space.controller";
 import { UserController } from "./entities/user/user.controller";

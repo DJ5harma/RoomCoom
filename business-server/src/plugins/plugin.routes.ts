@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { chatyyRouter } from "./plugins/chatyy/routes";
-import { meetyyRouter } from "./plugins/meetyy/routes";
-import { drawyyRouter } from "./plugins/drawyy/routes";
+import { chatyyRouter } from "./chatyy/routes";
+import { meetyyRouter } from "./meetyy/routes";
+import { drawyyRouter } from "./drawyy/routes";
 
 export const pluginRouter = Router();
 

@@ -3,7 +3,7 @@ import { AuthState } from "./auth/auth.state";
 import { SpaceService } from "./entities/space/space.service";
 import { RoomService } from "./entities/room/room.service";
 import type { InstanceType, uuid } from "./types";
-import { PLUGIN_HANDLERS } from "./plugin.io.handlers";
+import { PLUGIN_HANDLERS } from "./plugins/plugin.io.handlers";
 
 
 export function IOinit(socket: Socket) {
