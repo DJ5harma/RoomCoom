@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { CircleI, Vec2 } from "../types";
 import { useContainer } from "../providers/ContainerProvider";
 import { useElements } from "../providers/ElementsProvider";
@@ -11,17 +11,19 @@ export const EraserTool = () => {
 
 	const elementsEntries = Object.entries(elements);
 
-	function tryErasing(point: Vec2) {
+	const targetKeysSet = useRef<Set<string>>(new Set());
+
+	function captureEraseTargets(point: Vec2) {
 		for (let i = elementsEntries.length - 1; i > -1; --i) {
+			if (!elementsEntries[i]) return;
 			const [key, { element }] = elementsEntries[i];
+			if (!element) console.log({ element }, elementsEntries, i, elements);
 
 			switch (element.name) {
 				case "circle":
 					const circle = element as CircleI;
 					if (Maths.isPointInCircle(point, circle.position, circle.radius)) {
-						deleteElement(key);
-						console.log("DELETING", element.name);
-						
+						targetKeysSet.current.add(key);
 						return;
 					}
 					break;
@@ -29,6 +31,11 @@ export const EraserTool = () => {
 				default:
 			}
 		}
+	}
+
+	function eraseTargets() {
+		targetKeysSet.current.forEach((key) => deleteElement(key));
+		targetKeysSet.current.clear();
 	}
 
 	return (
@@ -41,9 +48,10 @@ export const EraserTool = () => {
 				if (!isMaking) return;
 				let position = [e.clientX, e.clientY] as Vec2;
 				position = correctElementPosition(position);
-				tryErasing(position);
+				captureEraseTargets(position);
 			}}
 			onMouseUp={() => {
+				eraseTargets();
 				setIsMaking(false);
 			}}
 		/>

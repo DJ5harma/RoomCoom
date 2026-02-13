@@ -10,10 +10,13 @@ export const Drawyy = () => {
 	const { elements } = useElements();
 	const { containerRef, offset } = useContainer();
 
+	const elementEntries = Object.entries(elements)
+
 	return (
 		<svg className="border w-full h-full relative" ref={containerRef}>
 			<g transform={`translate(${offset[0]} ${offset[1]})`}>
-				{Object.entries(elements).map(([key, { element }]) => {
+				{elementEntries.map(([key, { element }]) => {
+					if(!element) return <div key={key} />
 					switch (element.name) {
 						case "circle":
 							return <CircleRenderer key={key} circle={element as CircleI} />;

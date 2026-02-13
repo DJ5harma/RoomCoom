@@ -1,3 +1,5 @@
+"use client";
+
 import {
 	createContext,
 	ReactNode,
@@ -31,9 +33,19 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 	const [elements, setElements] = useState<ElementsMapType>({});
 
 	// eslint-disable-next-line react-hooks/purity
-	const localKeyRef = useRef(Date.now() + Math.random());
+	const localKeyRef = useRef(Date.now());
 
 	const networkGapRef = useRef(0);
+
+	function INTERNAL_DeleteElement(key: string) {
+		setElements((prev) => {
+			if (!prev[key]) return prev;
+
+			const next = { ...prev };
+			delete next[key];
+			return next;
+		});
+	}
 
 	function getElement() {
 		return elements[localKeyRef.current]
@@ -63,25 +75,25 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 		const element = getElement();
 		if (!element) return;
 		updateElement(element, { forceNetwork: true });
-		localKeyRef.current = Date.now() + Math.random();
 	}
 
 	function deleteElement(key: string) {
-		
-		// setElements((p) => {
-		// 	console.log("To delete:", key, p[key]);
-		// 	delete p[key];
-		// 	return {...p};
-		// });
+		INTERNAL_DeleteElement(key);
+		console.log("DELETE OUT", key);
+		sendSignalSocket("drawyy:element:delete", { key });
 	}
 
 	useEffect(() => {
 		easyApi.get("/drawyy/all").then(({ data: { all } }) => {
 			setElements(all);
 		});
+		subscribeSignal("drawyy:element:delete", ({ key }) => {
+			INTERNAL_DeleteElement(key);
+		});
 		subscribeSignal(
 			"drawyy:element",
 			({ key, element }: { key: string; element: ElementI }) => {
+				localKeyRef.current = Date.now();
 				setElements((p) => {
 					return { ...p, [key]: { element } };
 				});
@@ -89,6 +101,7 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 		);
 		return () => {
 			unsubscribeSignal("drawyy:element");
+			unsubscribeSignal("drawyy:element:delete");
 		};
 	}, []);
 

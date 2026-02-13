@@ -5,8 +5,22 @@ import { redis } from "../../main";
 import { DRAWYY_ALL_KEY } from "./DRAWYY_KEYS";
 
 export function DrawyyIO(socket: Socket, sourceId: uuid) {
-	helper.listenSignalSocket(socket, sourceId, "drawyy:element", (data) => {
-		redis.rpush(DRAWYY_ALL_KEY(sourceId), JSON.stringify(data));
-		helper.sendSignalSocket(sourceId, "drawyy:element", data);
-	});
+	helper.listenSignalSocket(
+		socket,
+		sourceId,
+		"drawyy:element",
+		({ key, element }) => {
+			redis.hset(DRAWYY_ALL_KEY(sourceId), key, JSON.stringify(element));
+			helper.sendSignalSocket(sourceId, "drawyy:element", { key, element });
+		},
+	);
+	helper.listenSignalSocket(
+		socket,
+		sourceId,
+		"drawyy:element:delete",
+		({ key }) => {
+			redis.hdel(DRAWYY_ALL_KEY(sourceId), key);
+			helper.sendSignalSocket(sourceId, "drawyy:element:delete", { key });
+		},
+	);
 }
