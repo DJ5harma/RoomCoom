@@ -9,7 +9,7 @@ export const InputManager = () => {
 	const { user } = useUser();
 
 	return (
-		<div className="w-full h-full border-6 z-50 fixed top-0 left-0 border-red-400">
+		<div className="w-full h-full z-10 fixed top-0 left-0">
 			<CircleMaker myKey={`${user.id}:circle:maker:${now()}`} />
 		</div>
 	);

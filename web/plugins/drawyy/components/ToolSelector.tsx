@@ -1,4 +1,4 @@
-import { BiCircle } from "react-icons/bi";
+import { BiCircle, BiRectangle } from "react-icons/bi";
 import { ToolType } from "../types";
 import { useToolSelection } from "../providers/ToolSelectionProvider";
 import { PiPencil } from "react-icons/pi";
@@ -8,6 +8,10 @@ export const ToolSelector = () => {
 		{
 			name: "Circle",
 			icon: <BiCircle size={24} />,
+		},
+		{
+			name: "Rectangle",
+			icon: <BiRectangle size={24} />,
 		},
 		{
 			name: "Pencil",
@@ -23,7 +27,8 @@ export const ToolSelector = () => {
                 const isSelected = selectedTool === name;
 				return (
 					<div
-						onClick={() => {
+						onClick={(e) => {
+							e.stopPropagation()
 							setSelectedTool(name);
 						}}
 						key={name}

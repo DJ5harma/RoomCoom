@@ -10,15 +10,15 @@ export const DrawyyPlugin = () => {
 	return (
 		<ToolSelectionProvider>
 			<div className="h-full relative">
-				<div className="absolute bottom-4 w-full justify-center flex z-50">
-					<ToolSelector />
-				</div>
 				<ContainerProvider>
 					<ElementsProvider>
 						<InputManager />
 						<Drawyy />
 					</ElementsProvider>
 				</ContainerProvider>
+				<div className="absolute bottom-4 w-full justify-center flex z-50">
+					<ToolSelector />
+				</div>
 			</div>
 		</ToolSelectionProvider>
 	);

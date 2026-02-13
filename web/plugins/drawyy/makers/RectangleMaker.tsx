@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { useElements } from "../providers/ElementsProvider";
-import { CircleI, ElementI } from "../types";
+import { RectangleI, ElementI, Dims } from "../types";
 import { useContainer } from "../providers/ContainerProvider";
 
 export const CircleMaker = ({ myKey }: { myKey: string }) => {
 	const { getElement, updateElement, completeElement } = useElements();
 	const { correctElementPosition } = useContainer();
 
-	const name: ElementI["name"] = "circle";
+	const name: ElementI["name"] = "rectangle";
 
 	const [isMaking, setIsMaking] = useState(false);
 
-	function updateMe(circle: Omit<CircleI, "name">) {
+	function updateMe(circle: Omit<RectangleI, "name">) {
 		updateElement(myKey, { name, ...circle });
 	}
 	function completeMe() {
@@ -19,7 +19,7 @@ export const CircleMaker = ({ myKey }: { myKey: string }) => {
 	}
 
 	function getMe() {
-		return getElement(myKey)! as CircleI;
+		return getElement(myKey)! as RectangleI;
 	}
 
 	return (
@@ -29,20 +29,20 @@ export const CircleMaker = ({ myKey }: { myKey: string }) => {
 				let position = { x: e.clientX, y: e.clientY };
 				position = correctElementPosition(position);
 
-				updateMe({ position, radius: 0 });
+				updateMe({ position, dims: { w: 0, h: 0 } });
 				setIsMaking(true);
 			}}
 			onMouseMove={(e) => {
 				if (!isMaking) return;
 				let position = { x: e.clientX, y: e.clientY };
 				position = correctElementPosition(position);
-				
+
 				const me = getMe();
-				const radius = Math.sqrt(
-					Math.pow(me.position.x - position.x, 2) +
-						Math.pow(me.position.y - position.y, 2),
-				);
-				updateMe({ ...me, radius });
+				const dims = {
+					w: me.position.x - position.x,
+					h: me.position.y - position.y,
+				} as Dims;
+				updateMe({ ...me, dims });
 			}}
 			onMouseUp={() => {
 				completeMe();

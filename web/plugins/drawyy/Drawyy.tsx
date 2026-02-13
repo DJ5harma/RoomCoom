@@ -1,4 +1,3 @@
-import { useEffect, useRef } from "react";
 import { useElements } from "./providers/ElementsProvider";
 import { CircleRenderer } from "./renderers/CircleRenderer";
 import { CircleI } from "./types";
