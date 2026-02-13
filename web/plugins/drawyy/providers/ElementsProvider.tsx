@@ -1,5 +1,12 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+	createContext,
+	ReactNode,
+	useContext,
+	useEffect,
+	useState,
+} from "react";
 import { ElementI } from "../types";
+import { socket } from "@/utils/SocketConnector";
 
 type ElementsMapType = { [key: string]: { element: ElementI } };
 
@@ -16,12 +23,6 @@ const context = createContext<ContextType | null>(null);
 export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 	const [elements, setElements] = useState<ElementsMapType>({});
 
-	function updateElement(key: string, element: ElementI) {
-		
-		setElements((p) => {
-			return { ...p, [key]: { element } };
-		});
-	}
 	function completeElement(key: string) {
 		const element = getElement(key);
 		if (!element) return;
@@ -37,6 +38,29 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 	function getElement(key: string) {
 		return elements[key] ? elements[key].element : null;
 	}
+
+	function updateElement(key: string, element: ElementI) {
+		setElements((p) => {
+			return { ...p, [key]: { element } };
+		});
+		console.log("emitting....", element);
+
+		socket.emit("drawyy:element", { key, element });
+	}
+	useEffect(() => {
+		socket.on(
+			"drawyy:element",
+			({ key, element }: { key: string; element: ElementI }) => {
+				setElements((p) => {
+					return { ...p, [key]: { element } };
+				});
+				console.log("received");
+			},
+		);
+		return () => {
+			socket.off("drawyy:element");
+		};
+	}, []);
 
 	return (
 		<context.Provider
