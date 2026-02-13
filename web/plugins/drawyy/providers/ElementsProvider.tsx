@@ -21,30 +21,46 @@ type ContextType = {
 
 const context = createContext<ContextType | null>(null);
 
+const NETWORK_TRANSFER_GAP = 10;
+
 export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 	const [elements, setElements] = useState<ElementsMapType>({});
-	
+
 	// eslint-disable-next-line react-hooks/purity
 	const localKeyRef = useRef(Date.now() + Math.random());
+
+	const networkGapRef = useRef(0);
 
 	function getElement() {
 		return elements[localKeyRef.current]
 			? elements[localKeyRef.current].element
 			: null;
 	}
-	function updateElement(element: ElementI) {
+	function updateElement(
+		element: ElementI,
+		options?: { forceNetwork?: boolean },
+	) {
 		setElements((p) => {
 			return { ...p, [localKeyRef.current]: { element } };
 		});
-		socket.emit("drawyy:element", { key: localKeyRef.current, element });
+
+		if (networkGapRef.current < NETWORK_TRANSFER_GAP) {
+			networkGapRef.current++;
+			if (options?.forceNetwork) {
+				socket.emit("drawyy:element", { key: localKeyRef.current, element });
+			}
+		} else {
+			socket.emit("drawyy:element", { key: localKeyRef.current, element });
+			networkGapRef.current = 0;
+		}
 	}
 	function completeElement() {
 		const element = getElement();
 		if (!element) return;
-		updateElement(element);
+		updateElement(element, { forceNetwork: true });
 		localKeyRef.current = Date.now() + Math.random();
 	}
-	
+
 	useEffect(() => {
 		socket.on(
 			"drawyy:element",
