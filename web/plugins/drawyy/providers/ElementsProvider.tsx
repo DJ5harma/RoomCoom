@@ -24,7 +24,7 @@ type ContextType = {
 
 const context = createContext<ContextType | null>(null);
 
-const NETWORK_TRANSFER_GAP = 40;
+const NETWORK_TRANSFER_GAP = 20;
 
 export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 	const { sendSignalSocket, subscribeSignal, unsubscribeSignal, easyApi } =
