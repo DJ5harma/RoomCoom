@@ -33,7 +33,7 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 	const [elements, setElements] = useState<ElementsMapType>({});
 
 	// eslint-disable-next-line react-hooks/purity
-	const localKeyRef = useRef(Date.now());
+	const localKeyRef = useRef(Date.now().toString());
 
 	const networkGapRef = useRef(0);
 
@@ -44,6 +44,11 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 			const next = { ...prev };
 			delete next[key];
 			return next;
+		});
+	}
+	function INTERNAL_UpdateElement(key: string, element: ElementI) {
+		setElements((p) => {
+			return { ...p, [key]: { element } };
 		});
 	}
 
@@ -57,10 +62,6 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 		element: ElementI,
 		options?: { forceNetwork?: boolean },
 	) {
-		setElements((p) => {
-			return { ...p, [localKeyRef.current]: { element } };
-		});
-
 		if (
 			networkGapRef.current < NETWORK_TRANSFER_GAP &&
 			!options?.forceNetwork
@@ -70,16 +71,17 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 			sendSignalSocket("drawyy:element", { key: localKeyRef.current, element });
 			networkGapRef.current = 0;
 		}
+		INTERNAL_UpdateElement(localKeyRef.current, element);
 	}
 	function completeElement() {
 		const element = getElement();
 		if (!element) return;
 		updateElement(element, { forceNetwork: true });
+		localKeyRef.current = Date.now().toString();
 	}
 
 	function deleteElement(key: string) {
 		INTERNAL_DeleteElement(key);
-		console.log("DELETE OUT", key);
 		sendSignalSocket("drawyy:element:delete", { key });
 	}
 
@@ -93,10 +95,7 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 		subscribeSignal(
 			"drawyy:element",
 			({ key, element }: { key: string; element: ElementI }) => {
-				localKeyRef.current = Date.now();
-				setElements((p) => {
-					return { ...p, [key]: { element } };
-				});
+				INTERNAL_UpdateElement(key, element);
 			},
 		);
 		return () => {

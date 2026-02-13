@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { CircleI, Vec2 } from "../types";
+import { CircleI, RectangleI, Vec2 } from "../types";
 import { useContainer } from "../providers/ContainerProvider";
 import { useElements } from "../providers/ElementsProvider";
 import { Maths } from "../Maths";
@@ -23,6 +23,15 @@ export const EraserTool = () => {
 				case "circle":
 					const circle = element as CircleI;
 					if (Maths.isPointInCircle(point, circle.position, circle.radius)) {
+						targetKeysSet.current.add(key);
+						return;
+					}
+					break;
+				case "rectangle":
+					const rectangle = element as RectangleI;
+					if (
+						Maths.isPointInRectangle(point, rectangle.position, rectangle.dims)
+					) {
 						targetKeysSet.current.add(key);
 						return;
 					}
