@@ -14,7 +14,7 @@ type PluginContextType = {
 	members: UserI[];
 	easyApi: AxiosInstance;
 	sourceId: uuid;
-	sendSignalSocket: (stream: string, data: Data) => void;
+	sendSignalSocket: (stream: string, data?: Data) => void;
 	subscribeSignal: (
 		stream: string,
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any

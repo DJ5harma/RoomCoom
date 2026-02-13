@@ -24,7 +24,8 @@ const context = createContext<ContextType | null>(null);
 const NETWORK_TRANSFER_GAP = 40;
 
 export const ElementsProvider = ({ children }: { children: ReactNode }) => {
-	const { sendSignalSocket, subscribeSignal, unsubscribeSignal } = useHelper();
+	const { sendSignalSocket, subscribeSignal, unsubscribeSignal, easyApi } =
+		useHelper();
 
 	const [elements, setElements] = useState<ElementsMapType>({});
 
@@ -65,6 +66,9 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 	}
 
 	useEffect(() => {
+		easyApi.get("/drawyy/all").then(({ data: { all } }) => {
+			setElements(all);
+		});
 		subscribeSignal(
 			"drawyy:element",
 			({ key, element }: { key: string; element: ElementI }) => {
