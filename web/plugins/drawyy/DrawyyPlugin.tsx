@@ -4,6 +4,7 @@ import { ToolSelectionProvider } from "./providers/ToolSelectionProvider";
 import { ToolSelector } from "./components/ToolSelector";
 import { ElementsProvider } from "./providers/ElementsProvider";
 import { InputManager } from "./components/InputManager";
+import { ContainerProvider } from "./providers/ContainerProvider";
 
 export const DrawyyPlugin = () => {
 	return (
@@ -14,7 +15,9 @@ export const DrawyyPlugin = () => {
 				</div>
 				<ElementsProvider>
 					<InputManager />
-					<Drawyy />
+					<ContainerProvider>
+						<Drawyy />
+					</ContainerProvider>
 				</ElementsProvider>
 			</div>
 		</ToolSelectionProvider>
