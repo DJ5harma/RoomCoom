@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 export type ToolType = {
-	name: "Circle" | "Pencil" | "Rectangle" | "Line" | "Pan";
+	name: "Circle" | "Pencil" | "Rectangle" | "Line" | "Pan" | "Eraser";
 	icon: ReactNode;
 };
 

@@ -1,4 +1,4 @@
-import { BiCircle, BiRectangle } from "react-icons/bi";
+import { BiCircle, BiEraser, BiRectangle } from "react-icons/bi";
 import { ToolType } from "../types";
 import { useToolSelection } from "../providers/ToolSelectionProvider";
 import { PiPencil } from "react-icons/pi";
@@ -26,6 +26,10 @@ export const ToolSelector = () => {
 		{
 			name: "Pencil",
 			icon: <PiPencil size={24} />,
+		},
+		{
+			name: "Eraser",
+			icon: <BiEraser size={24} />,
 		},
 	];
 	const { selectedTool, setSelectedTool } = useToolSelection();

@@ -37,8 +37,9 @@ app.use("/api", apiRouter);
 
 app.use(AppError.ExpressErrorHandler);
 
-export const redis = new Redis();
+export const redis = new Redis(process.env.REDIS_URL!);
 const redisSubClient = redis.duplicate();
+
 
 const io = new Server(server, {
 	adapter: createAdapter(redis, redisSubClient),
@@ -46,16 +47,17 @@ const io = new Server(server, {
 
 const PORT = process.env.PORT!;
 
-mongoose.connect(ENV_CONSTANTS.MONGO_URI).then(() => {
+mongoose.connect(ENV_CONSTANTS.MONGO_URI).then(async () => {
 	console.log("MongoDB connected");
 	server.listen(PORT, () => {
 		console.log(`express & socket.io server: ${ENV_CONSTANTS.MY_URL}`);
+		redis.flushall();
 	});
 });
 
 io.on("connection", (socket) => {
 	console.log("Connected", socket.id);
-
+	
 	const cookies = (socket.handshake.headers.cookie || "")?.split(";");
 	let access_token = "";
 	for (const cookie of cookies) {
@@ -71,7 +73,7 @@ io.on("connection", (socket) => {
 		socket.disconnect();
 		console.log("Disconnected socket for unauthenticated user", socket.id);
 	}
-
+	
 	socket.on("disconnect", () => {
 		console.log("Disconnected", socket.id);
 	});

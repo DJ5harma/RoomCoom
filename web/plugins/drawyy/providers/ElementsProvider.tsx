@@ -17,6 +17,7 @@ type ContextType = {
 	getElement: () => ElementI | null;
 	updateElement: (element: ElementI) => void;
 	completeElement: () => void;
+	deleteElement: (key: string) => void;
 };
 
 const context = createContext<ContextType | null>(null);
@@ -65,6 +66,15 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 		localKeyRef.current = Date.now() + Math.random();
 	}
 
+	function deleteElement(key: string) {
+		
+		// setElements((p) => {
+		// 	console.log("To delete:", key, p[key]);
+		// 	delete p[key];
+		// 	return {...p};
+		// });
+	}
+
 	useEffect(() => {
 		easyApi.get("/drawyy/all").then(({ data: { all } }) => {
 			setElements(all);
@@ -84,7 +94,13 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 
 	return (
 		<context.Provider
-			value={{ elements, getElement, updateElement, completeElement }}
+			value={{
+				elements,
+				getElement,
+				updateElement,
+				completeElement,
+				deleteElement,
+			}}
 		>
 			{children}
 		</context.Provider>

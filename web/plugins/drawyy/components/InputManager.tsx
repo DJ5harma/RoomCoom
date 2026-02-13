@@ -4,6 +4,7 @@ import { RectangleMaker } from "../makers/RectangleMaker";
 import { LineMaker } from "../makers/LineMaker";
 import { PencilMaker } from "../makers/PencilMaker";
 import { PannerTool } from "../tools/PannerTool";
+import { EraserTool } from "../tools/EraserTool";
 
 export const InputManager = () => {
 	return (
@@ -27,6 +28,8 @@ const CorrectMaker = () => {
 			return <PencilMaker />;
 		case "Pan":
 			return <PannerTool />;
+		case "Eraser":
+			return <EraserTool />;
 		default:
 			return <></>;
 	}
