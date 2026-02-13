@@ -10,7 +10,7 @@ export const Drawyy = () => {
 
 	return (
 		<>
-			<svg width="100" height="100">
+			<svg className="border w-full h-full">
 				{Object.entries(elements).map(([key, { element }]) => {
 					switch (element.name) {
 						case "circle":

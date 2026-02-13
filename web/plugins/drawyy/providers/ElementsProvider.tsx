@@ -18,7 +18,7 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 		test: {
 			element: {
 				name: "circle",
-				position: { x: 40, y: 40 },
+				position: { x: 870, y: 80 },
 				radius: 40,
 			} as CircleI,
 		},
