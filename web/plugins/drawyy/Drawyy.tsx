@@ -1,5 +1,6 @@
 import { useContainer } from "./providers/ContainerProvider";
 import { useElements } from "./providers/ElementsProvider";
+import { CircleRenderer } from "./renderers/CircleRenderer";
 import { CircleI } from "./types";
 
 export const Drawyy = () => {
@@ -8,8 +9,17 @@ export const Drawyy = () => {
 	const { elements } = useElements();
 
 	return (
-		<div className={`w-[${containerSize.width}]px h-[${containerSize.height}]`}>
-
-		</div>
+		<>
+			<svg width="100" height="100">
+				{Object.entries(elements).map(([key, { element }]) => {
+					switch (element.name) {
+						case "circle":
+							return <CircleRenderer key={key} circle={element as CircleI} />;
+						default:
+							break;
+					}
+				})}
+			</svg>
+		</>
 	);
 };
