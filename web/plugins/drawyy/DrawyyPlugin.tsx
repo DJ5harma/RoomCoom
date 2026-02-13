@@ -1,5 +1,4 @@
 "use client";
-import { ContainerProvider } from "./providers/ContainerProvider";
 import { Drawyy } from "./Drawyy";
 import { ToolSelectionProvider } from "./providers/ToolSelectionProvider";
 import { ToolSelector } from "./components/ToolSelector";
@@ -8,16 +7,16 @@ import { InputManager } from "./components/InputManager";
 
 export const DrawyyPlugin = () => {
 	return (
-		<ContainerProvider>
-			<ToolSelectionProvider>
-				<div className="fixed bottom-4 justify-center flex">
+		<ToolSelectionProvider>
+			<div className="h-full relative">
+				<div className="absolute bottom-4 w-full justify-center flex z-50">
 					<ToolSelector />
 				</div>
 				<ElementsProvider>
 					<InputManager />
 					<Drawyy />
 				</ElementsProvider>
-			</ToolSelectionProvider>
-		</ContainerProvider>
+			</div>
+		</ToolSelectionProvider>
 	);
 };
