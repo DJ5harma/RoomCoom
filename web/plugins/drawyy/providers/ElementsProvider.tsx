@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext, useState } from "react";
-import { CircleI, ElementI } from "../types";
+import { ElementI } from "../types";
 
 type ElementsMapType = { [key: string]: { element: ElementI } };
 
@@ -14,15 +14,7 @@ type ContextType = {
 const context = createContext<ContextType | null>(null);
 
 export const ElementsProvider = ({ children }: { children: ReactNode }) => {
-	const [elements, setElements] = useState<ElementsMapType>({
-		test: {
-			element: {
-				name: "circle",
-				position: { x: 870, y: 80 },
-				radius: 40,
-			} as CircleI,
-		},
-	});
+	const [elements, setElements] = useState<ElementsMapType>({});
 
 	function updateElement(key: string, element: ElementI) {
 		
