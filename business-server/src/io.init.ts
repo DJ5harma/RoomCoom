@@ -3,11 +3,8 @@ import { AuthState } from "./auth/auth.state";
 import { SpaceService } from "./entities/space/space.service";
 import { RoomService } from "./entities/room/room.service";
 import type { InstanceType, uuid } from "./types";
-import { DrawyyIO } from "./plugins/drawyy/drawyy.io";
+import { PLUGIN_HANDLERS } from "./plugin.io.handlers";
 
-const PLUGIN_HANDLERS: ((socket: Socket, sourceId: uuid) => void)[] = [
-	DrawyyIO,
-];
 
 export function IOinit(socket: Socket) {
 	const userId = AuthState.getUserIdSocket(socket);
