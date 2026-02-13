@@ -25,6 +25,7 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 	});
 
 	function updateElement(key: string, element: ElementI) {
+		
 		setElements((p) => {
 			return { ...p, [key]: { element } };
 		});

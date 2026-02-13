@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useElements } from "../providers/ElementsProvider";
 import { CircleI, ElementI } from "../types";
+import { useContainer } from "../providers/ContainerProvider";
 
 export const CircleMaker = ({ myKey }: { myKey: string }) => {
 	const { getElement, updateElement, completeElement } = useElements();
+	const { correctElementPosition } = useContainer();
 
 	const name: ElementI["name"] = "circle";
 
@@ -24,13 +26,17 @@ export const CircleMaker = ({ myKey }: { myKey: string }) => {
 		<div
 			className="w-full h-full"
 			onMouseDown={(e) => {
-				const position = { x: e.clientX, y: e.clientY };
+				let position = { x: e.clientX, y: e.clientY };
+				position = correctElementPosition(position);
+				console.log("circle pos:", position);
+
 				updateMe({ position, radius: 0 });
 				setIsMaking(true);
 			}}
 			onMouseMove={(e) => {
 				if (!isMaking) return;
-				const position = { x: e.clientX, y: e.clientY };
+				let position = { x: e.clientX, y: e.clientY };
+				position = correctElementPosition(position);
 				const me = getMe();
 				const radius = Math.sqrt(
 					Math.pow(me.position.x - position.x, 2) +

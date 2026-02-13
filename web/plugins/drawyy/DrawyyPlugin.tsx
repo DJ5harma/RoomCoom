@@ -13,12 +13,12 @@ export const DrawyyPlugin = () => {
 				<div className="absolute bottom-4 w-full justify-center flex z-50">
 					<ToolSelector />
 				</div>
-				<ElementsProvider>
-					<InputManager />
-					<ContainerProvider>
+				<ContainerProvider>
+					<ElementsProvider>
+						<InputManager />
 						<Drawyy />
-					</ContainerProvider>
-				</ElementsProvider>
+					</ElementsProvider>
+				</ContainerProvider>
 			</div>
 		</ToolSelectionProvider>
 	);
