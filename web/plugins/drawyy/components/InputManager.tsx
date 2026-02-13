@@ -7,7 +7,7 @@ import { PannerTool } from "../tools/PannerTool";
 
 export const InputManager = () => {
 	return (
-		<div className="w-full h-full z-10 fixed top-0 left-0">
+		<div className="w-full h-full z-10 absolute top-0 left-0">
 			<CorrectMaker />
 		</div>
 	);
