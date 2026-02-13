@@ -52,7 +52,6 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 				setElements((p) => {
 					return { ...p, [key]: { element } };
 				});
-				console.log("received");
 			},
 		);
 		return () => {
