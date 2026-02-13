@@ -56,12 +56,10 @@ mongoose.connect(ENV_CONSTANTS.MONGO_URI).then(async () => {
 });
 
 io.on("connection", (socket) => {
-	console.log("Connected", socket.id);
-	
-	const cookies = (socket.handshake.headers.cookie || "")?.split(";");
+	const cookies = (socket.handshake.headers.cookie ?? "")?.split(";");
 	let access_token = "";
 	for (const cookie of cookies) {
-		if (cookie.startsWith("access_token")) {
+		if (cookie.startsWith(" access_token")) {
 			access_token = cookie.split("=")[1] ?? "";
 		}
 	}
