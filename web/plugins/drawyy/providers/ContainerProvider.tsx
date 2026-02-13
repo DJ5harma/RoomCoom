@@ -13,8 +13,8 @@ export const ContainerProvider = ({ children }: { children: ReactNode }) => {
 
 	function correctElementPosition(position: Vec2) {
 		const rect = containerRef.current!.getBoundingClientRect()!;
-		position.x -= rect.x;
-		position.y -= rect.y;
+		position[0] -= rect.x;
+		position[1] -= rect.y;
 		return position;
 	}
 

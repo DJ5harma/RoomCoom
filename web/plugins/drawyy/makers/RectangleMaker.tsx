@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useElements } from "../providers/ElementsProvider";
-import { RectangleI, ElementI, Dims } from "../types";
+import { RectangleI, ElementI, Dims, Vec2 } from "../types";
 import { useContainer } from "../providers/ContainerProvider";
 
 export const RectangleMaker = ({ myKey }: { myKey: string }) => {
@@ -26,7 +26,7 @@ export const RectangleMaker = ({ myKey }: { myKey: string }) => {
 		<div
 			className="w-full h-full"
 			onMouseDown={(e) => {
-				let position = { x: e.clientX, y: e.clientY };
+				let position = [e.clientX, e.clientY] as Vec2;
 				position = correctElementPosition(position);
 
 				updateMe({ position, dims: { w: 0, h: 0 } });
@@ -34,15 +34,15 @@ export const RectangleMaker = ({ myKey }: { myKey: string }) => {
 			}}
 			onMouseMove={(e) => {
 				if (!isMaking) return;
-				let position = { x: e.clientX, y: e.clientY };
+				let position = [e.clientX, e.clientY] as Vec2;
 				position = correctElementPosition(position);
 
 				const me = getMe();
-				const dims = {
-					w: -(me.position.x - position.x),
-					h: -(me.position.y - position.y),
-				} as Dims;
-				updateMe({ ...me, dims });
+				me.dims = {
+					w: -(me.position[0] - position[0]),
+					h: -(me.position[1] - position[1]),
+				};
+				updateMe(me);
 			}}
 			onMouseUp={() => {
 				completeMe();

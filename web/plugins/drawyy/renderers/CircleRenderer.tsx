@@ -2,7 +2,7 @@ import { CircleI } from "../types";
 
 export const CircleRenderer = ({ circle }: { circle: CircleI }) => {
 	const {
-		position: { x, y },
+		position: [x, y],
 		radius,
 	} = circle;
 	return (

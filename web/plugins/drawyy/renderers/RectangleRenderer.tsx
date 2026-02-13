@@ -2,7 +2,7 @@ import { RectangleI } from "../types";
 
 export const RectangleRenderer = ({ rectangle }: { rectangle: RectangleI }) => {
 	const {
-		position: { x, y },
+		position: [x, y],
 		dims: { w, h },
 	} = rectangle;
 

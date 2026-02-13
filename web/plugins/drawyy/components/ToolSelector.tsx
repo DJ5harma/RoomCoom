@@ -2,6 +2,7 @@ import { BiCircle, BiRectangle } from "react-icons/bi";
 import { ToolType } from "../types";
 import { useToolSelection } from "../providers/ToolSelectionProvider";
 import { PiPencil } from "react-icons/pi";
+import { LiaLine } from "react-icons/lia";
 
 export const ToolSelector = () => {
 	const tools: ToolType[] = [
@@ -12,6 +13,10 @@ export const ToolSelector = () => {
 		{
 			name: "Rectangle",
 			icon: <BiRectangle size={24} />,
+		},
+		{
+			name: "Line",
+			icon: <LiaLine size={24} />,
 		},
 		{
 			name: "Pencil",
