@@ -39,8 +39,8 @@ export const RectangleMaker = ({ myKey }: { myKey: string }) => {
 
 				const me = getMe();
 				const dims = {
-					w: me.position.x - position.x,
-					h: me.position.y - position.y,
+					w: -(me.position.x - position.x),
+					h: -(me.position.y - position.y),
 				} as Dims;
 				updateMe({ ...me, dims });
 			}}

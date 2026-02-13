@@ -20,7 +20,7 @@ export const ToolSelectionProvider = ({
 }: {
 	children: ReactNode;
 }) => {
-	const [selectedTool, setSelectedTool] = useState<ToolType["name"]>("Circle");
+	const [selectedTool, setSelectedTool] = useState<ToolType["name"]>("Rectangle");
 
 	return (
 		<context.Provider value={{ selectedTool, setSelectedTool }}>
