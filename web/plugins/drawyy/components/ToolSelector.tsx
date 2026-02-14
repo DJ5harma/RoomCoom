@@ -42,7 +42,7 @@ export const ToolSelector = () => {
 	const { deleteAllElements } = useElements();
 
 	return (
-		<div className="rounded-lg flex flex-col items-center gap-0.5 px-1.5 py-1 bg-white border-2 border-purple-800">
+		<div className="rounded-lg flex items-center gap-0.5 px-1.5 py-1 bg-white border-2 border-purple-800 h-fit">
 			{tools.map(({ icon, name }) => {
 				const isSelected = selectedTool === name;
 				return (
@@ -53,6 +53,7 @@ export const ToolSelector = () => {
 						}}
 						key={name}
 						className={`p-1 ${isSelected ? "bg-green-600" : "bg-gray-800"} border rounded-lg`}
+						title={name}
 					>
 						{icon}
 					</div>
