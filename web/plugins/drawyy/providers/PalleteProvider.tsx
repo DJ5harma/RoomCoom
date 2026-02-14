@@ -17,7 +17,7 @@ const context = createContext<ContextType | null>(null);
 
 export const PalleteProvider = ({ children }: { children: ReactNode }) => {
 	const [design, setDesign] = useState<DesignI>({
-		bgColor: "rgb(200,100,100)",
+		bgColor: "rgb(200,150,150)",
 		strokeColor: "rgb(255,255,255)",
 		strokeWidth: 5,
 	});

@@ -4,6 +4,7 @@ export const RectangleRenderer = ({ rectangle }: { rectangle: RectangleI }) => {
 	const {
 		position: [x, y],
 		dims: { w, h },
+		design,
 	} = rectangle;
 
 	const width = Math.abs(w);
@@ -18,9 +19,9 @@ export const RectangleRenderer = ({ rectangle }: { rectangle: RectangleI }) => {
 			y={drawY}
 			width={width}
 			height={height}
-			stroke="red"
-			strokeWidth="6"
-			fill="blue"
+			stroke={design?.strokeColor ?? "white"}
+			strokeWidth={design?.strokeWidth ?? 2}
+			fill={design?.bgColor ?? "none"}
 		/>
 	);
 };

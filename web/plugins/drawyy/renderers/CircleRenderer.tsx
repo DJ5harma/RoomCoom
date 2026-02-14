@@ -4,6 +4,7 @@ export const CircleRenderer = ({ circle }: { circle: CircleI }) => {
 	const {
 		position: [x, y],
 		radius,
+		design,
 	} = circle;
 
 	return (
@@ -11,9 +12,9 @@ export const CircleRenderer = ({ circle }: { circle: CircleI }) => {
 			cx={x}
 			cy={y}
 			r={radius}
-			stroke="green"
-			strokeWidth="4"
-			fill="yellow"
+			stroke={design?.strokeColor ?? "white"}
+			strokeWidth={design?.strokeWidth ?? 4}
+			fill={design?.bgColor ?? "none"}
 		/>
 	);
 };

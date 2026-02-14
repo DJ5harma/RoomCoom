@@ -7,6 +7,7 @@ import { InputManager } from "./components/InputManager";
 import { ContainerProvider } from "./providers/ContainerProvider";
 import { NodesProvider } from "./providers/NodesProvider";
 import { PalleteProvider } from "./providers/PalleteProvider";
+import { PalleteSelector } from "./components/PalleteSelector";
 
 export const DrawyyPlugin = () => {
 	return (
@@ -21,6 +22,9 @@ export const DrawyyPlugin = () => {
 								<Drawyy />
 							</NodesProvider>
 						</ContainerProvider>
+						<div className="absolute bottom-4 left-4 w-full flex z-50 select-none">
+							<PalleteSelector />
+						</div>
 						<div className="absolute bottom-4 w-full justify-center flex z-50">
 							<ToolSelector />
 						</div>
