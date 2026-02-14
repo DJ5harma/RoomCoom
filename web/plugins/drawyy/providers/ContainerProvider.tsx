@@ -35,6 +35,9 @@ export const ContainerProvider = ({ children }: { children: ReactNode }) => {
 		<context.Provider
 			value={{ containerRef, correctElementPosition, offset, setOffset }}
 		>
+			<div className="bg-neutral-700 absolute top-1 left-1 z-10 p-1 rounded-md select-none">
+				({offset[0]}, {offset[1]})
+			</div>
 			{children}
 		</context.Provider>
 	);
