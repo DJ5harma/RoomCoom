@@ -9,7 +9,7 @@ export const Drawyy = () => {
 	const elementEntries = Object.entries(nodes);
 
 	return (
-		<svg className="border w-full h-full relative bg-neutral-200" ref={containerRef}>
+		<svg className="border w-full h-full relative bg-neutral-800" ref={containerRef}>
 			<g transform={`translate(${offset[0]} ${offset[1]})`}>
 				{elementEntries.map(([key, { node }]) => (
 					<Fragment key={key}>{node}</Fragment>

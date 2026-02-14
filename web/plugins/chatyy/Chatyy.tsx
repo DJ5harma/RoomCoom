@@ -4,7 +4,7 @@ import { AutoScroller } from "./components/AutoScroller";
 
 export function Chatyy() {
 	return (
-		<div className="w-full h-full flex flex-col">
+		<div className="w-full h-full flex flex-col bg-neutral-800">
 			<div
 				className="overflow-auto h-full"
 				style={{
