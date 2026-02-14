@@ -22,15 +22,11 @@ export const UserSearch = ({
 	const [query, setQuery] = useState("");
 
 	useEffect(() => {
-		if (query.length < 1) return;
-
 		if (localUsers) {
 			return;
 		}
-
 		Api.get(`/user/search?q=${query}`).then(({ data: { users } }) => {
 			setFoundUsers(users);
-			console.log({ users });
 		});
 	}, [query, localUsers]);
 
