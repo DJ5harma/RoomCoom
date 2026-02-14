@@ -6,7 +6,7 @@ export const PluginSidebar = ({ activePlugin }: { activePlugin: string }) => {
 	const pathname = usePathname();
 
 	return (
-		<aside className="flex flex-col gap-2 p-2 bg-linear-to-b from-neutral-900 to-neutral-600" onClick={e=> e.stopPropagation()}>
+		<aside className="flex flex-col gap-2 p-2 bg-linear-to-b from-neutral-900 to-neutral-600 select-none" onClick={e=> e.stopPropagation()}>
 			{Object.keys(PLUGIN_MAP).map((plugin) => {
 				const isActive = activePlugin === plugin;
 				return (
