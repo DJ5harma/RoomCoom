@@ -41,7 +41,7 @@ export const Sidebar = () => {
 
 	return (
 		<aside
-			className="border-2 border-orange-300 h-screen flex flex-col gap-2 bg-black text-white p-1 py-2"
+			className="border-2 border-orange-300 h-screen flex flex-col gap-2 bg-linear-to-t from-neutral-900 to-neutral-600 text-white p-1 py-2"
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
 		>
