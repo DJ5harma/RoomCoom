@@ -25,6 +25,11 @@ export const Maths = {
 		return Math.abs(-point[1] + m * point[0] + c) < 5;
 	},
 	isPointInPencilPath(point: Vec2, pencilPoints: Vec2[]) {
+		for (let i = 1; i < pencilPoints.length; ++i) {
+			if (this.isPointInLine(point, pencilPoints[i - 1], pencilPoints[i])) {
+				return true;
+			}
+		}
 		return false;
 	},
 };
