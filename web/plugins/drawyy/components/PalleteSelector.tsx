@@ -12,9 +12,9 @@ const colors: string[] = [
 export const PalleteSelector = () => {
 	const { design, setDesign } = usePallete();
 	return (
-		<div className="bg-white h-60 rounded-lg text-black flex flex-col items-center select-none text-sm border-2 border-purple-800">
+		<div className="bg-white p-2 gap-1 rounded-lg text-black flex flex-col items-center select-none text-sm border-2 border-purple-800 mb-2">
 			<p>Shape bg:</p>
-			<div className="flex gap-1 p-1">
+			<div className="flex gap-1">
 				{colors.map((color) => {
 					const isSelected = design.bgColor === color;
 					return (
