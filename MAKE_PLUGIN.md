@@ -21,7 +21,7 @@ Things like internal routing, auth etc. are handeled automatically for any kind 
 Backend:
 1. Create a directory `pname` in `business-server/src/plugins`
 2. Create a file named `routes.ts` and export your `express router` (name it like: `pnameRouter`)
-3. And then use it inside : `business-server/src/plugin.routes.ts` just like others are there
+3. And then use it inside : `business-server/src/plugins/plugin.routes.ts` just like others are there
 
 Frontend:
 1. Create a directory `pname` in `web/plugins` (name it like: `pnamePlugin`)

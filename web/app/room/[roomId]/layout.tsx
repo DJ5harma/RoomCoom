@@ -11,7 +11,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 	return (
 		<RoomProvider roomId={roomId}>
 			<PluginProvider instanceType="room">
-				<div className="w-full flex flex-col h-screen">
+				<div className="w-full flex flex-col">
 					<RoomStrip />
 					{children}
 				</div>

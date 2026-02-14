@@ -34,7 +34,7 @@ export default function RootLayout({
 				<ToastContainer />
 				<SocketConnector>
 					<UserProvider>
-						<div className="flex">
+						<div className="flex h-screen">
 							<Sidebar />
 							{children}
 						</div>

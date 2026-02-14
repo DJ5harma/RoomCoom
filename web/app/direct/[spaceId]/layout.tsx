@@ -13,7 +13,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 	return (
 		<SpaceProvider spaceId={spaceId}>
 			<PluginProvider instanceType="direct">
-				<div className="flex flex-col w-full h-screen">
+				<div className="flex flex-col w-full">
 					<DirectStrip />
 					{children}
 				</div>
