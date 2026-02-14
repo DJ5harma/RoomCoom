@@ -22,7 +22,7 @@ export const DrawyyPlugin = () => {
 								<Drawyy />
 							</NodesProvider>
 						</ContainerProvider>
-						<div className="absolute bottom-4 left-4 w-full flex z-50 select-none">
+						<div className="absolute bottom-4 left-4 flex z-50 select-none">
 							<PalleteSelector />
 						</div>
 						<div className="absolute bottom-4 w-full justify-center flex z-50">
