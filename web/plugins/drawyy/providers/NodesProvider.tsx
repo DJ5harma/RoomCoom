@@ -1,4 +1,4 @@
-import { createContext, ReactNode, RefObject, useContext } from "react";
+import { createContext, ReactNode, useContext } from "react";
 import { useElements } from "./ElementsProvider";
 import { CircleRenderer } from "../renderers/CircleRenderer";
 import { CircleI, LineI, PencilI, RectangleI } from "../types";
@@ -8,7 +8,6 @@ import { PencilRenderer } from "../renderers/PencilRenderer";
 
 type ContextType = {
 	nodes: { [key: string]: ReactNode };
-	refs: { [key: string]: RefObject<SVGElement | null> };
 };
 const context = createContext<ContextType | null>(null);
 
@@ -17,12 +16,9 @@ export const NodesProvider = ({ children }: { children: ReactNode }) => {
 
 	const nodes: ContextType["nodes"] = {};
 
-	const refs: ContextType["refs"] = {};
-
 	const entries = Object.entries(elements);
 	entries.forEach(([key, { element }]) => {
 		let e;
-		refs[key] = { current: null };
 		switch (element.name) {
 			case "circle":
 				e = <CircleRenderer circle={element as CircleI} />;
@@ -31,7 +27,7 @@ export const NodesProvider = ({ children }: { children: ReactNode }) => {
 				e = <RectangleRenderer rectangle={element as RectangleI} />;
 				break;
 			case "line":
-				e = <LineRenderer  line={element as LineI} />;
+				e = <LineRenderer line={element as LineI} />;
 				break;
 			case "pencil":
 				e = <PencilRenderer pencil={element as PencilI} />;
@@ -39,9 +35,7 @@ export const NodesProvider = ({ children }: { children: ReactNode }) => {
 		}
 		nodes[key] = e;
 	});
-	return (
-		<context.Provider value={{ nodes, refs }}>{children}</context.Provider>
-	);
+	return <context.Provider value={{ nodes }}>{children}</context.Provider>;
 };
 
 export const useNodes = () => {
