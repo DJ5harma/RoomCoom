@@ -16,15 +16,16 @@ export const PalleteSelector = () => {
 			<p>Bg:</p>
 			<div className="flex gap-1">
 				{colors.map((color) => {
-                    const isSelected = design.bgColor === color;
+					const isSelected = design.bgColor === color;
 					return (
 						<div
 							key={"Bg:" + color}
 							className={`w-6 aspect-square rounded-md`}
-							style={{ backgroundColor: color, border: isSelected ? "solid black 4px" : "solid 0.1px gray" }}
+							style={{
+								backgroundColor: color,
+								border: isSelected ? "solid black 4px" : "solid 0.1px gray",
+							}}
 							onClick={() => {
-                                console.log("CLICK");
-                                
 								setDesign((p) => ({ ...p, bgColor: color }));
 							}}
 						/>
@@ -34,11 +35,18 @@ export const PalleteSelector = () => {
 			<p className="mt-2">Stroke:</p>
 			<div className="flex gap-1">
 				{colors.map((color) => {
+					const isSelected = design.strokeColor === color;
 					return (
 						<div
-							key={"Bg:" + color}
-							className={`w-6 aspect-square rounded-md border`}
-							style={{ backgroundColor: color }}
+							key={"Stroke:" + color}
+							className={`w-6 aspect-square rounded-md`}
+							style={{
+								backgroundColor: color,
+								border: isSelected ? "solid black 4px" : "solid 0.1px gray",
+							}}
+							onClick={() => {
+								setDesign((p) => ({ ...p, strokeColor: color }));
+							}}
 						/>
 					);
 				})}
