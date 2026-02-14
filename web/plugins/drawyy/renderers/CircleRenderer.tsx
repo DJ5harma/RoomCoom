@@ -5,6 +5,7 @@ export const CircleRenderer = ({ circle }: { circle: CircleI }) => {
 		position: [x, y],
 		radius,
 	} = circle;
+
 	return (
 		<circle
 			cx={x}
