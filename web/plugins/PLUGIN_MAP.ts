@@ -5,7 +5,7 @@ import { MeetyyPlugin } from "./meetyy/MeetyyPlugin";
 
 export const PLUGIN_MAP = {
 	defaultyy: { node: DefaultyyPlugin },
+	drawyy: { node: DrawyyPlugin },
 	chatyy: { node: ChatyyPlugin },
 	meetyy: { node: MeetyyPlugin },
-	drawyy: { node: DrawyyPlugin },
 };
