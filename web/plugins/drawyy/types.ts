@@ -34,4 +34,5 @@ export interface LineI extends ElementType {
 export interface PencilI extends ElementType {
 	points: Vec2[];
 }
-export type ElementI = CircleI & RectangleI & LineI & PencilI;
+export type ElementAndedI = CircleI & RectangleI & LineI & PencilI;
+export type ElementI = ElementType

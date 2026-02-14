@@ -2,7 +2,7 @@ import {
 	BoundingRect,
 	CircleI,
 	Dims,
-	ElementI,
+	ElementAndedI,
 	LineI,
 	PencilI,
 	RectangleI,
@@ -10,7 +10,7 @@ import {
 } from "../types";
 
 export const BoundingRectGenerator: {
-	[key: string]: (element: ElementI) => BoundingRect;
+	[key: string]: (element: ElementAndedI) => BoundingRect;
 } = {
 	circle: ({ position, radius }: CircleI) => {
 		const center = position;

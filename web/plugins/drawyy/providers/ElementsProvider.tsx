@@ -17,6 +17,7 @@ type ElementsMapType = {
 
 type ContextType = {
 	elements: ElementsMapType;
+	keyOfElementInMaking: string;
 	getElement: () => ElementI | null;
 	updateElement: (element: ElementI) => void;
 	completeElement: () => void;
@@ -124,6 +125,7 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 				completeElement,
 				deleteElement,
 				deleteAllElements,
+				keyOfElementInMaking: localKeyRef.current,
 			}}
 		>
 			{children}

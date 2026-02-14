@@ -1,7 +1,15 @@
 import { createContext, ReactNode, useContext } from "react";
 import { useElements } from "./ElementsProvider";
 import { CircleRenderer } from "../renderers/CircleRenderer";
-import { BoundingRect, Vec2 } from "../types";
+import {
+	BoundingRect,
+	CircleI,
+	ElementAndedI,
+	LineI,
+	PencilI,
+	RectangleI,
+	Vec2,
+} from "../types";
 import { RectangleRenderer } from "../renderers/RectangleRenderer";
 import { LineRenderer } from "../renderers/LineRenderer";
 import { PencilRenderer } from "../renderers/PencilRenderer";
@@ -29,23 +37,25 @@ export const NodesProvider = ({ children }: { children: ReactNode }) => {
 		let e;
 		let isPointInside = null;
 
-		const boundingRect = BoundingRectGenerator[element.name](element);
+		const boundingRect = BoundingRectGenerator[element.name](
+			element as ElementAndedI,
+		);
 
 		switch (element.name) {
 			case "circle":
-				const circle = element;
+				const circle = element as CircleI;
 				e = <CircleRenderer circle={circle} />;
 				isPointInside = (point: Vec2) =>
 					Maths.isPointInCircle(point, circle.position, circle.radius);
 				break;
 			case "rectangle":
-				const rectangle = element;
+				const rectangle = element as RectangleI;
 				e = <RectangleRenderer rectangle={rectangle} />;
 				isPointInside = (point: Vec2) =>
 					Maths.isPointInRectangle(point, rectangle.position, rectangle.dims);
 				break;
 			case "line":
-				const line = element;
+				const line = element as LineI;
 				e = <LineRenderer line={line} />;
 				isPointInside = (point: Vec2) => {
 					if (
@@ -61,7 +71,7 @@ export const NodesProvider = ({ children }: { children: ReactNode }) => {
 				};
 				break;
 			case "pencil":
-				const pencil = element;
+				const pencil = element as PencilI;
 				e = <PencilRenderer pencil={pencil} />;
 				isPointInside = (point: Vec2) => {
 					if (
