@@ -11,7 +11,7 @@ export const PencilRenderer = ({ pencil }: { pencil: PencilI }) => {
 		<path
 			d={d}
 			stroke={design?.strokeColor ?? "white"}
-			fill={design?.bgColor ?? "none"}
+			fill={"none"}
 			strokeWidth={design?.strokeWidth ?? 2}
 		/>
 	);
