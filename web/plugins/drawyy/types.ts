@@ -9,6 +9,7 @@ export type EntityType = "circle" | "pencil" | "rectangle" | "line";
 
 export type Vec2 = [number, number];
 export type Dims = { w: number; h: number };
+export type BoundingRect = { topLeft: Vec2; dims: Dims };
 
 export interface ElementI {
 	name: EntityType;

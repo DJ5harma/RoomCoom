@@ -1,4 +1,4 @@
-import { Dims, Vec2 } from "./types";
+import { Dims, Vec2 } from "../types";
 
 export const Maths = {
 	isPointInCircle(point: Vec2, c_center: Vec2, c_radius: number) {
@@ -14,4 +14,10 @@ export const Maths = {
 			point[0] >= x && point[0] <= x + w && point[1] >= y && point[1] <= y + h
 		);
 	},
+	isPointInLine(point: Vec2, lineStart: Vec2, lineEnd: Vec2){
+		return false;
+	},
+	isPointInPencilPath(point: Vec2, pencilPoints: Vec2[]){
+		return false;
+	}
 };

@@ -1,45 +1,21 @@
 import { useRef, useState } from "react";
-import { CircleI, RectangleI, Vec2 } from "../types";
+import { Vec2 } from "../types";
 import { useContainer } from "../providers/ContainerProvider";
 import { useElements } from "../providers/ElementsProvider";
-import { Maths } from "../Maths";
+import { useNodes } from "../providers/NodesProvider";
 
 export const EraserTool = () => {
 	const { correctElementPosition } = useContainer();
-	const { elements, deleteElement } = useElements();
+	const { deleteElement } = useElements();
+	const { nodes } = useNodes();
 	const [isMaking, setIsMaking] = useState(false);
-
-	const elementsEntries = Object.entries(elements);
 
 	const targetKeysSet = useRef<Set<string>>(new Set());
 
 	function captureEraseTargets(point: Vec2) {
-		for (let i = elementsEntries.length - 1; i > -1; --i) {
-			if (!elementsEntries[i]) return;
-			const [key, { element }] = elementsEntries[i];
-			if (!element) console.log({ element }, elementsEntries, i, elements);
-
-			switch (element.name) {
-				case "circle":
-					const circle = element as CircleI;
-					if (Maths.isPointInCircle(point, circle.position, circle.radius)) {
-						targetKeysSet.current.add(key);
-						return;
-					}
-					break;
-				case "rectangle":
-					const rectangle = element as RectangleI;
-					if (
-						Maths.isPointInRectangle(point, rectangle.position, rectangle.dims)
-					) {
-						targetKeysSet.current.add(key);
-						return;
-					}
-					break;
-
-				default:
-			}
-		}
+		Object.entries(nodes).forEach(([key, { isPointInside }]) => {
+			if (isPointInside(point)) targetKeysSet.current.add(key);
+		});
 	}
 
 	function eraseTargets() {
@@ -50,7 +26,7 @@ export const EraserTool = () => {
 	return (
 		<div
 			className="w-full h-full"
-			onMouseDown={(e) => {
+			onMouseDown={() => {
 				setIsMaking(true);
 			}}
 			onMouseMove={(e) => {
