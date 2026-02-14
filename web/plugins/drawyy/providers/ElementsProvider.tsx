@@ -59,6 +59,24 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 		networkGapRef.current = 0;
 		return true;
 	}
+	useEffect(() => {
+		easyApi.get("/drawyy/all").then(({ data: { all } }) => {
+			setElements(all);
+		});
+		subscribeSignal("drawyy:element:delete", ({ key }) => {
+			INTERNAL_DeleteElement(key);
+		});
+		subscribeSignal(
+			"drawyy:element",
+			({ key, element }: { key: string; element: ElementI }) => {
+				INTERNAL_UpdateElement(key, element);
+			},
+		);
+		return () => {
+			unsubscribeSignal("drawyy:element");
+			unsubscribeSignal("drawyy:element:delete");
+		};
+	}, []);
 
 	function getElement() {
 		return elements[localKeyRef.current]
@@ -86,24 +104,6 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 		sendSignalSocket("drawyy:element:delete", { key });
 	}
 
-	useEffect(() => {
-		easyApi.get("/drawyy/all").then(({ data: { all } }) => {
-			setElements(all);
-		});
-		subscribeSignal("drawyy:element:delete", ({ key }) => {
-			INTERNAL_DeleteElement(key);
-		});
-		subscribeSignal(
-			"drawyy:element",
-			({ key, element }: { key: string; element: ElementI }) => {
-				INTERNAL_UpdateElement(key, element);
-			},
-		);
-		return () => {
-			unsubscribeSignal("drawyy:element");
-			unsubscribeSignal("drawyy:element:delete");
-		};
-	}, []);
 
 	return (
 		<context.Provider
