@@ -11,7 +11,9 @@ import {
 import { ElementI } from "../types";
 import { useHelper } from "@/plugins/useHelper";
 
-type ElementsMapType = { [key: string]: { element: ElementI } };
+type ElementsMapType = {
+	[key: string]: { element: ElementI };
+};
 
 type ContextType = {
 	elements: ElementsMapType;

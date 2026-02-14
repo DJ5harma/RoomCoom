@@ -1,14 +1,16 @@
 import {
 	BoundingRect,
 	CircleI,
-	EntityType,
+	Dims,
+	ElementI,
+	LineI,
 	PencilI,
 	RectangleI,
+	Vec2,
 } from "../types";
 
 export const BoundingRectGenerator: {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	[name: string | EntityType]: (element: any) => BoundingRect;
+	[key: string]: (element: ElementI) => BoundingRect;
 } = {
 	circle: ({ position, radius }: CircleI) => {
 		const center = position;
@@ -20,8 +22,16 @@ export const BoundingRectGenerator: {
 	rectangle: ({ position, dims }: RectangleI) => {
 		return { topLeft: position, dims };
 	},
-	line: ({ position, dims }: RectangleI) => {
-		return { topLeft: position, dims };
+	line: ({ position, end }: LineI) => {
+		const topLeft = [
+			Math.min(position[0], end[0]),
+			Math.min(position[1], end[1]),
+		] as Vec2;
+		const dims = {
+			w: Math.abs(position[0] - end[0]),
+			h: Math.abs(position[1] - end[1]),
+		} as Dims;
+		return { topLeft, dims };
 	},
 	pencil: ({ points }: PencilI) => {
 		let x_min = Infinity;
