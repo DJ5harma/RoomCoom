@@ -15,7 +15,6 @@ type ElementsMapType = { [key: string]: { element: ElementI } };
 
 type ContextType = {
 	elements: ElementsMapType;
-	// setElements: Dispatch<SetStateAction<ElementsMapType>>;
 	getElement: () => ElementI | null;
 	updateElement: (element: ElementI) => void;
 	completeElement: () => void;
@@ -52,6 +51,15 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 		});
 	}
 
+	function INTERNAL_ShouldTransfer() {
+		networkGapRef.current++;
+		if (networkGapRef.current < NETWORK_TRANSFER_GAP) {
+			return false;
+		}
+		networkGapRef.current = 0;
+		return true;
+	}
+
 	function getElement() {
 		return elements[localKeyRef.current]
 			? elements[localKeyRef.current].element
@@ -60,23 +68,16 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 
 	function updateElement(
 		element: ElementI,
-		options?: { forceNetwork?: boolean },
 	) {
-		if (
-			networkGapRef.current < NETWORK_TRANSFER_GAP &&
-			!options?.forceNetwork
-		) {
-			networkGapRef.current++;
-		} else {
+		if (INTERNAL_ShouldTransfer()) {
 			sendSignalSocket("drawyy:element", { key: localKeyRef.current, element });
-			networkGapRef.current = 0;
 		}
 		INTERNAL_UpdateElement(localKeyRef.current, element);
 	}
 	function completeElement() {
 		const element = getElement();
 		if (!element) return;
-		updateElement(element, { forceNetwork: true });
+		sendSignalSocket("drawyy:element", { key: localKeyRef.current, element });
 		localKeyRef.current = Date.now().toString();
 	}
 
