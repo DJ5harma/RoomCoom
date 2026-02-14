@@ -14,10 +14,17 @@ export const Maths = {
 			point[0] >= x && point[0] <= x + w && point[1] >= y && point[1] <= y + h
 		);
 	},
-	isPointInLine(point: Vec2, lineStart: Vec2, lineEnd: Vec2){
+	isPointInLine(point: Vec2, lineStart: Vec2, lineEnd: Vec2) {
+		const isStrictVertical = lineStart[0] === lineEnd[0];
+		if (isStrictVertical) {
+			return point[0] === lineStart[0];
+		}
+		const m = (lineEnd[1] - lineStart[1]) / (lineEnd[0] - lineStart[0]);
+		const [x, y] = lineEnd;
+		const c = y - m * x;
+		return point[1] == m * point[0] + c;
+	},
+	isPointInPencilPath(point: Vec2, pencilPoints: Vec2[]) {
 		return false;
 	},
-	isPointInPencilPath(point: Vec2, pencilPoints: Vec2[]){
-		return false;
-	}
 };
