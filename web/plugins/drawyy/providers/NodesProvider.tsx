@@ -93,8 +93,6 @@ export const NodesProvider = ({ children }: { children: ReactNode }) => {
 			isPointInside,
 		};
 	});
-	console.log(nodes);
-
 	return <context.Provider value={{ nodes }}>{children}</context.Provider>;
 };
 

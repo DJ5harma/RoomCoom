@@ -4,7 +4,7 @@ import { useContainer } from "../providers/ContainerProvider";
 import { useElements } from "../providers/ElementsProvider";
 import { useNodes } from "../providers/NodesProvider";
 
-const MIN_DIST = 10; // px - controls density (bigger = fewer points)
+const MIN_DIST = 20; // px - controls density (bigger = fewer points)
 
 export const EraserTool = () => {
 	const { correctElementPosition } = useContainer();
@@ -16,6 +16,7 @@ export const EraserTool = () => {
 
 	function captureEraseTargets(point: Vec2) {
 		Object.entries(nodes).forEach(([key, { isPointInside }]) => {
+			if(targetKeysSet.current.has(key)) return;
 			if (isPointInside(point)) targetKeysSet.current.add(key);
 		});
 	}
