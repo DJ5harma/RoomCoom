@@ -12,7 +12,7 @@ const colors: string[] = [
 export const PalleteSelector = () => {
 	const { design, setDesign } = usePallete();
 	return (
-		<div className="bg-white w-40 h-60 rounded-lg text-black p-2 flex flex-col select-none text-sm">
+		<div className="bg-white w-40 h-60 rounded-lg text-black p-2 flex flex-col select-none text-sm border-2 border-purple-800">
 			<p>Bg:</p>
 			<div className="flex gap-1">
 				{colors.map((color) => {

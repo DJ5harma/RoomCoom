@@ -4,8 +4,6 @@ import { useToolSelection } from "../providers/ToolSelectionProvider";
 import { PiPencil } from "react-icons/pi";
 import { TfiLayoutLineSolid } from "react-icons/tfi";
 import { FaHand } from "react-icons/fa6";
-import { LuDelete } from "react-icons/lu";
-import { CgRemove } from "react-icons/cg";
 import { MdDeleteSweep } from "react-icons/md";
 import { useElements } from "../providers/ElementsProvider";
 
@@ -44,7 +42,7 @@ export const ToolSelector = () => {
 	const { deleteAllElements } = useElements();
 
 	return (
-		<div className="rounded-lg flex items-center gap-0.5 px-1.5 py-1 bg-white mx-auto">
+		<div className="rounded-lg flex flex-col items-center gap-0.5 px-1.5 py-1 bg-white border-2 border-purple-800">
 			{tools.map(({ icon, name }) => {
 				const isSelected = selectedTool === name;
 				return (
