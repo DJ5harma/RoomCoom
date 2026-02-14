@@ -1,6 +1,5 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
 
 import { PluginSidebar } from "./PluginSidebar";
 import { PLUGIN_MAP } from "./PLUGIN_MAP";
@@ -9,10 +8,10 @@ export const PluginDashboard = () => {
 	const searchParams = useSearchParams();
 	const active = searchParams.get("plugin") ?? "defaultyy";
 
-	const [mounted, setMounted] = useState(() => new Set(["defaultyy"]));
+	const mounted = new Set(["defaultyy"]);
 
 	if (!mounted.has(active)) {
-		setMounted((prev) => new Set(prev).add(active));
+		mounted.add(active);
 	}
 
 	return (
@@ -21,7 +20,9 @@ export const PluginDashboard = () => {
 				mounted.has(name) ? (
 					<div
 						key={name}
-						className={active === name ? "block h-full w-full border-r-2" : "hidden"}
+						className={
+							active === name ? "block h-full w-full border-r-2" : "hidden"
+						}
 					>
 						<Comp.node />
 					</div>
