@@ -39,7 +39,7 @@ export const ChatyyPlugin = () => {
 		};
 	}, []);
 
-	if (loadingMessages) return <Loading />;
+	if (loadingMessages) return <Loading message="Loading Chatyy..." />;
 	return (
 		<context.Provider value={{ messages, setMessages }}>
 			<Chatyy />

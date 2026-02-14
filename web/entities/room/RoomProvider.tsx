@@ -47,7 +47,7 @@ export const RoomProvider = ({
 		});
 	}, [room]);
 
-	if (loading) return <Loading />;
+	if (loading) return <Loading message="Loading room..." />;
 	if (!room) return <NotFound />;
 
 	function getUserById(userId: uuid | UserI) {

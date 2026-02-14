@@ -25,7 +25,7 @@ export default function Page() {
 			});
 	}, [peerId, router]);
     
-	if (loading) return <Loading message="Making space for you and them" />;
+	if (loading) return <Loading message="Making space for you and them..." />;
 
 	return <NotFound />;
 }

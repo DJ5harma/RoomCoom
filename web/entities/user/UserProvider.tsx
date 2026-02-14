@@ -35,7 +35,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 				setLoading(false);
 			});
 	}, []);
-	if (loading) return <Loading />;
+	if (loading) return <Loading message="Loading user data..." />;
 	if (!user) return <Auth />;
 
 	function addRoom(room: RoomI) {

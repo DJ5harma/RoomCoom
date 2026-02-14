@@ -36,7 +36,7 @@ export const SpaceProvider = ({
 		})();
 	}, [spaceId]);
 
-	if (loading) return <Loading />;
+	if (loading) return <Loading message="Loading space..." />;
 	if (!space) return <NotFound />;
 	return <context.Provider value={{ space }}>{children}</context.Provider>;
 };

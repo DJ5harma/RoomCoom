@@ -37,7 +37,7 @@ export const MeetyyPlugin = () => {
 			});
 	}, []);
 
-	if (loadingLiveToken) return <Loading />;
+	if (loadingLiveToken) return <Loading message="Loading Meetyy" />;
 	if (!liveToken) return <NotFound />;
 	return (
 		<context.Provider value={{ liveToken, isJoined, setIsJoined }}>
