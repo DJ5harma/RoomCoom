@@ -18,9 +18,16 @@ export type Vec2 = [number, number];
 export type Dims = { w: number; h: number };
 export type BoundingRect = { topLeft: Vec2; dims: Dims };
 
+export interface DesignI {
+	bgColor: string;
+    strokeWidth: number;
+    strokeColor: string;
+}
+
 interface ElementType {
 	name: EntityType;
 	position: Vec2;
+	design?: DesignI;
 }
 export interface CircleI extends ElementType {
 	radius: number;

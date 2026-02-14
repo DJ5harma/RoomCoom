@@ -6,24 +6,27 @@ import { ElementsProvider } from "./providers/ElementsProvider";
 import { InputManager } from "./components/InputManager";
 import { ContainerProvider } from "./providers/ContainerProvider";
 import { NodesProvider } from "./providers/NodesProvider";
+import { PalleteProvider } from "./providers/PalleteProvider";
 
 export const DrawyyPlugin = () => {
 	return (
-		<ElementsProvider>
-			<ToolSelectionProvider>
-				<div className="h-full relative">
-					<ContainerProvider>
-						<NodesProvider>
-							<InputManager />
+		<PalleteProvider>
+			<ElementsProvider>
+				<ToolSelectionProvider>
+					<div className="h-full relative">
+						<ContainerProvider>
+							<NodesProvider>
+								<InputManager />
 
-							<Drawyy />
-						</NodesProvider>
-					</ContainerProvider>
-					<div className="absolute bottom-4 w-full justify-center flex z-50">
-						<ToolSelector />
+								<Drawyy />
+							</NodesProvider>
+						</ContainerProvider>
+						<div className="absolute bottom-4 w-full justify-center flex z-50">
+							<ToolSelector />
+						</div>
 					</div>
-				</div>
-			</ToolSelectionProvider>
-		</ElementsProvider>
+				</ToolSelectionProvider>
+			</ElementsProvider>
+		</PalleteProvider>
 	);
 };

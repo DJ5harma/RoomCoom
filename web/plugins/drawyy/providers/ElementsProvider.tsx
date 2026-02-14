@@ -10,6 +10,7 @@ import {
 } from "react";
 import { ElementI } from "../types";
 import { useHelper } from "@/plugins/useHelper";
+import { usePallete } from "./PalleteProvider";
 
 type ElementsMapType = {
 	[key: string]: { element: ElementI };
@@ -94,7 +95,10 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 			: null;
 	}
 
+	const { design } = usePallete();
+
 	function updateElement(element: ElementI) {
+		element.design = design;
 		if (INTERNAL_ShouldTransfer()) {
 			sendSignalSocket("drawyy:element", { key: localKeyRef.current, element });
 		}
