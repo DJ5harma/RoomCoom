@@ -4,6 +4,10 @@ import { useToolSelection } from "../providers/ToolSelectionProvider";
 import { PiPencil } from "react-icons/pi";
 import { TfiLayoutLineSolid } from "react-icons/tfi";
 import { FaHand } from "react-icons/fa6";
+import { LuDelete } from "react-icons/lu";
+import { CgRemove } from "react-icons/cg";
+import { MdDeleteSweep } from "react-icons/md";
+import { useElements } from "../providers/ElementsProvider";
 
 export const ToolSelector = () => {
 	const tools: ToolType[] = [
@@ -21,7 +25,7 @@ export const ToolSelector = () => {
 		},
 		{
 			name: "Line",
-			icon: <TfiLayoutLineSolid  size={24} />,
+			icon: <TfiLayoutLineSolid size={24} />,
 		},
 		{
 			name: "Pencil",
@@ -32,26 +36,39 @@ export const ToolSelector = () => {
 			icon: <BiEraser size={24} />,
 		},
 	];
+	const dustbin = {
+		name: "Dustbin",
+		icon: <MdDeleteSweep size={24} />,
+	};
 	const { selectedTool, setSelectedTool } = useToolSelection();
-
+	const { deleteAllElements } = useElements();
 
 	return (
 		<div className="rounded-lg flex items-center gap-0.5 px-1.5 py-1 bg-white mx-auto">
 			{tools.map(({ icon, name }) => {
-                const isSelected = selectedTool === name;
+				const isSelected = selectedTool === name;
 				return (
 					<div
 						onClick={(e) => {
-							e.stopPropagation()
+							e.stopPropagation();
 							setSelectedTool(name);
 						}}
 						key={name}
-                        className={`p-1 ${isSelected ? "bg-green-600":"bg-gray-800"} border rounded-lg`}
+						className={`p-1 ${isSelected ? "bg-green-600" : "bg-gray-800"} border rounded-lg`}
 					>
 						{icon}
 					</div>
 				);
 			})}
+			<div
+				onClick={(e) => {
+					e.stopPropagation();
+					deleteAllElements();
+				}}
+				className={`p-1 ${"bg-gray-800"} border rounded-lg`}
+			>
+				{dustbin.icon}
+			</div>
 		</div>
 	);
 };

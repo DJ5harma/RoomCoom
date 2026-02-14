@@ -34,7 +34,7 @@ export const NodesProvider = ({ children }: { children: ReactNode }) => {
 	const entries = Object.entries(elements);
 	entries.forEach(([key, { element }]) => {
 		let e;
-		let isPointInside = (point: Vec2) => false;
+		let isPointInside = null;
 
 		const boundingRect = BoundingRectGenerator[element.name](element);
 

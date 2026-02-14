@@ -9,21 +9,21 @@ import { NodesProvider } from "./providers/NodesProvider";
 
 export const DrawyyPlugin = () => {
 	return (
-		<ToolSelectionProvider>
-			<div className="h-full relative">
-				<ContainerProvider>
-					<ElementsProvider>
+		<ElementsProvider>
+			<ToolSelectionProvider>
+				<div className="h-full relative">
+					<ContainerProvider>
 						<NodesProvider>
 							<InputManager />
 
 							<Drawyy />
 						</NodesProvider>
-					</ElementsProvider>
-				</ContainerProvider>
-				<div className="absolute bottom-4 w-full justify-center flex z-50">
-					<ToolSelector />
+					</ContainerProvider>
+					<div className="absolute bottom-4 w-full justify-center flex z-50">
+						<ToolSelector />
+					</div>
 				</div>
-			</div>
-		</ToolSelectionProvider>
+			</ToolSelectionProvider>
+		</ElementsProvider>
 	);
 };

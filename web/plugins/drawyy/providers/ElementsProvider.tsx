@@ -19,6 +19,7 @@ type ContextType = {
 	updateElement: (element: ElementI) => void;
 	completeElement: () => void;
 	deleteElement: (key: string) => void;
+	deleteAllElements: () => void;
 };
 
 const context = createContext<ContextType | null>(null);
@@ -45,6 +46,9 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 			return next;
 		});
 	}
+	function INTERNAL_DeleteAllElements() {
+		setElements({});
+	}
 	function INTERNAL_UpdateElement(key: string, element: ElementI) {
 		setElements((p) => {
 			return { ...p, [key]: { element } };
@@ -66,6 +70,9 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 		subscribeSignal("drawyy:element:delete", ({ key }) => {
 			INTERNAL_DeleteElement(key);
 		});
+		subscribeSignal("drawyy:element:delete:all", () => {
+			INTERNAL_DeleteAllElements();
+		});
 		subscribeSignal(
 			"drawyy:element",
 			({ key, element }: { key: string; element: ElementI }) => {
@@ -84,9 +91,7 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 			: null;
 	}
 
-	function updateElement(
-		element: ElementI,
-	) {
+	function updateElement(element: ElementI) {
 		if (INTERNAL_ShouldTransfer()) {
 			sendSignalSocket("drawyy:element", { key: localKeyRef.current, element });
 		}
@@ -103,7 +108,10 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 		INTERNAL_DeleteElement(key);
 		sendSignalSocket("drawyy:element:delete", { key });
 	}
-
+	function deleteAllElements() {
+		INTERNAL_DeleteAllElements();
+		sendSignalSocket("drawyy:element:delete:all");
+	}
 
 	return (
 		<context.Provider
@@ -113,6 +121,7 @@ export const ElementsProvider = ({ children }: { children: ReactNode }) => {
 				updateElement,
 				completeElement,
 				deleteElement,
+				deleteAllElements,
 			}}
 		>
 			{children}

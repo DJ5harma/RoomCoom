@@ -14,7 +14,12 @@ export const EraserTool = () => {
 
 	function captureEraseTargets(point: Vec2) {
 		Object.entries(nodes).forEach(([key, { isPointInside }]) => {
-			if (isPointInside(point)) targetKeysSet.current.add(key);
+			try {
+				if (isPointInside(point)) targetKeysSet.current.add(key);
+			} catch (error) {
+				console.log({ key });
+				console.log(error);
+			}
 		});
 	}
 

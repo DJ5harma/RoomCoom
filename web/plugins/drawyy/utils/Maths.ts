@@ -22,7 +22,7 @@ export const Maths = {
 		const m = (lineEnd[1] - lineStart[1]) / (lineEnd[0] - lineStart[0]);
 		const [x, y] = lineEnd;
 		const c = y - m * x;
-		return point[1] == m * point[0] + c;
+		return Math.abs(-point[1] + m * point[0] + c) < 5;
 	},
 	isPointInPencilPath(point: Vec2, pencilPoints: Vec2[]) {
 		return false;

@@ -23,4 +23,13 @@ export function DrawyyIO(socket: Socket, sourceId: uuid) {
 			helper.sendSignalSocket(sourceId, "drawyy:element:delete", { key });
 		},
 	);
+	helper.listenSignalSocket(
+		socket,
+		sourceId,
+		"drawyy:element:delete:all",
+		() => {
+			redis.del(DRAWYY_ALL_KEY(sourceId));
+			helper.sendSignalSocket(sourceId, "drawyy:element:delete:all", {});
+		},
+	);
 }
