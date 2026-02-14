@@ -5,6 +5,7 @@ import { ToolSelector } from "./components/ToolSelector";
 import { ElementsProvider } from "./providers/ElementsProvider";
 import { InputManager } from "./components/InputManager";
 import { ContainerProvider } from "./providers/ContainerProvider";
+import { NodesProvider } from "./providers/NodesProvider";
 
 export const DrawyyPlugin = () => {
 	return (
@@ -12,8 +13,11 @@ export const DrawyyPlugin = () => {
 			<div className="h-full relative">
 				<ContainerProvider>
 					<ElementsProvider>
-						<InputManager />
-						<Drawyy />
+						<NodesProvider>
+							<InputManager />
+
+							<Drawyy />
+						</NodesProvider>
 					</ElementsProvider>
 				</ContainerProvider>
 				<div className="absolute bottom-4 w-full justify-center flex z-50">
