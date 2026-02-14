@@ -7,7 +7,7 @@ import { PersonalStrip } from "./PersonalStrip";
 export default function Layout({ children }: { children: ReactNode }) {
 	return (
 		<PluginProvider instanceType="personal">
-			<div className="flex flex-col w-full">
+			<div className="flex flex-col w-full h-screen">
 				<PersonalStrip />
 				{children}
 			</div>

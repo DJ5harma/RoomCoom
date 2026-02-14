@@ -15,13 +15,13 @@ export const PluginDashboard = () => {
 	}
 
 	return (
-		<div className="w-full flex justify-between h-full">
+		<div className="w-full flex justify-between overflow-auto h-full">
 			{Object.entries(PLUGIN_MAP).map(([name, Comp]) =>
 				mounted.has(name) ? (
 					<div
 						key={name}
 						className={
-							active === name ? "block h-full w-full border-r-2" : "hidden"
+							active === name ? "h-full w-full border-r-2" : "hidden"
 						}
 					>
 						<Comp.node />
